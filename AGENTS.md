@@ -1,12 +1,13 @@
 ## Development
 
-When starting the dev server, use background mode:
+- **Humans:** `pnpm dev` (runs `astro dev` in the foreground — watch the output, `Ctrl+C` to stop).
+- **AI agents / automation:** start it in background mode instead, so it doesn't block your shell:
 
-```
-astro dev --background
-```
+  ```
+  astro dev --background
+  ```
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+  Manage it with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
 ## Documentation
 
