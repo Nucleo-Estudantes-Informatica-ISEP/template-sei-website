@@ -19,7 +19,7 @@ Each yearly SEI edition (SEI'26, SEI'27, ...) is hosted as its **own separate re
 
 For every requested task:
 
-1. Create a branch from `dev` named `<type>/<short-kebab-case-description>`, following the [Conventional Branch](https://conventionalbranch.org/) spec used across NEI-ISEP repos:
+1. Create a branch from `dev` named `<type>/<short-kebab-case-description>`, following the [Conventional Branch](https://conventionalbranch.org/) spec:
    - `feature/` or `feat/` — new functionality
    - `bugfix/` or `fix/` — bug fixes
    - `docs/` — documentation-only changes (README, AGENTS.md, code comments)
@@ -28,7 +28,7 @@ For every requested task:
    - No AI co-author trailer (no `Co-Authored-By` line) on any commit.
    - Subject line under 72 characters.
    - Split unrelated concerns into separate commits instead of one bulk commit.
-3. Push the branch and open a PR into `dev`, never directly into `main` — with `Closes #N` for the issue it addresses. Kept as a matter of consistency with the rest of NEI-ISEP's repos, not because anything here currently enforces it.
+3. Push the branch and open a PR into `dev`, never directly into `main` — with `Closes #N` for the issue it addresses. Kept as a matter of principle, not because anything here currently enforces it.
 4. `main` is what an edition repo created from this template actually deploys live (via Coolify). Before merging `dev` into `main` in such a repo, check the currently-hosted instance rather than trusting green CI alone — this template repo itself has no live deployment, but the rule carries into every repo created from it.
 
 ---
@@ -40,7 +40,7 @@ For every requested task:
 | Framework       | Astro 7, static output                                                                                                                                                                |
 | Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                                         |
 | Styling         | CSS custom properties as design tokens — no Tailwind/CSS framework. Base token sheet, shared component partials, and the `styles.override.css` cascade are not yet added (#2, #3, #4) |
-| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries + Astro locale routing, mirroring `orbit`'s convention — not yet added (#5)                                                        |
+| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries + Astro locale routing — not yet added (#5)                                                                                        |
 | Content         | Per-page JSON (`site.json`, `history.json`, `committees.json`, `speakers.json`) under `src/data/`, zod-validated — not yet added (#7–#10)                                             |
 | Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                                        |
 | Deploy          | Docker → Coolify — Dockerfile not yet added (#23)                                                                                                                                     |
@@ -115,5 +115,5 @@ Before considering a task done:
 ## Gotchas
 
 - **TypeScript is constrained to the 6.x line, not "pinned" to one exact version.** `package.json` declares `^6.0.3` (a caret range) because `typescript-eslint` and `@astrojs/check`'s peer ranges cap below TypeScript 7 as of this writing — `pnpm-lock.yaml` currently resolves that to exactly `6.0.3`, but a plain `pnpm update typescript` could move it to a newer 6.x release. Don't `pnpm add -D typescript@latest` — check the new version's peers resolve cleanly first.
-- **Node `>=22.12.0` is required** (Astro 7's minimum). `fallstack-website`'s CI pins Node 20 — don't copy that pin verbatim when #24 (CI) is built here.
-- **`CLAUDE.md` just re-imports `AGENTS.md`** via Claude Code's `@file` import syntax (same mechanism `fallstack-website` uses) — edit `AGENTS.md`, not `CLAUDE.md`.
+- **Node `>=22.12.0` is required** (Astro 7's minimum) — keep this in mind when #24 (CI) picks a Node version.
+- **`CLAUDE.md` just re-imports `AGENTS.md`** via Claude Code's `@file` import syntax — edit `AGENTS.md`, not `CLAUDE.md`.
