@@ -114,6 +114,6 @@ Before considering a task done:
 
 ## Gotchas
 
-- **TypeScript is pinned to `6.0.3`, not latest (`7.x`).** `typescript-eslint` and `@astrojs/check`'s peer ranges cap below TypeScript 7 as of this writing — don't blindly `pnpm up` past what those peers accept; check `pnpm add -D typescript@<version>` resolves cleanly first.
+- **TypeScript is constrained to the 6.x line, not "pinned" to one exact version.** `package.json` declares `^6.0.3` (a caret range) because `typescript-eslint` and `@astrojs/check`'s peer ranges cap below TypeScript 7 as of this writing — `pnpm-lock.yaml` currently resolves that to exactly `6.0.3`, but a plain `pnpm update typescript` could move it to a newer 6.x release. Don't `pnpm add -D typescript@latest` — check the new version's peers resolve cleanly first.
 - **Node `>=22.12.0` is required** (Astro 7's minimum). `fallstack-website`'s CI pins Node 20 — don't copy that pin verbatim when #24 (CI) is built here.
-- **`CLAUDE.md` is a symlink to `AGENTS.md`**, not a copy — edit `AGENTS.md`; `CLAUDE.md` follows automatically. (`fallstack-website` uses a real one-line file with an `@AGENTS.md` import instead — different mechanism, same effect.)
+- **`CLAUDE.md` just re-imports `AGENTS.md`** via Claude Code's `@file` import syntax (same mechanism `fallstack-website` uses) — edit `AGENTS.md`, not `CLAUDE.md`.
