@@ -6,12 +6,12 @@ Reference for AI agents (and humans) working in this repo — workflow, stack, l
 
 ## What this repo is
 
-A reusable Astro template for SEI symposium websites: an NEI-ISEP-blue base style with a one-file `styles.override.css` re-skin mechanism, en/pt i18n, and per-edition content driven by JSON (not hardcoded in components). See the [design comp reference](https://github.com/Nucleo-Estudantes-Informatica-ISEP/template-sei-website/issues/11) issues for the target pages.
+A reusable Astro template for SEI symposium websites — **not** a specific edition's website. It carries the NEI-ISEP-blue base style, a one-file `styles.override.css` re-skin mechanism, en/pt i18n, and per-edition content driven by JSON (not hardcoded in components). See the [design comp reference](https://github.com/Nucleo-Estudantes-Informatica-ISEP/template-sei-website/issues/11) for the target pages.
 
-Issues live under two milestones — don't mix their concerns:
+Each yearly SEI edition (SEI'26, SEI'27, ...) is hosted as its **own separate repository**, created from this template; when this template gets updated, edition repos pull those updates in. Consequences of that:
 
-- **`sei-website-template`** — the reusable mechanics (scaffold, design tokens, override system, i18n, content schemas, pages).
-- **`sei-2026-edition`** — real SEI'26 content once the template mechanics exist (banner, dates, speakers, QR code, photos).
+- This repo's issue tracker only ever covers template mechanics — everything here lives under the `sei-website-template` milestone.
+- This repo has no visibility into, and never tracks, any specific edition's content work (banner, dates, speakers, QR code, post-event photos) — that's tracked in that edition's own repo, under its own milestone.
 
 ---
 
@@ -19,7 +19,7 @@ Issues live under two milestones — don't mix their concerns:
 
 For every requested task:
 
-1. Create a branch from `main` (not `dev` — this repo has a single active maintainer and, being private on a free plan, no enforced branch protection anyway; revisit if that changes) named `<type>/<short-kebab-case-description>`, following the [Conventional Branch](https://conventionalbranch.org/) spec used across NEI-ISEP repos:
+1. Create a branch from `dev` named `<type>/<short-kebab-case-description>`, following the [Conventional Branch](https://conventionalbranch.org/) spec used across NEI-ISEP repos:
    - `feature/` or `feat/` — new functionality
    - `bugfix/` or `fix/` — bug fixes
    - `docs/` — documentation-only changes (README, AGENTS.md, code comments)
@@ -28,7 +28,8 @@ For every requested task:
    - No AI co-author trailer (no `Co-Authored-By` line) on any commit.
    - Subject line under 72 characters.
    - Split unrelated concerns into separate commits instead of one bulk commit.
-3. Push the branch and open a PR into `main`, with `Closes #N` for the issue it addresses.
+3. Push the branch and open a PR into `dev`, never directly into `main` — with `Closes #N` for the issue it addresses. Kept as a matter of consistency with the rest of NEI-ISEP's repos, not because anything here currently enforces it.
+4. `main` is what an edition repo created from this template actually deploys live (via Coolify). Before merging `dev` into `main` in such a repo, check the currently-hosted instance rather than trusting green CI alone — this template repo itself has no live deployment, but the rule carries into every repo created from it.
 
 ---
 
