@@ -28,7 +28,7 @@ For every requested task:
    - No AI co-author trailer (no `Co-Authored-By` line) on any commit.
    - Subject line under 72 characters.
    - Split unrelated concerns into separate commits instead of one bulk commit.
-3. Push the branch and open a PR into `dev`, never directly into `main` — with `Closes #N` for the issue it addresses. Kept as a matter of principle, not because anything here currently enforces it.
+3. Push the branch and open a PR into `dev`, never directly into `main` — reference the issue it addresses with `Refs #N`, not `Closes #N`: GitHub only auto-closes an issue via a closing keyword when the PR targets the repo's default branch (`main` here), so on a `dev`-targeted PR that keyword is a no-op. Close the issue manually once the PR merges.
 4. `main` is what an edition repo created from this template actually deploys live (via Coolify). Before merging `dev` into `main` in such a repo, check the currently-hosted instance rather than trusting green CI alone — this template repo itself has no live deployment, but the rule carries into every repo created from it.
 
 ---
