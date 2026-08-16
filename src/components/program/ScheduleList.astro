@@ -1,0 +1,142 @@
+---
+/**
+ * SEI — program outline: a clean agenda list with time rail.
+ */
+import type { ProgramBlock } from "../../data/schemas";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  blocks: ProgramBlock[];
+  dayLabel: string;
+}
+
+const { blocks, dayLabel } = Astro.props;
+
+const typeIcons = {
+  registration: "calendar",
+  talk: "quote",
+  break: "check",
+  session: "file",
+  closing: "check",
+} as const;
+---
+
+<div class="schedule">
+  <p class="schedule__day">
+    <Icon name="calendar" size={15} />
+    {dayLabel}
+  </p>
+
+  <ol class="schedule__list" role="list">
+    {
+      blocks.map((block) => (
+        <li class="schedule__row">
+          <span class="schedule__time">
+            {block.time}
+            <span class="schedule__stem" aria-hidden="true" />
+          </span>
+          <div class="schedule__content">
+            <h3 class="schedule__title">{block.title}</h3>
+            {block.detail && <p class="schedule__detail">{block.detail}</p>}
+          </div>
+          <span class="schedule__type">
+            <Icon name={typeIcons[block.type]} size={14} />
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .schedule {
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .schedule__day {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .schedule__list {
+    list-style: none;
+  }
+
+  .schedule__row {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr auto;
+    gap: 1.2rem;
+    align-items: start;
+    padding-block: 1.05rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .schedule__row:last-child {
+    border-bottom: none;
+  }
+
+  .schedule__time {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--accent-deep);
+    white-space: nowrap;
+  }
+
+  .schedule__stem {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+    min-width: 0.8rem;
+  }
+
+  .schedule__title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 560;
+    letter-spacing: -0.01em;
+  }
+
+  .schedule__detail {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 0.25rem;
+  }
+
+  .schedule__type {
+    display: grid;
+    place-items: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    flex: none;
+  }
+
+  @media (max-width: 640px) {
+    .schedule__row {
+      grid-template-columns: 1fr auto;
+      gap: 0.4rem 1rem;
+    }
+
+    .schedule__time {
+      grid-column: 1 / -1;
+    }
+
+    .schedule__stem {
+      display: none;
+    }
+  }
+</style>

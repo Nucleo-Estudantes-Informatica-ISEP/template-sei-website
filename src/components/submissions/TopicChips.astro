@@ -1,0 +1,51 @@
+---
+/**
+ * SEI — thematic topic chips. Compact and scannable.
+ */
+interface Props {
+  topics: Array<{ name: string; note?: string }>;
+}
+
+const { topics } = Astro.props;
+---
+
+<ul class="topics" role="list">
+  {
+    topics.map((topic) => (
+      <li class="topics__item" title={topic.note}>
+        <span>{topic.name}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .topics {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .topics__item {
+    padding: 0.5em 0.95em;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    font-size: 0.9rem;
+    font-weight: 520;
+    color: var(--ink-2);
+    background: var(--surface);
+    transition:
+      border-color var(--dur-s),
+      color var(--dur-s),
+      background var(--dur-s),
+      transform var(--dur-s);
+  }
+
+  .topics__item:hover {
+    border-color: var(--accent);
+    color: var(--accent-deep);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
+</style>

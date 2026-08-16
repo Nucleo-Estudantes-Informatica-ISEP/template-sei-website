@@ -1,0 +1,168 @@
+---
+/**
+ * SEI — speaker card. Name, role, affiliation, bio and links.
+ * Pending speakers render with a dashed treatment and "A confirmar" tag.
+ */
+import type { Speaker } from "../../data/schemas";
+import Icon from "../ui/Icon.astro";
+import Tag from "../ui/Tag.astro";
+import SpeakerAvatar from "./SpeakerAvatar.astro";
+
+interface Props {
+  speaker: Speaker;
+}
+
+const { speaker } = Astro.props;
+const pending = speaker.status === "pending";
+---
+
+<article class:list={["speaker", { "speaker--pending": pending }]}>
+  <div class="speaker__head">
+    <SpeakerAvatar
+      name={speaker.name}
+      photo={speaker.photo}
+      status={speaker.status}
+    />
+    <div class="speaker__title">
+      <h3 class="speaker__name">{speaker.name}</h3>
+      <p class="speaker__role">{speaker.role}</p>
+      <p class="speaker__affil">{speaker.affiliation}</p>
+    </div>
+    {
+      pending && (
+        <Tag tone="tba" className="speaker__tag">
+          A confirmar
+        </Tag>
+      )
+    }
+  </div>
+
+  <p class="speaker__bio">{speaker.bio}</p>
+
+  {
+    speaker.links.length > 0 && (
+      <ul class="speaker__links" role="list">
+        {speaker.links.map((link) => (
+          <li>
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="speaker__link"
+            >
+              {link.label}
+              <Icon name="external" size={13} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .speaker {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: clamp(1.4rem, 2.5vw, 1.9rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-l);
+    background: var(--surface);
+    box-shadow: var(--shadow-s);
+    transition:
+      transform var(--dur-m) var(--ease-out),
+      box-shadow var(--dur-m) var(--ease-out),
+      border-color var(--dur-m) var(--ease-out);
+  }
+
+  .speaker:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-m);
+    border-color: var(--line-strong);
+  }
+
+  .speaker--pending {
+    border-style: dashed;
+    background: color-mix(in srgb, var(--surface) 55%, transparent);
+  }
+
+  .speaker--pending:hover {
+    transform: none;
+    border-color: var(--line-strong);
+  }
+
+  .speaker__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+  }
+
+  .speaker__title {
+    display: grid;
+    gap: 0.1rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .speaker__name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 560;
+    letter-spacing: -0.01em;
+  }
+
+  .speaker__role {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+    margin-top: 0.15rem;
+  }
+
+  .speaker__affil {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .speaker__tag {
+    flex: none;
+    margin-top: 0.15rem;
+  }
+
+  .speaker__bio {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--ink-2);
+  }
+
+  .speaker__links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+    margin-top: auto;
+    padding-top: 0.4rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .speaker__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.88rem;
+    font-weight: 550;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition:
+      color var(--dur-s),
+      border-color var(--dur-s);
+  }
+
+  .speaker__link:hover {
+    color: var(--accent-deep);
+    border-color: var(--accent-line);
+  }
+</style>

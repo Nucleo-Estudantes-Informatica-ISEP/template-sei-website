@@ -1,0 +1,90 @@
+---
+/**
+ * SEI — section heading block: kicker + title + optional lede + optional
+ * trailing link. Keeps the rhythm and hierarchy consistent across pages.
+ */
+import Kicker from "./Kicker.astro";
+
+interface Props {
+  index?: string;
+  kicker: string;
+  title: string;
+  lede?: string;
+  className?: string;
+  center?: boolean;
+}
+
+const {
+  index,
+  kicker,
+  title,
+  lede,
+  className = "",
+  center = false,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "section-heading",
+    { "section-heading--center": center },
+    className,
+  ]}
+>
+  <div class="section-heading__kicker">
+    {index && <span class="section-heading__index">{index}</span>}
+    <Kicker text={kicker} />
+  </div>
+  <h2 class="section-heading__title">{title}</h2>
+  {lede && <p class="section-heading__lede">{lede}</p>}
+</div>
+
+<style>
+  .section-heading {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 46rem;
+  }
+
+  .section-heading--center {
+    margin-inline: auto;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .section-heading__kicker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-heading--center .section-heading__kicker {
+    justify-content: center;
+  }
+
+  .section-heading__index {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 0.22em 0.7em;
+    white-space: nowrap;
+  }
+
+  .section-heading__title {
+    font-size: clamp(1.9rem, 2.6vw + 1rem, 3rem);
+  }
+
+  .section-heading__lede {
+    color: var(--ink-2);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 40rem;
+  }
+
+  .section-heading--center .section-heading__lede {
+    margin-inline: auto;
+  }
+</style>

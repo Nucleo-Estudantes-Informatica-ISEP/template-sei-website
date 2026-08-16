@@ -1,11 +1,369 @@
 ---
-import Welcome from "../components/Welcome.astro";
-import Layout from "../layouts/Layout.astro";
+/**
+ * SEI — home page.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { committees, importantDates, site, speakers } from "../data";
+
+import HomeHero from "../components/home/HomeHero.astro";
+import ImportantDates from "../components/events/ImportantDates.astro";
+import HighlightCard from "../components/events/HighlightCard.astro";
+import SpeakerCard from "../components/speakers/SpeakerCard.astro";
+import Button from "../components/ui/Button.astro";
+import Icon from "../components/ui/Icon.astro";
+import Reveal from "../components/ui/Reveal.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+
+const teaserSpeakers = speakers.slice(0, 3);
 ---
 
-<Layout>
-  <Welcome />
-</Layout>
+<BaseLayout title={site.name} description={site.description} path="/">
+  <HomeHero site={site} />
+
+  <!-- Announcement -->
+  <div class="announce">
+    <div class="container">
+      <Reveal>
+        <HighlightCard
+          title={site.highlight.title}
+          body={site.highlight.body}
+          cta={site.highlight.cta}
+        />
+      </Reveal>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section class="section" aria-labelledby="about-title">
+    <div class="container">
+      <Reveal>
+        <SectionHeading
+          center
+          index="01"
+          kicker="Sobre o simpósio"
+          title="Um dia. Todas as vertentes da Engenharia Informática."
+          lede={site.about.paragraphs[0]}
+        />
+      </Reveal>
+      <Reveal delay={90}>
+        <p class="about__p">{site.about.paragraphs[1]}</p>
+      </Reveal>
+      <Reveal delay={160}>
+        <dl class="stats">
+          {
+            site.about.stats.map((s) => (
+              <div class="stats__item">
+                <dt>{s.value}</dt>
+                <dd>{s.label}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Important dates -->
+  <section class="section section--tight" aria-labelledby="dates-title">
+    <div class="container dates-wrap">
+      <Reveal>
+        <SectionHeading
+          center
+          index="02"
+          kicker="Datas importantes"
+          title="O calendário do SEI’26"
+        />
+      </Reveal>
+      <Reveal delay={90} className="dates-body">
+        <ImportantDates dates={importantDates} />
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Speakers teaser -->
+  <section class="section section--tight" aria-labelledby="speakers-title">
+    <div class="container">
+      <Reveal>
+        <SectionHeading
+          center
+          index="03"
+          kicker="Oradores convidados"
+          title="Vozes que vale a pena ouvir"
+          lede="Profissionais e académicos de referência sobem ao palco."
+        />
+      </Reveal>
+
+      <div class="speakers-grid">
+        {
+          teaserSpeakers.map((speaker, i) => (
+            <Reveal delay={i * 80}>
+              <SpeakerCard speaker={speaker} />
+            </Reveal>
+          ))
+        }
+      </div>
+
+      <Reveal>
+        <div class="center">
+          <Button href="/speakers/" variant="outline" icon="arrow-right">
+            Todos os oradores
+          </Button>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Committees teaser -->
+  <section class="section section--tight" aria-labelledby="committees-title">
+    <div class="container">
+      <Reveal>
+        <SectionHeading
+          center
+          index="04"
+          kicker="Comissões"
+          title="Construído pela comunidade"
+          lede="Estudantes, docentes e investigadores fazem o SEI acontecer — e reveem cada artigo."
+        />
+      </Reveal>
+
+      <Reveal delay={90}>
+        <ul class="committees-list" role="list">
+          {
+            committees.map((c, i) => (
+              <Reveal as="li" delay={i * 80}>
+                <a class="committees-item card card--hover" href="/committees/">
+                  <span class="committees-item__mark" aria-hidden="true" />
+                  <span class="committees-item__body">
+                    <span class="committees-item__title">{c.title}</span>
+                    <span class="committees-item__meta">
+                      {c.members.length} membros
+                    </span>
+                  </span>
+                  <Icon name="chevron-right" size={18} />
+                </a>
+              </Reveal>
+            ))
+          }
+        </ul>
+      </Reveal>
+
+      <Reveal>
+        <div class="center">
+          <Button href="/committees/" variant="outline" icon="arrow-right">
+            Conhecer as comissões
+          </Button>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="cta on-ink" aria-label="Junte-se ao SEI">
+    <div class="container cta__inner">
+      <Reveal>
+        <p class="kicker">Junte-se a nós no Porto</p>
+        <h2 class="cta__title">
+          Vemo-nos no SEI’{String(site.editionYear).slice(2)}.
+        </h2>
+        <p class="cta__lead">
+          {site.dateLabel} · {site.location}
+        </p>
+        <div class="cta__buttons">
+          <Button href="/registration/" variant="primary" size="lg">
+            Inscrever-se
+          </Button>
+          <Button href="/program/" variant="outline" size="lg">
+            Ver o programa
+          </Button>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .announce {
+    position: relative;
+    z-index: 2;
+    margin-top: clamp(-2.5rem, -4vw, -1.5rem);
+  }
+
+  .about__p {
+    max-width: 62ch;
+    margin: 2rem auto 0;
+    font-size: 1.06rem;
+    line-height: 1.7;
+    color: var(--ink-2);
+    text-align: center;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 46rem;
+    margin: clamp(2rem, 5vw, 3rem) auto 0;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .stats__item {
+    padding: 1.3rem 1rem 0;
+    text-align: center;
+  }
+
+  .stats__item + .stats__item {
+    border-left: 1px solid var(--line);
+  }
+
+  .stats__item dt {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+    font-weight: 560;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .stats__item dd {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  .dates-wrap {
+    max-width: 46rem;
+  }
+
+  .dates-body {
+    max-width: 34rem;
+    margin-inline: auto;
+    margin-top: 2.5rem;
+  }
+
+  .speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .committees-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    max-width: 46rem;
+    margin: 2.5rem auto 0;
+  }
+
+  .committees-item {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    padding: 1.25rem 1.4rem;
+    text-decoration: none;
+  }
+
+  .committees-item__mark {
+    width: 2.4rem;
+    height: 2.4rem;
+    flex: none;
+    border-radius: var(--radius-m);
+    background:
+      radial-gradient(circle at 35% 30%, var(--accent), transparent 70%),
+      var(--paper-2);
+    border: 1px solid var(--line);
+  }
+
+  .committees-item__body {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .committees-item__title {
+    font-family: var(--font-display);
+    font-size: 1.16rem;
+    font-weight: 560;
+  }
+
+  .committees-item__meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .committees-item > svg {
+    margin-left: auto;
+    color: var(--muted);
+    flex: none;
+  }
+
+  .cta {
+    padding-block: clamp(4rem, 8vw, 6.5rem);
+    text-align: center;
+  }
+
+  .cta__inner {
+    display: grid;
+    justify-items: center;
+    gap: 1.2rem;
+  }
+
+  .cta__title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 540;
+    letter-spacing: -0.02em;
+    color: var(--ink-paper);
+  }
+
+  .cta__lead {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .cta__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 0.8rem;
+  }
+
+  @media (max-width: 920px) {
+    .speakers-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .speakers-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .committees-list {
+      grid-template-columns: 1fr;
+    }
+
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats__item:nth-child(3) {
+      border-left: 0;
+    }
+  }
+</style>

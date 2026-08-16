@@ -1,0 +1,199 @@
+---
+/**
+ * SEI — history edition card: a designed poster-cover per past edition,
+ * linking to its archived website.
+ */
+import type { Edition } from "../../data/schemas";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  edition: Edition;
+}
+
+const { edition } = Astro.props;
+const ordinal =
+  edition.number === 1
+    ? "1.ª"
+    : edition.number === 2
+      ? "2.ª"
+      : edition.number === 3
+        ? "3.ª"
+        : `${edition.number}.ª`;
+---
+
+<a
+  class="edition"
+  href={edition.href}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <div class="edition__cover" aria-hidden="true">
+    <span class="edition__year">{edition.year}</span>
+    <span class="edition__label">SEI</span>
+    <span class="edition__arc edition__arc--a"></span>
+    <span class="edition__arc edition__arc--b"></span>
+    <span class="edition__num">#{edition.number}</span>
+  </div>
+  <div class="edition__body">
+    <p class="edition__title">
+      SEI’{String(edition.year).slice(-2)}
+      <Icon name="external" size={13} />
+    </p>
+    <p class="edition__meta">{edition.tagline ?? `${ordinal} edição`}</p>
+    {edition.theme && <p class="edition__theme">{edition.theme}</p>}
+  </div>
+</a>
+
+<style>
+  .edition {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .edition__cover {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    background:
+      radial-gradient(
+        140% 100% at 0% 0%,
+        rgba(209, 74, 18, 0.9),
+        transparent 55%
+      ),
+      radial-gradient(
+        130% 110% at 100% 100%,
+        rgba(23, 19, 12, 0.95),
+        transparent 70%
+      ),
+      var(--paper);
+    border: 1px solid var(--line);
+    transition:
+      transform var(--dur-m) var(--ease-out),
+      box-shadow var(--dur-m) var(--ease-out);
+    isolation: isolate;
+  }
+
+  .edition:hover .edition__cover {
+    transform: translateY(-5px) rotate(-0.5deg);
+    box-shadow: var(--shadow-m);
+  }
+
+  .edition__cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.14) 0.7px,
+      transparent 0.7px
+    );
+    background-size: 8px 8px;
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .edition__year {
+    position: absolute;
+    top: 1rem;
+    left: 1.2rem;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.4vw, 2.7rem);
+    font-weight: 560;
+    letter-spacing: -0.02em;
+    color: rgba(251, 248, 241, 0.96);
+    z-index: 2;
+  }
+
+  .edition__label {
+    position: absolute;
+    bottom: 1rem;
+    left: 1.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    color: rgba(251, 248, 241, 0.85);
+    z-index: 2;
+  }
+
+  .edition__num {
+    position: absolute;
+    bottom: 0.8rem;
+    right: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: rgba(251, 248, 241, 0.7);
+    border: 1px solid rgba(251, 248, 241, 0.4);
+    border-radius: var(--radius-m);
+    padding: 0.25em 0.7em;
+    z-index: 2;
+  }
+
+  .edition__arc {
+    position: absolute;
+    border: 1.5px solid rgba(251, 248, 241, 0.28);
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .edition__arc--a {
+    width: 220%;
+    aspect-ratio: 1;
+    bottom: -120%;
+    right: -40%;
+  }
+
+  .edition__arc--b {
+    width: 160%;
+    aspect-ratio: 1;
+    bottom: -80%;
+    right: -10%;
+    border-color: rgba(209, 74, 18, 0.5);
+  }
+
+  .edition__body {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .edition__title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 560;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .edition__title svg {
+    display: inline-block;
+    vertical-align: -1px;
+    color: var(--muted);
+    transition:
+      color var(--dur-s),
+      transform var(--dur-s);
+  }
+
+  .edition:hover .edition__title svg {
+    color: var(--accent-deep);
+    transform: translate(1px, -1px);
+  }
+
+  .edition__meta {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .edition__theme {
+    flex-basis: 100%;
+    font-size: 0.88rem;
+    color: var(--ink-2);
+  }
+</style>

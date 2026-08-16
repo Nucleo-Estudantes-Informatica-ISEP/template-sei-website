@@ -1,0 +1,89 @@
+---
+/**
+ * SEI — committees page.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { committees, site } from "../data";
+import Button from "../components/ui/Button.astro";
+import CommitteeSection from "../components/committees/CommitteeSection.astro";
+import PageHeader from "../components/ui/PageHeader.astro";
+import Reveal from "../components/ui/Reveal.astro";
+---
+
+<BaseLayout
+  title="Comissões"
+  description={`As comissões organizadora e técnico-científica por trás do ${site.editionLabel}.`}
+  path="/committees/"
+>
+  <PageHeader
+    kicker="Comissões"
+    title="Construído pela comunidade"
+    lede="Estudantes, docentes e investigadores do ISEP e além fazem o SEI acontecer — e reveem cada artigo submetido."
+  />
+
+  <section class="section">
+    <div class="container committees-stack">
+      {
+        committees.map((committee, i) => (
+          <Reveal delay={i * 80}>
+            <CommitteeSection committee={committee} />
+          </Reveal>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <Reveal>
+        <div class="committees-cta">
+          <div>
+            <h2>Revisores, moderadores, anfitriões — o SEI precisa de si.</h2>
+            <p>
+              Junte-se à comissão técnico-científica ou ajude a organizar o dia.
+              Contacte a comissão organizadora em qualquer altura.
+            </p>
+          </div>
+          <Button href="/submit/" variant="primary">Submeter artigo</Button>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .committees-stack {
+    display: grid;
+    gap: var(--space-section);
+  }
+
+  .committees-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    border-radius: var(--radius-l);
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(
+        480px 220px at 100% 0%,
+        var(--gold-soft),
+        transparent 70%
+      ),
+      var(--surface);
+  }
+
+  .committees-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+    font-weight: 560;
+  }
+
+  .committees-cta p {
+    color: var(--muted);
+    max-width: 34rem;
+    margin-top: 0.7rem;
+  }
+</style>

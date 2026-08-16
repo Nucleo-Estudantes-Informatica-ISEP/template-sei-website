@@ -1,0 +1,68 @@
+---
+/**
+ * SEI — interior page header: compact ink band with kicker, title, lede.
+ */
+import Kicker from "./Kicker.astro";
+
+interface Props {
+  kicker: string;
+  title: string;
+  lede?: string;
+}
+
+const { kicker, title, lede } = Astro.props;
+---
+
+<header class="page-header on-ink">
+  <div class="container">
+    <Kicker text={kicker} />
+    <h1 class="page-header__title">{title}</h1>
+    {lede && <p class="page-header__lede">{lede}</p>}
+  </div>
+</header>
+
+<style>
+  .page-header {
+    position: relative;
+    padding-block: clamp(3.5rem, 8vw, 6rem);
+  }
+
+  .page-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        700px 340px at 85% -20%,
+        rgba(209, 74, 18, 0.2),
+        transparent 65%
+      ),
+      radial-gradient(
+        560px 300px at -10% 120%,
+        rgba(168, 131, 60, 0.12),
+        transparent 60%
+      );
+    pointer-events: none;
+  }
+
+  .page-header :global(.container) {
+    position: relative;
+  }
+
+  .page-header__title {
+    font-size: clamp(2.2rem, 5vw + 0.6rem, 3.9rem);
+    font-weight: 540;
+    letter-spacing: -0.02em;
+    color: var(--ink-paper);
+    margin-top: 1rem;
+    max-width: 18ch;
+  }
+
+  .page-header__lede {
+    color: var(--ink-2);
+    font-size: clamp(1.02rem, 1.1vw + 0.6rem, 1.2rem);
+    line-height: 1.62;
+    max-width: 44rem;
+    margin-top: 1.1rem;
+  }
+</style>

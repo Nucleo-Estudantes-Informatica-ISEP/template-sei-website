@@ -1,0 +1,177 @@
+---
+/**
+ * SEI — important dates, rendered as a subtle chronological timeline.
+ * The single `highlight` date receives an accent treatment + pulse.
+ */
+import type { ImportantDate } from "../../data/schemas";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  dates: ImportantDate[];
+}
+
+const { dates } = Astro.props;
+
+const fmtDay = new Intl.DateTimeFormat("pt-PT", {
+  day: "numeric",
+  month: "short",
+});
+const fmtYear = new Intl.DateTimeFormat("pt-PT", { year: "numeric" });
+
+function dateLabel(d: ImportantDate): string {
+  const { at, from, to } = d.range;
+  if (at) return `${fmtDay.format(at)} ${fmtYear.format(at)}`;
+  if (from && to) {
+    const sameYear = from.getFullYear() === to.getFullYear();
+    const sameMonth = from.getMonth() === to.getMonth();
+    if (sameYear && sameMonth) {
+      return `${fmtDay.format(from)}–${to.getDate()}, ${fmtYear.format(to)}`;
+    }
+    if (sameYear)
+      return `${fmtDay.format(from)} – ${fmtDay.format(to)}, ${fmtYear.format(to)}`;
+    return `${fmtDay.format(from)}, ${fmtYear.format(from)} – ${fmtDay.format(to)}, ${fmtYear.format(to)}`;
+  }
+  return "";
+}
+---
+
+<ol class="dates" role="list">
+  {
+    dates.map((d, i) => (
+      <li
+        class:list={["dates__item", { "dates__item--highlight": d.highlight }]}
+      >
+        <div class="dates__rail" aria-hidden="true">
+          <span class="dates__dot" />
+          {i < dates.length - 1 && <span class="dates__stem" />}
+        </div>
+        <div class="dates__body">
+          <p class="dates__label">
+            {d.highlight && <span class="pulse-dot" aria-hidden="true" />}
+            {d.label}
+          </p>
+          {d.description && <p class="dates__desc">{d.description}</p>}
+          <p class="dates__date">
+            {dateLabel(d)}
+            {d.href && (
+              <a href={d.href} class="dates__link">
+                Detalhes <Icon name="chevron-right" size={13} />
+              </a>
+            )}
+          </p>
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .dates {
+    list-style: none;
+    display: grid;
+    gap: 0;
+  }
+
+  .dates__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.2rem;
+    padding-block: 1.1rem;
+  }
+
+  .dates__rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 14px;
+  }
+
+  .dates__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--line-strong);
+    background: var(--paper);
+    margin-top: 0.4em;
+    flex: none;
+    transition: border-color var(--dur-s);
+  }
+
+  .dates__item--highlight .dates__dot {
+    border-color: var(--accent);
+  }
+
+  .dates__stem {
+    flex: 1;
+    width: 1px;
+    background: var(--line);
+    margin-block: 0.55rem;
+  }
+
+  .dates__body {
+    padding-bottom: 0.9rem;
+  }
+
+  .dates__item--highlight .dates__body {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius-m);
+    padding: 0.9rem 1.1rem;
+    margin: -0.9rem 0;
+  }
+
+  .dates__label {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-display);
+    font-size: 1.18rem;
+    font-weight: 560;
+    letter-spacing: -0.01em;
+  }
+
+  .dates__desc {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 0.25rem;
+  }
+
+  .dates__date {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9em;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+    margin-top: 0.45rem;
+  }
+
+  .dates__item--highlight .dates__date {
+    color: var(--accent-deep);
+  }
+
+  .dates__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    color: var(--ink-2);
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 550;
+    border-bottom: 1px solid var(--line-strong);
+    transition:
+      color var(--dur-s),
+      border-color var(--dur-s);
+  }
+
+  .dates__link:hover {
+    color: var(--accent-deep);
+    border-color: var(--accent);
+  }
+</style>

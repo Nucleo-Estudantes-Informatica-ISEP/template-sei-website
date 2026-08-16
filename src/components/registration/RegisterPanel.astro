@@ -1,0 +1,166 @@
+---
+/**
+ * SEI — registration panel: fee, notes, CTA and a generated QR code.
+ * The QR is produced at build time from `registration.qrPayload`.
+ */
+import QRCode from "qrcode";
+import type { Registration } from "../../data/schemas";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+import Tag from "../ui/Tag.astro";
+
+interface Props {
+  registration: Registration;
+}
+
+const { registration } = Astro.props;
+
+const qrSvg = await QRCode.toString(registration.qrPayload, {
+  type: "svg",
+  margin: 0,
+  width: 220,
+  errorCorrectionLevel: "M",
+  color: { dark: "#17130c", light: "#fbf8f1" },
+});
+
+const deadlineLabel = new Intl.DateTimeFormat("pt-PT", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+}).format(registration.deadline);
+---
+
+<div class="register">
+  <div class="register__main">
+    <div class="register__fees">
+      <Tag tone="accent">{registration.feeLabel}</Tag>
+      <p class="register__fee-note">Entrada · até {deadlineLabel}</p>
+    </div>
+
+    <ul class="register__notes" role="list">
+      {
+        registration.notes.map((note) => (
+          <li>
+            <Icon name="check" size={16} />
+            <span>{note}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <Button
+      href={registration.cta.url}
+      variant="primary"
+      size="lg"
+      external
+      className="register__cta"
+    >
+      {registration.cta.label}
+    </Button>
+  </div>
+
+  <div class="register__qr">
+    <div class="register__qr-frame">
+      <div class="register__qr-art" set:html={qrSvg} aria-hidden="true" />
+    </div>
+    <p class="register__qr-caption">{registration.qrAlt}</p>
+  </div>
+</div>
+
+<style>
+  .register {
+    display: grid;
+    grid-template-columns: 1.3fr auto;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(
+        600px 260px at 100% 0%,
+        rgba(209, 74, 18, 0.08),
+        transparent 70%
+      ),
+      var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-s);
+  }
+
+  .register__main {
+    display: grid;
+    gap: 1.4rem;
+    justify-items: start;
+  }
+
+  .register__fees {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .register__fee-note {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+
+  .register__notes {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .register__notes li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    font-size: 0.98rem;
+    color: var(--ink-2);
+  }
+
+  .register__notes svg {
+    color: var(--accent-deep);
+    margin-top: 0.22em;
+    flex: none;
+  }
+
+  .register__qr {
+    text-align: center;
+    max-width: 12.5rem;
+  }
+
+  .register__qr-frame {
+    padding: 1.1rem;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: var(--shadow-m);
+  }
+
+  .register__qr-frame :global(svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .register__qr-caption {
+    margin-top: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  @media (max-width: 760px) {
+    .register {
+      grid-template-columns: 1fr;
+    }
+
+    .register__qr {
+      max-width: 11rem;
+      margin-inline: auto;
+    }
+  }
+</style>

@@ -1,0 +1,191 @@
+---
+/**
+ * SEI — home hero. The edition banner fills the top band as a background,
+ * with the ink canvas and event copy layered on top.
+ */
+import { getImage } from "astro:assets";
+import type { Site } from "../../data/schemas";
+import { resolveImage } from "../../data";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+import LogoMark from "../ui/LogoMark.astro";
+
+interface Props {
+  site: Site;
+}
+
+const { site } = Astro.props;
+
+const banner = resolveImage("banner");
+const bannerImg = banner
+  ? await getImage({ src: banner, width: 1920, format: "avif", fit: "cover" })
+  : undefined;
+---
+
+<section class="hero on-ink" aria-labelledby="hero-title">
+  {
+    bannerImg && (
+      <img
+        class="hero__bg"
+        src={bannerImg.src}
+        alt=""
+        aria-hidden="true"
+        decoding="async"
+      />
+    )
+  }
+  <div class="hero__shade" aria-hidden="true"></div>
+
+  <div class="container hero__inner">
+    <div class="hero__mark">
+      <LogoMark size={40} alt="" />
+      <span class="hero__kicker">{site.hero.kicker}</span>
+    </div>
+
+    <h1 id="hero-title" class="hero__title">
+      {site.hero.title}
+    </h1>
+
+    <p class="hero__lead">{site.hero.lead}</p>
+
+    <ul class="hero__meta" role="list">
+      <li>
+        <Icon name="calendar" size={16} />
+        {site.dateLabel}
+      </li>
+      <li>
+        <Icon name="pin" size={16} />
+        {site.location}
+      </li>
+    </ul>
+
+    <div class="hero__cta">
+      <Button href={site.hero.primaryCta.url} variant="primary" size="lg">
+        {site.hero.primaryCta.label}
+      </Button>
+      <Button href={site.hero.secondaryCta.url} variant="outline" size="lg">
+        {site.hero.secondaryCta.label}
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    align-items: center;
+    min-height: clamp(28rem, 66vh, 40rem);
+    padding-block: clamp(4rem, 11vh, 7.5rem);
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(22, 18, 11, 0.72) 0%,
+        rgba(22, 18, 11, 0.42) 48%,
+        rgba(22, 18, 11, 0.12) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(22, 18, 11, 0.4) 0%,
+        transparent 34%,
+        rgba(22, 18, 11, 0.72) 100%
+      );
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 1.6rem;
+    max-width: 58rem;
+    margin-inline: auto;
+  }
+
+  .hero__mark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .hero__mark img {
+    border-radius: var(--radius-s);
+  }
+
+  .hero__kicker {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .hero__title {
+    font-size: clamp(2.6rem, 6vw + 1rem, 5rem);
+    font-weight: 540;
+    letter-spacing: -0.02em;
+    color: var(--ink-paper);
+    max-width: 14ch;
+    text-shadow: 0 2px 24px rgba(22, 18, 11, 0.45);
+  }
+
+  .hero__lead {
+    color: var(--ink-2);
+    font-size: clamp(1.05rem, 1.2vw + 0.6rem, 1.25rem);
+    line-height: 1.62;
+    max-width: 42rem;
+  }
+
+  .hero__meta {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem 1.8rem;
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero__meta li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .hero__meta svg {
+    color: var(--accent);
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 0.6rem;
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      min-height: auto;
+    }
+  }
+</style>

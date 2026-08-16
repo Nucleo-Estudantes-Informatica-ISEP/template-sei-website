@@ -1,0 +1,24 @@
+---
+/**
+ * SEI — small badge / status tag.
+ */
+interface Props {
+  tone?: "neutral" | "accent" | "tba" | "gold";
+  className?: string;
+}
+
+const { tone = "neutral", className = "" } = Astro.props;
+
+const toneClass =
+  tone === "accent"
+    ? "tag--accent"
+    : tone === "tba"
+      ? "tag--tba"
+      : tone === "gold"
+        ? "tag--gold"
+        : "";
+---
+
+<span class:list={["tag", toneClass, className]}>
+  <slot />
+</span>

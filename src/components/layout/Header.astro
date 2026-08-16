@@ -1,0 +1,283 @@
+---
+/**
+ * SEI — global header. Sticky, gains a paper backdrop on scroll.
+ * Mobile menu is a JS-enhanced overlay (progressive enhancement).
+ */
+import { site } from "../../data";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+import LogoMark from "../ui/LogoMark.astro";
+
+const { nav, shortName, editionLabel } = site;
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<header class="header" data-header>
+  <div class="container header__inner">
+    <a class="header__brand" href="/" aria-label={`${site.name} — início`}>
+      <LogoMark size={22} alt="" />
+      <span class="header__word">
+        <strong>{shortName}</strong>
+        <em>{editionLabel}</em>
+      </span>
+    </a>
+
+    <nav
+      class="header__nav"
+      aria-label="Navegação principal"
+      data-menu
+      id="site-menu"
+    >
+      <ul class="header__list" role="list">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  "header__link",
+                  { "is-active": isActive(item.href) },
+                ]}
+                aria-current={isActive(item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="header__cta">
+        <Button href="/registration/" variant="primary" size="sm">
+          Inscrever-se
+        </Button>
+      </div>
+    </nav>
+
+    <button
+      class="header__toggle"
+      data-menu-button
+      aria-expanded="false"
+      aria-controls="site-menu"
+      id="site-menu-button"
+    >
+      <span class="sr-only">Abrir menu</span>
+      <span class="header__toggle-open"><Icon name="menu" size={22} /></span>
+      <span class="header__toggle-close"><Icon name="close" size={22} /></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition:
+      background var(--dur-m) var(--ease-out),
+      box-shadow var(--dur-m) var(--ease-out),
+      border-color var(--dur-m) var(--ease-out);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 1px 0 var(--line);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: var(--header-h);
+  }
+
+  .header__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .header__brand img {
+    border-radius: var(--radius-s);
+  }
+
+  .header__word {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .header__word strong {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+  }
+
+  .header__word em {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .header__list {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    list-style: none;
+  }
+
+  .header__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45em 0.7em;
+    font-size: 0.88rem;
+    font-weight: 520;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-radius: var(--radius-s);
+    transition: color var(--dur-s) var(--ease-out);
+  }
+
+  .header__link::after {
+    content: "";
+    position: absolute;
+    left: 0.75em;
+    right: 0.75em;
+    bottom: 0.28em;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-m) var(--ease-out);
+  }
+
+  .header__link:hover,
+  .header__link.is-active {
+    color: var(--ink);
+  }
+
+  .header__link:hover::after,
+  .header__link.is-active::after {
+    transform: scaleX(1);
+  }
+
+  .header__cta {
+    display: none;
+  }
+
+  .header__toggle {
+    display: none;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    color: var(--ink);
+    transition:
+      background var(--dur-s),
+      transform var(--dur-s);
+  }
+
+  .header__toggle:hover {
+    background: var(--paper-2);
+  }
+
+  .header__toggle-close {
+    display: none;
+  }
+
+  @media (min-width: 960px) {
+    .header__cta {
+      display: block;
+    }
+  }
+
+  @media (max-width: 959.98px) {
+    .header__toggle {
+      display: grid;
+    }
+
+    .header__nav {
+      position: fixed;
+      inset: var(--header-h) 0 auto 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+      padding: 1.25rem var(--gutter) 2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-l);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-12px);
+      transition:
+        opacity var(--dur-m) var(--ease-out),
+        transform var(--dur-m) var(--ease-out),
+        visibility var(--dur-m);
+    }
+
+    .header__nav.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .header__list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.15rem;
+    }
+
+    .header__link {
+      justify-content: space-between;
+      padding: 0.9em 0.4em;
+      font-size: 0.98rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-2);
+    }
+
+    .header__link:hover,
+    .header__link.is-active {
+      color: var(--ink);
+    }
+
+    .header__link::after {
+      display: none;
+    }
+
+    .header__cta {
+      display: block;
+      padding-top: 0.5rem;
+    }
+
+    .header__cta :global(.btn) {
+      width: 100%;
+    }
+  }
+
+  body:has(.header__nav.is-open) .header__toggle-close {
+    display: grid;
+  }
+
+  body:has(.header__nav.is-open) .header__toggle-open {
+    display: none;
+  }
+</style>

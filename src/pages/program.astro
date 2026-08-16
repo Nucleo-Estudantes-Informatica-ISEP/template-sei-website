@@ -1,0 +1,106 @@
+---
+/**
+ * SEI — program page: outline schedule, full program link and photo gallery.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { photos, program, site } from "../data";
+import Button from "../components/ui/Button.astro";
+import PageHeader from "../components/ui/PageHeader.astro";
+import PhotoGallery from "../components/photos/PhotoGallery.astro";
+import Reveal from "../components/ui/Reveal.astro";
+import ScheduleList from "../components/program/ScheduleList.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+---
+
+<BaseLayout
+  title="Programa"
+  description={`Programa e galeria de fotos do ${site.editionLabel}.`}
+  path="/program/"
+>
+  <PageHeader
+    kicker="Programa"
+    title="Um dia que vale a pena guardar"
+    lede="Palestras, sessões de artigos revistos por pares, uma mesa redonda e o prémio de melhor artigo — tudo num único dia, bem estruturado."
+  />
+
+  <section class="section" aria-labelledby="schedule-title">
+    <div class="container schedule-grid">
+      <Reveal>
+        <SectionHeading
+          index="01"
+          kicker="Horário"
+          title="Programa resumido"
+          lede={program.intro}
+        />
+        {
+          program.fullProgram && (
+            <div class="schedule-cta">
+              <Button href={program.fullProgram.url} variant="primary" external>
+                {program.fullProgram.label}
+              </Button>
+            </div>
+          )
+        }
+      </Reveal>
+      <Reveal delay={110}>
+        <ScheduleList blocks={program.blocks} dayLabel={program.dayLabel} />
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section" aria-labelledby="gallery-title">
+    <div class="container">
+      <Reveal>
+        <SectionHeading
+          index="02"
+          kicker="Galeria"
+          title="Momentos do SEI"
+          lede="Um vislumbre das edições passadas — palestras, sessões e a comunidade."
+        />
+      </Reveal>
+      <Reveal delay={100} className="gallery-body">
+        {
+          photos.length > 0 ? (
+            <PhotoGallery photos={photos} />
+          ) : (
+            <p class="gallery-empty">
+              As fotografias aparecerão aqui após o evento.
+            </p>
+          )
+        }
+      </Reveal>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .schedule-cta {
+    margin-top: 2.5rem;
+  }
+
+  .gallery-empty {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--muted);
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius-m);
+  }
+
+  .gallery-body {
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 920px) {
+    .schedule-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+/**
+ * SEI — numbered process steps (submission workflow).
+ * Lightweight list: mono number + title + body, hairline dividers.
+ */
+interface Props {
+  steps: Array<{ title: string; body: string }>;
+}
+
+const { steps } = Astro.props;
+---
+
+<ol class="steps" role="list">
+  {
+    steps.map((step, i) => (
+      <li class="steps__item">
+        <span class="steps__num">{String(i + 1).padStart(2, "0")}</span>
+        <div class="steps__body">
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .steps {
+    list-style: none;
+    display: grid;
+    gap: 0;
+  }
+
+  .steps__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1rem;
+    align-items: baseline;
+    padding-block: 0.95rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .steps__item:last-child {
+    border-bottom: 0;
+  }
+
+  .steps__num {
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--accent-deep);
+    padding-top: 0.15em;
+  }
+
+  .steps__body h3 {
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 560;
+    margin-bottom: 0.2rem;
+  }
+
+  .steps__body p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+</style>

@@ -1,0 +1,129 @@
+---
+/**
+ * SEI — dynamic highlight band. A restrained, tactile panel for urgent
+ * information (registration open, deadlines, announcements).
+ */
+import type { ExternalLink } from "../../data/schemas";
+import Button from "../ui/Button.astro";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  title: string;
+  body: string;
+  cta?: ExternalLink;
+}
+
+const { title, body, cta } = Astro.props;
+---
+
+<aside class="highlight">
+  <div class="highlight__badge" aria-hidden="true">
+    <Icon name="quote" size={16} />
+  </div>
+  <div class="highlight__content">
+    <p class="highlight__eyebrow">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      <span class="highlight__live">{title}</span>
+    </p>
+    <p class="highlight__body">{body}</p>
+  </div>
+  {
+    cta && (
+      <Button
+        href={cta.url}
+        variant="soft"
+        size="sm"
+        className="highlight__cta"
+      >
+        {cta.label}
+      </Button>
+    )
+  }
+</aside>
+
+<style>
+  .highlight {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem 1.4rem;
+    flex-wrap: wrap;
+    padding: clamp(1rem, 2.4vw, 1.4rem) clamp(1.3rem, 3vw, 2rem);
+    border-radius: var(--radius-m);
+    background: var(--ink);
+    color: var(--ink-paper);
+    overflow: hidden;
+    box-shadow: var(--shadow-m);
+  }
+
+  .highlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      480px 160px at 88% -40%,
+      rgba(209, 74, 18, 0.45),
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .highlight__badge {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-m);
+    background: var(--accent);
+    color: #fff;
+    flex: none;
+  }
+
+  .highlight__content {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem 1rem;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 15rem;
+  }
+
+  .highlight__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    flex: none;
+  }
+
+  .highlight__title {
+    font-family: var(--font-display);
+    font-size: 1.12rem;
+    font-weight: 560;
+    color: var(--ink-paper);
+    flex: none;
+  }
+
+  .highlight__body {
+    color: var(--ink-2);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    max-width: 42rem;
+  }
+
+  .highlight__cta {
+    flex: none;
+  }
+
+  @media (max-width: 720px) {
+    .highlight__content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+</style>

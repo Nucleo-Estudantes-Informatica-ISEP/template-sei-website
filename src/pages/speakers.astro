@@ -1,0 +1,108 @@
+---
+/**
+ * SEI — speakers page.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site, speakers } from "../data";
+import EmptyState from "../components/ui/EmptyState.astro";
+import PageHeader from "../components/ui/PageHeader.astro";
+import Reveal from "../components/ui/Reveal.astro";
+import SpeakerCard from "../components/speakers/SpeakerCard.astro";
+import Button from "../components/ui/Button.astro";
+---
+
+<BaseLayout
+  title="Oradores"
+  description={`Oradores convidados do ${site.editionLabel}: palestras e mesa redonda.`}
+  path="/speakers/"
+>
+  <PageHeader
+    kicker="Oradores convidados"
+    title="Vozes que vale a pena ouvir"
+    lede={`Palestras e convidados da mesa redonda do ${site.editionLabel}. O cartaz é confirmado à medida que os oradores aceitam — verifique regularmente as atualizações.`}
+  />
+
+  <section class="section">
+    <div class="container">
+      {
+        speakers.length > 0 ? (
+          <div class="speakers-grid">
+            {speakers.map((speaker, i) => (
+              <Reveal delay={(i % 3) * 90}>
+                <SpeakerCard speaker={speaker} />
+              </Reveal>
+            ))}
+          </div>
+        ) : (
+          <Reveal>
+            <EmptyState
+              title="Os oradores serão anunciados em breve"
+              body="Os oradores convidados para esta edição estão a ser confirmados. Quando forem, aparecerão aqui primeiro."
+            />
+          </Reveal>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <Reveal>
+        <div class="speakers-cta">
+          <div>
+            <h2>Quer fazer parte do dia?</h2>
+            <p>
+              Submeta um artigo e partilhe a sua investigação no palco — os
+              artigos são aceites até ao prazo de submissão.
+            </p>
+          </div>
+          <Button href="/submit/" variant="primary"> Submeter artigo </Button>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1.25rem;
+  }
+
+  .speakers-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    border-radius: var(--radius-l);
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(
+        480px 220px at 100% 0%,
+        var(--gold-soft),
+        transparent 70%
+      ),
+      var(--surface);
+  }
+
+  .speakers-cta h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+    font-weight: 560;
+  }
+
+  .speakers-cta p {
+    color: var(--muted);
+    max-width: 34rem;
+    margin-top: 0.7rem;
+  }
+
+  @media (max-width: 720px) {
+    .speakers-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

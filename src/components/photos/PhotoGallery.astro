@@ -1,0 +1,293 @@
+---
+/**
+ * SEI — photo gallery grid with a native <dialog> lightbox.
+ * Items without an `image` render generated placeholder art so the page
+ * stays designed while real photos are being collected.
+ */
+import { getImage } from "astro:assets";
+import type { Photo } from "../../data/schemas";
+import { resolveImage } from "../../data";
+import Icon from "../ui/Icon.astro";
+
+interface Props {
+  photos: Photo[];
+}
+
+const { photos } = Astro.props;
+
+const artPalette = [
+  ["#d14a12", "#f2c14e"],
+  ["#a8833c", "#6e5a2f"],
+  ["#4a6a68", "#92b4ae"],
+  ["#7c3a58", "#d98ba8"],
+  ["#35507a", "#8fb0dd"],
+  ["#6b4a2f", "#c79b6a"],
+];
+
+async function optimized(img: string | undefined, width: number) {
+  const asset = resolveImage(img);
+  if (!asset) return undefined;
+  const out = await getImage({ src: asset, width, fit: "cover" });
+  return out.src;
+}
+
+const items = await Promise.all(
+  photos.map(async (photo, i) => {
+    const [c1, c2] = artPalette[i % artPalette.length]!;
+    return {
+      photo,
+      thumb: await optimized(photo.image, 700),
+      full: await optimized(photo.image, 1600),
+      c1,
+      c2,
+    };
+  }),
+);
+---
+
+<section class="gallery" data-gallery>
+  <ul class="gallery__grid" role="list">
+    {
+      items.map(({ photo, thumb, full, c1, c2 }, i) => (
+        <li class="gallery__item">
+          {thumb && full ? (
+            <>
+              <button
+                class="gallery__tile"
+                data-lightbox-open
+                data-src={full}
+                data-alt={photo.alt}
+                data-caption={photo.caption ?? photo.alt}
+                aria-label={`Ampliar: ${photo.alt}`}
+              >
+                <img
+                  src={thumb}
+                  alt={photo.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="gallery__hover">
+                  <Icon name="external" size={18} />
+                </span>
+              </button>
+            </>
+          ) : (
+            <div
+              class="gallery__tile gallery__art"
+              style={`--art-c1:${c1}; --art-c2:${c2}`}
+              role="img"
+              aria-label={photo.alt}
+            >
+              <span class="gallery__art-index">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span class="gallery__art-mark" aria-hidden="true">
+                SEI
+              </span>
+            </div>
+          )}
+          {photo.caption && (
+            <figcaption class="gallery__caption">{photo.caption}</figcaption>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+
+  <dialog class="lightbox" data-lightbox aria-label="Visualizador de fotos">
+    <div class="lightbox__frame">
+      <img data-lightbox-img alt="" />
+      <p class="lightbox__caption" data-lightbox-caption></p>
+      <button class="lightbox__close" data-lightbox-close aria-label="Fechar">
+        <Icon name="close" size={20} />
+      </button>
+    </div>
+  </dialog>
+</section>
+
+<style>
+  .gallery__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .gallery__item {
+    position: relative;
+  }
+
+  .gallery__tile {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 0;
+    padding: 0;
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    background: var(--paper-2);
+    cursor: zoom-in;
+  }
+
+  .gallery__tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-l) var(--ease-out);
+  }
+
+  .gallery__tile:hover img {
+    transform: scale(1.04);
+  }
+
+  .gallery__hover {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(
+      to top,
+      rgba(22, 18, 11, 0.55),
+      transparent 55%
+    );
+    color: #fff;
+    opacity: 0;
+    transition: opacity var(--dur-m) var(--ease-out);
+  }
+
+  .gallery__tile:hover .gallery__hover {
+    opacity: 1;
+  }
+
+  .gallery__caption {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 550;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .gallery__item:not(:has(img)) .gallery__caption {
+    color: var(--ink-2);
+    text-shadow: none;
+  }
+
+  /* Generated placeholder art */
+  .gallery__art {
+    position: relative;
+    background:
+      radial-gradient(120% 90% at 15% 0%, var(--art-c1), transparent 60%),
+      radial-gradient(120% 100% at 100% 100%, var(--art-c2), transparent 60%),
+      var(--paper-2);
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .gallery__art::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      rgba(23, 19, 12, 0.18) 0.75px,
+      transparent 0.75px
+    );
+    background-size: 9px 9px;
+    opacity: 0.35;
+  }
+
+  .gallery__art-index {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgba(23, 19, 12, 0.55);
+  }
+
+  .gallery__art-mark {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 560;
+    letter-spacing: 0.06em;
+    color: rgba(23, 19, 12, 0.5);
+  }
+
+  /* Lightbox */
+  .lightbox {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    max-width: min(96vw, 1100px);
+    max-height: 92vh;
+    width: 100%;
+    overflow: visible;
+    color: inherit;
+  }
+
+  .lightbox::backdrop {
+    background: rgba(17, 14, 9, 0.82);
+    backdrop-filter: blur(6px);
+  }
+
+  .lightbox__frame {
+    position: relative;
+    border-radius: var(--radius-l);
+    overflow: hidden;
+    box-shadow: var(--shadow-l);
+  }
+
+  .lightbox__frame img {
+    width: 100%;
+    max-height: 82vh;
+    object-fit: contain;
+    background: var(--ink-bg);
+  }
+
+  .lightbox__caption {
+    position: absolute;
+    left: 1.2rem;
+    bottom: 0.9rem;
+    right: 4rem;
+    color: #fff;
+    font-size: 0.95rem;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .lightbox__close {
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-m);
+    border: 0;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    transition: background var(--dur-s);
+  }
+
+  .lightbox__close:hover {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  @media (max-width: 920px) {
+    .gallery__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gallery__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,91 @@
+---
+/**
+ * SEI — speaker avatar. Photo when available, otherwise a designed
+ * monogram tile (or a "?" tile for pending speakers).
+ */
+import { resolveImage } from "../../data";
+
+interface Props {
+  name: string;
+  photo?: string;
+  status?: "confirmed" | "pending";
+  size?: "md" | "lg";
+}
+
+const { name, photo, status = "confirmed", size = "md" } = Astro.props;
+const img = resolveImage(photo);
+
+function initials(name: string): string {
+  const parts = name
+    .split(/\s+/)
+    .filter((w) => /^[a-zA-ZÀ-ÿ]/.test(w))
+    .slice(0, 2);
+  if (parts.length === 0) return "?";
+  return parts
+    .map((p) => p[0]!)
+    .join("")
+    .toUpperCase();
+}
+---
+
+{
+  img ? (
+    <img
+      class:list={["avatar", { "avatar--lg": size === "lg" }]}
+      src={img.src}
+      alt={name}
+      loading="lazy"
+      decoding="async"
+    />
+  ) : (
+    <span
+      class:list={[
+        "avatar",
+        "avatar--monogram",
+        { "avatar--lg": size === "lg" },
+        { "avatar--pending": status === "pending" },
+      ]}
+      aria-hidden="true"
+    >
+      {status === "pending" ? "?" : initials(name)}
+    </span>
+  )
+}
+
+<style>
+  .avatar {
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--line);
+  }
+
+  .avatar--lg {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .avatar--monogram {
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 560;
+    color: var(--accent-deep);
+    background:
+      radial-gradient(
+        circle at 30% 20%,
+        rgba(209, 74, 18, 0.18),
+        transparent 55%
+      ),
+      var(--surface);
+  }
+
+  .avatar--pending {
+    border: 1.5px dashed var(--line-strong);
+    color: var(--muted);
+    background: transparent;
+    font-size: 1.5rem;
+  }
+</style>

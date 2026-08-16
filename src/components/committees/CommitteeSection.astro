@@ -1,0 +1,244 @@
+---
+/**
+ * SEI — a committee group with search + alphabetical grouping.
+ * Search is progressive enhancement; without JS the full list remains.
+ */
+import type { Committee } from "../../data/schemas";
+import Icon from "../ui/Icon.astro";
+import Tag from "../ui/Tag.astro";
+
+interface Props {
+  committee: Committee;
+}
+
+const { committee } = Astro.props;
+const { members } = committee;
+
+const sorted = [...members].sort((a, b) => a.name.localeCompare(b.name, "pt"));
+
+const groups = new Map<string, typeof members>();
+for (const m of sorted) {
+  const initial = m.name.charAt(0).toUpperCase();
+  const list = groups.get(initial) ?? [];
+  list.push(m);
+  groups.set(initial, list);
+}
+---
+
+<section class="committee" id={committee.id}>
+  <div class="committee__head">
+    <div>
+      <h2 class="committee__title">{committee.title}</h2>
+      {
+        committee.description && (
+          <p class="committee__desc">{committee.description}</p>
+        )
+      }
+    </div>
+    <Tag>{members.length} membros</Tag>
+  </div>
+
+  {
+    members.length > 8 && (
+      <div class="committee__search">
+        <span class="committee__search-icon">
+          <Icon name="search" size={17} />
+        </span>
+        <input
+          type="search"
+          placeholder="Pesquisar por nome ou instituição…"
+          aria-label={`Pesquisar na ${committee.title}`}
+          data-search
+          data-target={`#${committee.id} [data-search-list]`}
+        />
+        <span
+          class="committee__search-count"
+          data-search-count
+          aria-live="polite"
+        />
+      </div>
+    )
+  }
+
+  <div data-search-list>
+    {
+      [...groups.entries()].map(([letter, list]) => (
+        <div class="committee__group" data-group>
+          <p class="committee__letter" aria-hidden="true">
+            {letter}
+          </p>
+          <ul class="committee__list" role="list">
+            {list.map((m) => (
+              <li
+                class="committee__member"
+                data-member
+                data-search={`${m.name} ${m.institution}`.toLowerCase()}
+              >
+                <span class="committee__member-name">
+                  {m.name}
+                  {m.role && <em class="committee__member-role">{m.role}</em>}
+                </span>
+                <span class="committee__member-institution">
+                  {m.institution}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+
+    <p class="committee__empty" data-search-empty hidden>
+      Nenhum membro encontrado.
+    </p>
+  </div>
+</section>
+
+<style>
+  .committee {
+    display: grid;
+    gap: 1.8rem;
+  }
+
+  .committee__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .committee__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2vw + 0.8rem, 2.1rem);
+    font-weight: 560;
+  }
+
+  .committee__desc {
+    color: var(--muted);
+    margin-top: 0.5rem;
+    max-width: 40rem;
+  }
+
+  .committee__search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 30rem;
+  }
+
+  .committee__search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--muted);
+    display: inline-flex;
+    pointer-events: none;
+  }
+
+  .committee__search input {
+    width: 100%;
+    padding: 0.8em 1.1em 0.8em 2.9em;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    color: var(--ink);
+    transition:
+      border-color var(--dur-s),
+      box-shadow var(--dur-s);
+  }
+
+  .committee__search input::placeholder {
+    color: var(--muted);
+  }
+
+  .committee__search input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .committee__search-count {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    position: absolute;
+    right: 1.1rem;
+    pointer-events: none;
+  }
+
+  .committee__group {
+    display: grid;
+    gap: 0.8rem;
+    padding-block: 0.6rem;
+  }
+
+  .committee__letter {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.45rem;
+  }
+
+  .committee__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14.5rem, 1fr));
+    gap: 1rem;
+  }
+
+  .committee__member {
+    display: grid;
+    gap: 0.3rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    box-shadow: var(--shadow-s);
+    transition:
+      border-color var(--dur-s),
+      box-shadow var(--dur-s),
+      transform var(--dur-s);
+  }
+
+  .committee__member:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-m);
+    transform: translateY(-2px);
+  }
+
+  .committee__member-name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 560;
+    line-height: 1.25;
+  }
+
+  .committee__member-role {
+    display: block;
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+  }
+
+  .committee__member-institution {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  .committee__empty {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--muted);
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius-m);
+  }
+</style>

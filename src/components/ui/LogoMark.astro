@@ -1,0 +1,29 @@
+---
+/**
+ * SEI — event logo mark. Used in the header, section ornaments and footer.
+ */
+import { resolveImage } from "../../data/images";
+
+interface Props {
+  size?: number;
+  alt?: string;
+  className?: string;
+}
+
+const { size = 28, alt = "", className } = Astro.props;
+const logo = resolveImage("logoIcon");
+---
+
+{
+  logo && (
+    <img
+      src={logo.src}
+      width={size}
+      height={size}
+      alt={alt}
+      class={className}
+      loading="lazy"
+      decoding="async"
+    />
+  )
+}

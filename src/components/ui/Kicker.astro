@@ -1,0 +1,14 @@
+---
+/**
+ * SEI — section kicker: a mono eyebrow label with a rule.
+ */
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<p class="kicker">
+  <span>{text}</span>
+</p>

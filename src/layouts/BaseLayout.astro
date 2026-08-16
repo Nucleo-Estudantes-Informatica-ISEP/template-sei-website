@@ -1,0 +1,116 @@
+---
+/**
+ * SEI — base layout. Shared <head>, header, footer and global behaviour.
+ */
+import "@fontsource-variable/fraunces";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/jetbrains-mono";
+
+import "../styles/global.css";
+
+import { site } from "../data";
+import Footer from "../components/layout/Footer.astro";
+import Header from "../components/layout/Header.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Relative path of the current page, used for the canonical URL. */
+  path?: string;
+  ogImage?: string;
+}
+
+const { title, description, path = "/", ogImage } = Astro.props;
+
+const pageTitle = title
+  ? `${title} · ${site.shortName}`
+  : `${site.shortName} — ${site.editionLabel}`;
+const pageDescription = description ?? site.description;
+const canonical = new URL(path, Astro.site ?? "https://sei.isep.ipp.pt/").href;
+const ogImageUrl = ogImage ?? "/favicon.svg";
+---
+
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="theme-color" content="#f4efe5" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta
+      property="og:image"
+      content={new URL(ogImageUrl, Astro.site ?? "https://sei.isep.ipp.pt/")
+        .href}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" as="image" href="/favicon.svg" fetchpriority="low" />
+
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        .header__nav {
+          position: static !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: none !important;
+          box-shadow: none !important;
+          border-bottom: none !important;
+        }
+        .header__toggle {
+          display: none !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar para o conteúdo</a>
+    <Header />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+
+  <script>
+    import "../scripts/main.ts";
+  </script>
+</html>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: -100px;
+    left: var(--gutter);
+    z-index: 100;
+    padding: 0.7em 1.2em;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 0 0 var(--radius-s) var(--radius-s);
+    text-decoration: none;
+    font-weight: 600;
+    transition: top var(--dur-m) var(--ease-out);
+  }
+
+  .skip-link:focus {
+    top: 0;
+  }
+</style>

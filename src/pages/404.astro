@@ -1,0 +1,80 @@
+---
+/**
+ * SEI — 404 page.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/ui/Button.astro";
+import LogoMark from "../components/ui/LogoMark.astro";
+---
+
+<BaseLayout title="Página não encontrada" path="/404.html">
+  <section class="nf on-ink">
+    <div class="container nf__inner">
+      <span class="nf__code" aria-hidden="true">404</span>
+      <div class="nf__mark">
+        <LogoMark size={30} alt="" />
+        <span class="kicker">Perdido no programa</span>
+      </div>
+      <h1 class="nf__title">Esta página não existe nos proceedings.</h1>
+      <p class="nf__body">
+        A página que procura não existe ou foi movida. Volte à página inicial do
+        simpósio.
+      </p>
+      <Button href="/" variant="primary" size="lg"> Voltar ao início </Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding-block: var(--space-section);
+  }
+
+  .nf__inner {
+    display: grid;
+    justify-items: start;
+    gap: 1.4rem;
+    position: relative;
+  }
+
+  .nf__code {
+    position: absolute;
+    right: 0;
+    top: -1.5em;
+    font-family: var(--font-display);
+    font-size: clamp(7rem, 22vw, 16rem);
+    font-weight: 560;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(243, 237, 225, 0.16);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .nf__mark {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .nf__mark img {
+    border-radius: var(--radius-s);
+  }
+
+  .nf__title {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 540;
+    letter-spacing: -0.02em;
+    color: var(--ink-paper);
+    max-width: 18ch;
+  }
+
+  .nf__body {
+    color: var(--ink-2);
+    max-width: 32rem;
+  }
+</style>

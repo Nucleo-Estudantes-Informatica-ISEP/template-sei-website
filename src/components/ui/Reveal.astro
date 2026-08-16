@@ -1,0 +1,23 @@
+---
+/**
+ * SEI — reveal-on-scroll wrapper.
+ * Adds a subtle fade/translate; fully disabled under reduced motion.
+ */
+interface Props {
+  /** HTML tag to render. */
+  as?: string;
+  /** Stagger delay in milliseconds. */
+  delay?: number;
+  className?: string;
+}
+
+const { as = "div", delay = 0, className = "" }: Props = Astro.props;
+
+type TagName =
+  "div" | "li" | "article" | "section" | "header" | "p" | "span" | "figure";
+const Tag = as as TagName;
+---
+
+<Tag class:list={["reveal", className]} style={`--reveal-delay:${delay}ms`}>
+  <slot />
+</Tag>

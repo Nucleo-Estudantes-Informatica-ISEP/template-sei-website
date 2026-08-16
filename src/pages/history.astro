@@ -1,0 +1,98 @@
+---
+/**
+ * SEI — history page: timeline of previous editions.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { history, site } from "../data";
+import EditionCard from "../components/history/EditionCard.astro";
+import PageHeader from "../components/ui/PageHeader.astro";
+import Reveal from "../components/ui/Reveal.astro";
+---
+
+<BaseLayout
+  title="Histórico"
+  description={`Edições passadas do SEI — desde o primeiro simpósio até ao ${site.editionLabel}.`}
+  path="/history/"
+>
+  <PageHeader
+    kicker="Histórico"
+    title="Sete edições do SEI"
+    lede="Cada edição tem o seu próprio arquivo. Explore o caminho que o simpósio percorreu desde 2019."
+  />
+
+  <section class="section">
+    <div class="container">
+      {
+        history.length > 0 ? (
+          <ol class="editions" role="list">
+            {history.map((edition, i) => (
+              <li class="editions__row">
+                <span class="editions__rail" aria-hidden="true">
+                  <span class="editions__dot" />
+                  {i < history.length - 1 && <span class="editions__stem" />}
+                </span>
+                <Reveal className="editions__cell">
+                  <EditionCard edition={edition} />
+                </Reveal>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p class="history-empty">
+            O histórico do SEI será adicionado em breve.
+          </p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .editions {
+    list-style: none;
+    display: grid;
+    gap: 0;
+  }
+
+  .editions__row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(1.2rem, 3vw, 2.5rem);
+  }
+
+  .editions__rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 0.4rem;
+  }
+
+  .editions__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--paper);
+    flex: none;
+  }
+
+  .editions__stem {
+    flex: 1;
+    width: 1px;
+    background: var(--line);
+    min-height: 4rem;
+  }
+
+  .editions__cell {
+    padding-bottom: var(--space-section);
+    max-width: 26rem;
+  }
+
+  .history-empty {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--muted);
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius-m);
+  }
+</style>

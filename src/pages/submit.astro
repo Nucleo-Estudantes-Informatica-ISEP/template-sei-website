@@ -1,0 +1,287 @@
+---
+/**
+ * SEI — submissions page (call for papers).
+ * Lightweight layout: intro, topics, rules, process and review as simple lists.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site, submissions } from "../data";
+import Button from "../components/ui/Button.astro";
+import Icon from "../components/ui/Icon.astro";
+import PageHeader from "../components/ui/PageHeader.astro";
+import ProcessSteps from "../components/submissions/ProcessSteps.astro";
+import Reveal from "../components/ui/Reveal.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import TopicChips from "../components/submissions/TopicChips.astro";
+---
+
+<BaseLayout
+  title="Submissões"
+  description={`Chamada de artigos, tópicos e regras de submissão para o ${site.editionLabel}. Submeta através do EasyChair.`}
+  path="/submit/"
+>
+  <PageHeader
+    kicker="Chamada de artigos"
+    title="Submeta a sua investigação"
+    lede="O SEI aceita artigos originais de estudantes de Licenciatura, Mestrado e Doutoramento em Engenharia Informática e áreas afins."
+  />
+
+  <!-- Intro -->
+  <section class="section">
+    <div class="container container--narrow intro">
+      {
+        submissions.intro.map((p, i) => (
+          <Reveal delay={i * 90}>
+            <p class="intro__p">{p}</p>
+          </Reveal>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Topics -->
+  <section class="section section--tight">
+    <div class="container">
+      <Reveal>
+        <SectionHeading kicker="Áreas temáticas" title="Tópicos" />
+      </Reveal>
+      <Reveal delay={100} className="block">
+        <TopicChips topics={submissions.topics} />
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Rules -->
+  <section class="section section--tight">
+    <div class="container">
+      <Reveal>
+        <SectionHeading kicker="Chamada de artigos" title="Regras essenciais" />
+      </Reveal>
+      <Reveal delay={100} className="block">
+        <dl class="rules" role="list">
+          {
+            submissions.callForPapers.map((rule) => (
+              <div class="rules__item">
+                <dt>{rule.title}</dt>
+                <dd>{rule.body}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </Reveal>
+      <Reveal delay={120}>
+        <p class="cfp-note">
+          O formato do artigo deve seguir o{" "}
+          <a
+            href={submissions.template.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-link"
+          >
+            {submissions.template.label}
+          </a>
+          .
+        </p>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section section--tight">
+    <div class="container">
+      <Reveal>
+        <SectionHeading kicker="Como submeter" title="Um processo simples" />
+      </Reveal>
+      <Reveal delay={100} className="block">
+        <ProcessSteps steps={submissions.steps} />
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Review -->
+  <section class="section section--tight">
+    <div class="container">
+      <Reveal>
+        <SectionHeading kicker="Processo de revisão" title="Duplamente cego" />
+      </Reveal>
+      <Reveal delay={100} className="block">
+        <ul class="review-list" role="list">
+          {
+            submissions.review.map((criterion) => (
+              <li class="review-item">
+                <Icon name="check" size={18} />
+                <div>
+                  <h3>{criterion.title}</h3>
+                  <p>{criterion.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta on-ink" aria-label="Submeter artigo">
+    <div class="container cta__inner">
+      <Reveal>
+        <p class="kicker">Pronto?</p>
+        <h2 class="cta__title">Submeter pelo EasyChair</h2>
+        <p class="cta__lead">
+          Problemas a preparar ou submeter? Contacte a comissão organizadora.
+        </p>
+        <div class="cta__buttons">
+          <Button
+            href={submissions.platform.url}
+            variant="primary"
+            size="lg"
+            external
+          >
+            {submissions.platform.label}
+          </Button>
+          <Button
+            href={`mailto:${submissions.contactEmail}`}
+            variant="outline"
+            size="lg"
+          >
+            {submissions.contactEmail}
+          </Button>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    display: grid;
+    gap: 1.25rem;
+    max-width: var(--container-narrow);
+  }
+
+  .intro__p {
+    font-size: clamp(1.08rem, 1.2vw + 0.6rem, 1.28rem);
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+
+  .block {
+    margin-top: 2.5rem;
+  }
+
+  .rules {
+    margin: 0;
+  }
+
+  .rules__item {
+    display: grid;
+    grid-template-columns: minmax(11rem, 15rem) 1fr;
+    gap: 2rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .rules__item:first-child {
+    padding-top: 0;
+  }
+
+  .rules__item dt {
+    font-family: var(--font-display);
+    font-size: 1.06rem;
+    font-weight: 560;
+  }
+
+  .rules__item dd {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .cfp-note {
+    margin-top: 1.5rem;
+    color: var(--muted);
+  }
+
+  .review-list {
+    list-style: none;
+    display: grid;
+    gap: 0;
+  }
+
+  .review-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding-block: 1.05rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .review-item:first-child {
+    padding-top: 0;
+  }
+
+  .review-item:last-child {
+    border-bottom: 0;
+  }
+
+  .review-item svg {
+    color: var(--accent-deep);
+    margin-top: 0.3em;
+    flex: none;
+  }
+
+  .review-item h3 {
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+    font-weight: 560;
+  }
+
+  .review-item p {
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.6;
+    margin-top: 0.2rem;
+  }
+
+  .cta {
+    padding-block: clamp(4rem, 8vw, 6.5rem);
+    text-align: center;
+  }
+
+  .cta__inner {
+    display: grid;
+    justify-items: center;
+    gap: 1.2rem;
+  }
+
+  .cta__title {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 540;
+    letter-spacing: -0.02em;
+    color: var(--ink-paper);
+  }
+
+  .cta__lead {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .cta__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 0.8rem;
+  }
+
+  @media (max-width: 720px) {
+    .rules__item {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+  }
+</style>

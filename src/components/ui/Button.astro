@@ -1,0 +1,55 @@
+---
+/**
+ * SEI — link/button with variants.
+ * Renders an <a> by default (renderAs="button" for a <button>).
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  href: string;
+  label?: string;
+  variant?: "primary" | "ink" | "outline" | "soft";
+  size?: "sm" | "md" | "lg";
+  external?: boolean;
+  icon?: "arrow-right" | "external" | "none";
+  renderAs?: "a" | "button";
+  className?: string;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  external = false,
+  icon,
+  renderAs = "a",
+  className = "",
+  label,
+} = Astro.props;
+
+const Tag = renderAs === "button" ? "button" : "a";
+const iconEnd =
+  icon === "none"
+    ? undefined
+    : (icon ?? (external ? "external" : "arrow-right"));
+const hasBody = Astro.slots.has("default");
+const fallback = label ?? href;
+---
+
+<Tag
+  href={renderAs === "a" ? href : undefined}
+  type={renderAs === "button" ? "button" : undefined}
+  class:list={[
+    "btn",
+    `btn--${variant}`,
+    { "btn--sm": size === "sm", "btn--lg": size === "lg" },
+    className,
+  ]}
+  {...external && renderAs === "a"
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : {}}
+>
+  <slot name="before" />
+  <span>{hasBody ? <slot /> : fallback}</span>
+  {iconEnd && <Icon name={iconEnd} />}
+</Tag>

@@ -1,0 +1,93 @@
+---
+/**
+ * SEI — registration page.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { registration, site } from "../data";
+import PageHeader from "../components/ui/PageHeader.astro";
+import RegisterPanel from "../components/registration/RegisterPanel.astro";
+import Reveal from "../components/ui/Reveal.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+---
+
+<BaseLayout
+  title="Inscrição"
+  description={`Inscrição no ${site.editionLabel}: entrada gratuita, inscrição obrigatória.`}
+  path="/registration/"
+>
+  <PageHeader
+    kicker="Inscrição"
+    title="Reserve o seu lugar"
+    lede="A participação é gratuita, mas uma inscrição confirmada garante o seu badge e lugar para o dia."
+  />
+
+  <section class="section">
+    <div class="container intro-grid">
+      <Reveal>
+        <SectionHeading
+          index="01"
+          kicker="Como funciona"
+          title="Simples e gratuita"
+          lede="Dois passos separam-no do seu crachá no SEI’26."
+        />
+      </Reveal>
+      <Reveal delay={110}>
+        <div class="intro">
+          {
+            registration.intro.map((p, i) => (
+              <Reveal delay={i * 90}>
+                <p class="intro__p">{p}</p>
+              </Reveal>
+            ))
+          }
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Register -->
+  <section class="section" aria-labelledby="register-title">
+    <div class="container">
+      <Reveal>
+        <SectionHeading
+          index="02"
+          kicker="Inscrição"
+          title="Reserve o seu lugar"
+        />
+      </Reveal>
+      <Reveal delay={100} className="panel-block">
+        <RegisterPanel registration={registration} />
+      </Reveal>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .intro {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .intro__p {
+    font-size: clamp(1.06rem, 1.2vw + 0.6rem, 1.25rem);
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+
+  .panel-block {
+    margin-top: 2.5rem;
+  }
+
+  @media (max-width: 920px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
