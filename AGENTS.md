@@ -43,7 +43,7 @@ For every requested task:
 | i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries + Astro locale routing — not yet added (#5)                                                                                        |
 | Content         | Per-page JSON (`site.json`, `history.json`, `committees.json`, `speakers.json`) under `src/data/`, zod-validated — not yet added (#7–#10)                                             |
 | Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                                        |
-| Deploy          | Docker → Coolify — Dockerfile not yet added (#23)                                                                                                                                     |
+| Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                               |
 | CI              | GitHub Actions runs lint, typecheck, formatting, and build on PRs into `dev`; Dependabot groups weekly minor/patch npm updates                                                        |
 
 ## Common commands
@@ -56,6 +56,7 @@ pnpm lint           # eslint .
 pnpm format         # prettier --write .
 pnpm format:check   # prettier --check . — what CI will run once #24 lands
 pnpm typecheck      # astro check
+docker compose -f docker-compose.app.yml up --build # production-like container
 ```
 
 No test suite exists yet — there's no `pnpm test` script and no testing-foundation issue currently tracked in this milestone; verification today is lint + typecheck + a manual check against `pnpm preview`.
