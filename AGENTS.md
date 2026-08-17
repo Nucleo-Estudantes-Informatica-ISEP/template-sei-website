@@ -44,7 +44,7 @@ For every requested task:
 | Content         | Per-page JSON (`site.json`, `history.json`, `committees.json`, `speakers.json`) under `src/data/`, zod-validated — not yet added (#7–#10)                                             |
 | Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                                        |
 | Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                               |
-| CI              | GitHub Actions, PR-triggered quality gate + Dependabot — not yet added (#24)                                                                                                          |
+| CI              | GitHub Actions runs lint, typecheck, formatting, and build on PRs into `dev`; Dependabot groups weekly minor/patch npm updates                                                        |
 
 ## Common commands
 
