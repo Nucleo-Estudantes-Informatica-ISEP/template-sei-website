@@ -40,7 +40,7 @@ For every requested task:
 | Framework       | Astro 7, static output                                                                                                                                                                |
 | Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                                         |
 | Styling         | CSS custom properties as design tokens — no Tailwind/CSS framework. Base token sheet, shared component partials, and the `styles.override.css` cascade are not yet added (#2, #3, #4) |
-| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries + Astro locale routing — not yet added (#5)                                                                                        |
+| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries, typed translation helper, and Astro locale-prefixed routing                                                                       |
 | Content         | Per-page JSON (`site.json`, `history.json`, `committees.json`, `speakers.json`) under `src/data/`, zod-validated — not yet added (#7–#10)                                             |
 | Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                                        |
 | Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                               |
@@ -82,6 +82,7 @@ No test suite exists yet — there's no `pnpm test` script and no testing-founda
 assets/       # starter Astro/background SVGs from the scaffold — replace once real design assets exist
 components/   # Astro components — currently just the scaffold's Welcome.astro placeholder; core partials (button/tag/nav/table/...) land in #3
 data/         # per-edition content JSON lands here (#7–#10) — currently empty (.gitkeep only)
+i18n/         # en/pt dictionaries and typed URL/translation helpers
 layouts/      # currently just the scaffold's default Layout.astro — the real shared layout (nav, banner, footer, back-to-top) lands in #11
 pages/        # file-based routing — currently just the scaffold's default index.astro
 ```
