@@ -35,16 +35,16 @@ For every requested task:
 
 ## Stack
 
-| Layer           | Tech                                                                                                                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Framework       | Astro 7, static output                                                                                                                                                                |
-| Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                                         |
-| Styling         | CSS custom properties as design tokens — no Tailwind/CSS framework. Base token sheet, shared component partials, and the `styles.override.css` cascade are not yet added (#2, #3, #4) |
-| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries + Astro locale routing — not yet added (#5)                                                                                        |
-| Content         | Per-page JSON (`site.json`, `history.json`, `committees.json`, `speakers.json`) under `src/data/`, zod-validated — not yet added (#7–#10)                                             |
-| Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                                        |
-| Deploy          | Docker → Coolify — Dockerfile not yet added (#23)                                                                                                                                     |
-| CI              | GitHub Actions, PR-triggered quality gate + Dependabot — not yet added (#24)                                                                                                          |
+| Layer           | Tech                                                                                                                                                                     |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Framework       | Astro 7, static output                                                                                                                                                   |
+| Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                            |
+| Styling         | CSS custom properties in `src/styles/tokens.css` — no Tailwind/CSS framework. Shared component partials and the `styles.override.css` cascade are not yet added (#3, #4) |
+| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries + Astro locale routing — not yet added (#5)                                                                           |
+| Content         | Per-page JSON (`site.json`, `history.json`, `committees.json`, `speakers.json`) under `src/data/`, zod-validated — not yet added (#7–#10)                                |
+| Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                           |
+| Deploy          | Docker → Coolify — Dockerfile not yet added (#23)                                                                                                                        |
+| CI              | GitHub Actions, PR-triggered quality gate + Dependabot — not yet added (#24)                                                                                             |
 
 ## Common commands
 
@@ -83,6 +83,7 @@ components/   # Astro components — currently just the scaffold's Welcome.astro
 data/         # per-edition content JSON lands here (#7–#10) — currently empty (.gitkeep only)
 layouts/      # currently just the scaffold's default Layout.astro — the real shared layout (nav, banner, footer, back-to-top) lands in #11
 pages/        # file-based routing — currently just the scaffold's default index.astro
+styles/       # global design tokens and base element styles
 ```
 
 `public/` holds static assets served as-is — currently just the scaffold's default favicon.
