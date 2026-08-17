@@ -35,16 +35,16 @@ For every requested task:
 
 ## Stack
 
-| Layer           | Tech                                                                                                                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Framework       | Astro 7, static output                                                                                                                                                                |
-| Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                                         |
-| Styling         | CSS custom properties as design tokens — no Tailwind/CSS framework. Base token sheet, shared component partials, and the `styles.override.css` cascade are not yet added (#2, #3, #4) |
-| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries, typed translation helper, and Astro locale-prefixed routing                                                                       |
-| Content         | Zod-validated JSON under `src/data/`; `site.json` holds shared edition config, while page-specific datasets are not yet added (#8–#10)                                                |
-| Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                                        |
-| Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                               |
-| CI              | GitHub Actions runs lint, typecheck, formatting, and build on PRs into `dev`; Dependabot groups weekly minor/patch npm updates                                                        |
+| Layer           | Tech                                                                                                                                                                     |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Framework       | Astro 7, static output                                                                                                                                                   |
+| Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                            |
+| Styling         | CSS custom properties in `src/styles/tokens.css` — no Tailwind/CSS framework. Shared component partials and the `styles.override.css` cascade are not yet added (#3, #4) |
+| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries, typed translation helper, and Astro locale-prefixed routing                                                          |
+| Content         | Zod-validated JSON under `src/data/`; `site.json` holds shared edition config, while page-specific datasets are not yet added (#8–#10)                                   |
+| Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                           |
+| Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                  |
+| CI              | GitHub Actions runs lint, typecheck, formatting, and build on PRs into `dev`; Dependabot groups weekly minor/patch npm updates                                           |
 
 ## Common commands
 
@@ -86,6 +86,7 @@ data/         # shared site config JSON, zod schema, and typed loader; page data
 i18n/         # en/pt dictionaries and typed URL/translation helpers
 layouts/      # currently just the scaffold's default Layout.astro — the real shared layout (nav, banner, footer, back-to-top) lands in #11
 pages/        # file-based routing — currently just the scaffold's default index.astro
+styles/       # global design tokens and base element styles
 ```
 
 `public/` holds static assets served as-is — currently just the scaffold's default favicon.
