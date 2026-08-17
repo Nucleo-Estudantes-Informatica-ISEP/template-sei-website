@@ -1,0 +1,47 @@
+{
+  "edition": {
+    "name": "SEI'26",
+    "year": 2026
+  },
+  "importantDates": [
+    {
+      "id": "paperSubmission",
+      "date": null
+    },
+    {
+      "id": "acceptanceNotification",
+      "date": null
+    },
+    {
+      "id": "cameraReady",
+      "date": null
+    }
+  ],
+  "links": {
+    "easyChairSubmission": null,
+    "easyChairProgram": null,
+    "registration": null,
+    "proceedings": null
+  },
+  "images": {
+    "banner": "/images/sei-banner.png",
+    "proceedingsCover": "/images/proceedings-cover.png"
+  },
+  "footerLogos": [
+    {
+      "src": "/logos/dei-informatica.png",
+      "alt": "Departamento de Engenharia Informática",
+      "href": null
+    },
+    {
+      "src": "/logos/nei-isep.png",
+      "alt": "NEI-ISEP",
+      "href": null
+    },
+    {
+      "src": "/logos/isep.png",
+      "alt": "ISEP",
+      "href": null
+    }
+  ]
+}
