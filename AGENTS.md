@@ -40,11 +40,11 @@ For every requested task:
 | Framework       | Astro 7, static output                                                                                                                                                   |
 | Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                            |
 | Styling         | CSS custom properties in `src/styles/tokens.css` — no Tailwind/CSS framework. Shared component partials and the `styles.override.css` cascade are not yet added (#3, #4) |
-| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries + Astro locale routing — not yet added (#5)                                                                           |
-| Content         | Per-page JSON (`site.json`, `history.json`, `committees.json`, `speakers.json`) under `src/data/`, zod-validated — not yet added (#7–#10)                                |
+| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries, typed translation helper, and Astro locale-prefixed routing                                                          |
+| Content         | Zod-validated JSON under `src/data/`; `site.json` holds shared edition config, while page-specific datasets are not yet added (#8–#10)                                   |
 | Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                           |
-| Deploy          | Docker → Coolify — Dockerfile not yet added (#23)                                                                                                                        |
-| CI              | GitHub Actions, PR-triggered quality gate + Dependabot — not yet added (#24)                                                                                             |
+| Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                  |
+| CI              | GitHub Actions runs lint, typecheck, formatting, and build on PRs into `dev`; Dependabot groups weekly minor/patch npm updates                                           |
 
 ## Common commands
 
@@ -55,7 +55,9 @@ pnpm preview         # astro preview — serve the built dist/ locally
 pnpm lint           # eslint .
 pnpm format         # prettier --write .
 pnpm format:check   # prettier --check . — what CI will run once #24 lands
-pnpm typecheck      # astro check
+pnpm validate:data  # validate site.json against its zod schema
+pnpm typecheck      # validate data, then run astro check
+docker compose -f docker-compose.app.yml up --build # production-like container
 ```
 
 No test suite exists yet — there's no `pnpm test` script and no testing-foundation issue currently tracked in this milestone; verification today is lint + typecheck + a manual check against `pnpm preview`.
@@ -80,7 +82,8 @@ No test suite exists yet — there's no `pnpm test` script and no testing-founda
 ```
 assets/       # starter Astro/background SVGs from the scaffold — replace once real design assets exist
 components/   # Astro components — currently just the scaffold's Welcome.astro placeholder; core partials (button/tag/nav/table/...) land in #3
-data/         # per-edition content JSON lands here (#7–#10) — currently empty (.gitkeep only)
+data/         # shared site config JSON, zod schema, and typed loader; page datasets land in #8–#10
+i18n/         # en/pt dictionaries and typed URL/translation helpers
 layouts/      # currently just the scaffold's default Layout.astro — the real shared layout (nav, banner, footer, back-to-top) lands in #11
 pages/        # file-based routing — currently just the scaffold's default index.astro
 styles/       # global design tokens and base element styles

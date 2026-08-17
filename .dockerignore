@@ -1,0 +1,10 @@
+.astro
+.git
+.github
+dist
+node_modules
+sei-design-template
+
+.env
+.env.*
+!.env.example
