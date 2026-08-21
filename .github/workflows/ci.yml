@@ -2,11 +2,15 @@ name: CI
 
 on:
   pull_request:
-    branches:
-      - dev
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   quality:
@@ -14,17 +18,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
         with:
           node-version: 22.12.0
-
-      - name: Update and enable Corepack
-        run: |
-          npm install --global corepack@0.34.5
-          corepack enable
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -38,5 +41,21 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
-      - name: Build
+      - name: Production build
         run: pnpm build
+
+      - name: Reject critical production dependency advisories
+        run: pnpm audit --prod --audit-level=critical
+
+  docker:
+    name: Production Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build image
+        run: docker build -t template-sei-website-check .
+
+      - name: Verify non-root runtime
+        run: test "$(docker inspect --format '{{.Config.User}}' template-sei-website-check)" = "nginx"
