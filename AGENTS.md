@@ -19,7 +19,7 @@ Each yearly SEI edition (SEI'26, SEI'27, ...) is hosted as its **own separate re
 
 For every requested task:
 
-1. Create a branch from `dev` named `<type>/<short-kebab-case-description>`, following the [Conventional Branch](https://conventionalbranch.org/) spec:
+1. Create a branch from `main` named `<type>/<short-kebab-case-description>`, following the [Conventional Branch](https://conventionalbranch.org/) spec:
    - `feature/` or `feat/` — new functionality
    - `bugfix/` or `fix/` — bug fixes
    - `docs/` — documentation-only changes (README, AGENTS.md, code comments)
@@ -28,23 +28,24 @@ For every requested task:
    - No AI co-author trailer (no `Co-Authored-By` line) on any commit.
    - Subject line under 72 characters.
    - Split unrelated concerns into separate commits instead of one bulk commit.
-3. Push the branch and open a PR into `dev`, never directly into `main` — reference the issue it addresses with `Refs #N`, not `Closes #N`: GitHub only auto-closes an issue via a closing keyword when the PR targets the repo's default branch (`main` here), so on a `dev`-targeted PR that keyword is a no-op. Close the issue manually once the PR merges.
-4. `main` is what an edition repo created from this template actually deploys live (via Coolify). Before merging `dev` into `main` in such a repo, check the currently-hosted instance rather than trusting green CI alone — this template repo itself has no live deployment, but the rule carries into every repo created from it.
+3. Push the branch and open a PR into `main` — reference the issue it addresses with `Closes #N` (this works normally now: `main` is the repo's default branch, so the closing keyword actually fires on merge).
+4. If the PR changes runtime behavior — anything other than docs/`.github`/config-only — apply exactly one `release:major`, `release:minor`, or `release:patch` label before merging; a required check blocks the merge otherwise. Dependabot PRs and docs/`.github`-only PRs are exempt and need no label. Merging a labeled PR auto-tags the next semver version and publishes a GitHub Release.
+5. This template repo has no live deployment of its own, so `main` here just needs green CI. **This does not apply to edition repos created from this template**: their `main` is what's actually deployed live via Coolify, and some may still want to keep their own `dev` staging branch gating that deployment before merging — that's each edition repo's own call, not something this template dictates.
 
 ---
 
 ## Stack
 
-| Layer           | Tech                                                                                                                                                                     |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Framework       | Astro 7, static output                                                                                                                                                   |
-| Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                            |
-| Styling         | CSS custom properties in `src/styles/tokens.css` — no Tailwind/CSS framework. Shared component partials and the `styles.override.css` cascade are not yet added (#3, #4) |
-| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries, typed translation helper, and Astro locale-prefixed routing                                                          |
-| Content         | Zod-validated JSON under `src/data/`; `site.json` holds shared edition config, while page-specific datasets are not yet added (#8–#10)                                   |
-| Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                           |
-| Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                  |
-| CI              | GitHub Actions runs lint, typecheck, formatting, and build on PRs into `dev`; Dependabot groups weekly minor/patch npm updates                                           |
+| Layer           | Tech                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Framework       | Astro 7, static output                                                                                                                                                                                                                                                                                                                                                                                 |
+| Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                                                                                                                                                                                                                                                          |
+| Styling         | CSS custom properties in `src/styles/tokens.css` — no Tailwind/CSS framework. Shared component partials and the `styles.override.css` cascade are not yet added (#3, #4)                                                                                                                                                                                                                               |
+| i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries, typed translation helper, and Astro locale-prefixed routing                                                                                                                                                                                                                                                                                        |
+| Content         | Zod-validated JSON under `src/data/`; `site.json` holds shared edition config, while page-specific datasets are not yet added (#8–#10)                                                                                                                                                                                                                                                                 |
+| Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                                                                                                                                                                                                                                                         |
+| Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                                                                                                                                                                                                                                                |
+| CI              | GitHub Actions on PRs into `main`: lint/typecheck/format/build + Docker build check, dependency review + secret scan, CodeQL, and release-label enforcement — all via org-shared `Nucleo-Estudantes-Informatica-ISEP/.github` workflows/actions. Dependabot covers npm, github-actions, and docker, grouping weekly minor/patch updates. Branch protection is enforced via a GitHub Ruleset on `main`. |
 
 ## Common commands
 
@@ -54,7 +55,7 @@ pnpm build          # astro build — static output to dist/
 pnpm preview         # astro preview — serve the built dist/ locally
 pnpm lint           # eslint .
 pnpm format         # prettier --write .
-pnpm format:check   # prettier --check . — what CI will run once #24 lands
+pnpm format:check   # prettier --check . — what CI runs on every PR into main
 pnpm validate:data  # validate site.json against its zod schema
 pnpm typecheck      # validate data, then run astro check
 docker compose -f docker-compose.app.yml up --build # production-like container
@@ -119,5 +120,5 @@ Before considering a task done:
 ## Gotchas
 
 - **TypeScript is constrained to the 6.x line, not "pinned" to one exact version.** `package.json` declares `^6.0.3` (a caret range) because `typescript-eslint` and `@astrojs/check`'s peer ranges cap below TypeScript 7 as of this writing — `pnpm-lock.yaml` currently resolves that to exactly `6.0.3`, but a plain `pnpm update typescript` could move it to a newer 6.x release. Don't `pnpm add -D typescript@latest` — check the new version's peers resolve cleanly first.
-- **Node `>=22.12.0` is required** (Astro 7's minimum) — keep this in mind when #24 (CI) picks a Node version.
+- **Node `>=22.12.0` is required** (Astro 7's minimum) — `ci.yml` pins exactly this version; don't let it drift from `engines.node` in `package.json`.
 - **`CLAUDE.md` just re-imports `AGENTS.md`** via Claude Code's `@file` import syntax — edit `AGENTS.md`, not `CLAUDE.md`.
