@@ -1,0 +1,44 @@
+[
+    {
+        "year": 2025,
+        "banner": "/images/sei25.png",
+        "url": "https://sei.dei.isep.ipp.pt/sei25/",
+        "alt": "SEI'25 edition"
+    },
+    {
+        "year": 2024,
+        "banner": "/images/sei24.png",
+        "url": "https://sei.dei.isep.ipp.pt/sei24/",
+        "alt": "SEI'24 edition"
+    },
+    {
+        "year": 2023,
+        "banner": "/images/sei23.png",
+        "url": "https://sei.dei.isep.ipp.pt/sei23/",
+        "alt": "SEI'23 edition"
+    },
+    {
+        "year": 2022,
+        "banner": "/images/sei22.png",
+        "url": "https://sei.dei.isep.ipp.pt/sei22/",
+        "alt": "SEI'22 edition"
+    },
+    {
+        "year": 2021,
+        "banner": "/images/sei21.png",
+        "url": "https://sei.dei.isep.ipp.pt/sei21/",
+        "alt": "SEI'21 edition"
+    },
+    {
+        "year": 2020,
+        "banner": "/images/sei20.png",
+        "url": "https://sei.dei.isep.ipp.pt/sei20/",
+        "alt": "SEI'20 edition"
+    },
+    {
+        "year": 2019,
+        "banner": "/images/sei19.png",
+        "url": "https://sei.dei.isep.ipp.pt/sei19/",
+        "alt": "SEI'19 edition"
+    }
+]
