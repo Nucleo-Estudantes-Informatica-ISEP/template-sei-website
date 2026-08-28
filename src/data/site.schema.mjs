@@ -1,7 +1,5 @@
 import { z } from "zod";
-
-const publicAssetPath = z.string().startsWith("/");
-const optionalUrl = z.url().nullable();
+import { publicAssetPath, optionalUrl } from "./primitives.schema.mjs";
 
 export const siteConfigSchema = z.object({
   edition: z.object({
