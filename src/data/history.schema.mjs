@@ -11,25 +11,26 @@ export const historySchema = z
     }),
   )
   .min(1)
-  .refine(
-    (history) => {
-      const years = history.map((entry) => entry.year);
-      return new Set(years).size === years.length; // Check for unique years
-    },
-    {
-      message: "Years must be unique",
-    },
-  )
-  .refine(
-    (history) => {
-      for (let i = 0; i < history.length - 1; i++) {
-        if (history[i].year <= history[i + 1].year) {
-          return false; // Newest year should be first
-        }
+  .superRefine((history, ctx) => {
+    const seenYears = new Set();
+    for (let i = 0; i < history.length; i++) {
+      const { year } = history[i];
+      if (seenYears.has(year)) {
+        ctx.addIssue({
+          code: "custom",
+          message: `Duplicate year found: ${year}`,
+          path: [i, "year"],
+        });
+      } else {
+        seenYears.add(year);
       }
-      return true;
-    },
-    {
-      message: "Newest year should be first",
-    },
-  );
+
+      if (i > 0 && history[i - 1].year <= year) {
+        ctx.addIssue({
+          code: "custom",
+          message: `Newest year must come first. Year ${year} is not newer than ${history[i - 1].year}.`,
+          path: [i, "year"],
+        });
+      }
+    }
+  });
