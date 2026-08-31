@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "validate:data": "node scripts/validate-site-config.mjs",
+    "validate:data": "node scripts/validate-data.mjs",
     "typecheck": "pnpm validate:data && astro check"
   },
   "dependencies": {
