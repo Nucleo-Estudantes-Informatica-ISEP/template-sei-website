@@ -1,10 +1,14 @@
 import { z } from "zod";
-import { publicAssetPath, absoluteUrl } from "./primitives.schema.mjs";
+import {
+  publicAssetPath,
+  absoluteUrl,
+  yearSchema,
+} from "./primitives.schema.mjs";
 
 export const historySchema = z
   .array(
     z.object({
-      year: z.number().int().min(2000).max(2100),
+      year: yearSchema,
       banner: publicAssetPath,
       url: absoluteUrl,
       alt: z.string().min(1),

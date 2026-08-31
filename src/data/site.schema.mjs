@@ -1,10 +1,14 @@
 import { z } from "zod";
-import { publicAssetPath, optionalUrl } from "./primitives.schema.mjs";
+import {
+  publicAssetPath,
+  optionalUrl,
+  yearSchema,
+} from "./primitives.schema.mjs";
 
 export const siteConfigSchema = z.object({
   edition: z.object({
     name: z.string().min(1),
-    year: z.number().int().min(2000).max(2100),
+    year: yearSchema,
   }),
   importantDates: z
     .array(
