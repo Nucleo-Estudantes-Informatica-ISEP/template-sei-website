@@ -145,3 +145,8 @@ vite.config.ts.timestamp-*
 # Astro build cache
 .astro/
 /sei-design-template
+
+# Local environment files (NEI)
+.env*
+!.env.example
+!**/.env.example
