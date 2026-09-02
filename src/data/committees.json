@@ -1,0 +1,14 @@
+{
+  "organizationCommittee": [
+    { "name": "Full Name 1", "affiliation": "Institution" },
+    { "name": "Full Name 2", "affiliation": "Institution" },
+    { "name": "Full Name 3", "affiliation": "Institution" }
+  ],
+  "technicalScientificCommittee": [
+    { "name": "Full Name 1", "affiliation": "Institution" },
+    { "name": "Full Name 2", "affiliation": "Institution" },
+    { "name": "Full Name 3", "affiliation": "Institution" },
+    { "name": "Full Name 4", "affiliation": "Institution" },
+    { "name": "Full Name 5", "affiliation": "Institution" }
+  ]
+}
