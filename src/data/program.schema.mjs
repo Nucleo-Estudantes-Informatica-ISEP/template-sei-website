@@ -17,6 +17,10 @@ export const programSchema = z
   .array(scheduleBlockSchema)
   .min(1)
   .superRefine((program, ctx) => {
+    if (program.length === 0) {
+      return;
+    }
+
     if (program[0].type !== startType) {
       ctx.addIssue({
         code: "custom",
