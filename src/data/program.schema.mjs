@@ -37,7 +37,7 @@ export const programSchema = z
       });
     }
 
-    for (let i = 1; i < program.length - 1; i++) {
+    for (let i = 1; i < program.length; i++) {
       if (program[i].time < program[i - 1].time) {
         ctx.addIssue({
           code: "custom",
