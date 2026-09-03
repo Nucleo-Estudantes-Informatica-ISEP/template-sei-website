@@ -1,0 +1,115 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { site } from "../data/site";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { NAV_LINKS } from "../i18n/routes";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const currentPath = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
+---
+
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href={getRelativeLocaleUrl(lang, "")} class="site-nav-brand">
+      <img
+        src={site.images.logo}
+        alt={site.edition.name}
+        width="26"
+        height="26"
+      />
+      {site.edition.name}
+    </a>
+    <div class="site-nav-links">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            href={getRelativeLocaleUrl(lang, link.slug)}
+            aria-current={link.slug === currentPath ? "page" : undefined}
+          >
+            {t(link.labelKey)}
+          </a>
+        ))
+      }
+    </div>
+    <div class="site-nav-actions">
+      <LanguageSwitcher />
+      <a href={site.links.registration ?? "#"} class="site-nav-cta">
+        {t("nav.registration")}
+      </a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .site-nav {
+    background: var(--color-accent-900);
+    padding: 20px 40px 8px;
+  }
+
+  .site-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    background: var(--color-neutral-200);
+    border-radius: 999px;
+    padding: 10px 12px 10px 24px;
+  }
+
+  .site-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--color-accent-900);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 17px;
+    letter-spacing: 0.01em;
+  }
+
+  .site-nav-links {
+    display: flex;
+    gap: 30px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .site-nav-links a {
+    color: var(--color-neutral-700);
+    text-decoration: none;
+  }
+
+  .site-nav-links a:hover,
+  .site-nav-links a[aria-current="page"] {
+    color: var(--color-accent-900);
+    font-weight: 800;
+  }
+
+  .site-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .site-nav-cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 26px;
+    background: var(--color-accent);
+    color: #fff;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .site-nav-cta:hover {
+    background: var(--color-accent-600);
+  }
+</style>

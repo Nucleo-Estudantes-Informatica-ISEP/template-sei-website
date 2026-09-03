@@ -1,0 +1,41 @@
+---
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<a href="#top" class="back-to-top" aria-label={t("backToTop.label")}>
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.4"
+  >
+    <path d="M12 19V5M5 12l7-7 7 7"></path>
+  </svg>
+</a>
+
+<style>
+  .back-to-top {
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: var(--shadow-md);
+    z-index: 30;
+  }
+
+  .back-to-top:hover {
+    background: var(--color-accent-600);
+  }
+</style>
