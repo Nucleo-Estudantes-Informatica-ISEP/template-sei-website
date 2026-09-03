@@ -12,6 +12,8 @@ export const historySchema = z
       banner: publicAssetPath,
       url: absoluteUrl,
       alt: z.string().min(1),
+      dateLabel: z.string().min(1).optional(),
+      description: z.string().min(1),
     }),
   )
   .min(1)
