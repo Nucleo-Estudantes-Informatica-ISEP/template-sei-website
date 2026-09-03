@@ -6,5 +6,17 @@
   "nav.registration": "Inscrição",
   "nav.photos": "Fotografias",
   "nav.history": "História",
-  "footer.copyright": "Todos os direitos reservados."
+  "footer.copyright": "Todos os direitos reservados.",
+
+  "history.eyebrow": "História",
+  "history.title":  "Todas as edições, ainda online",
+  "history.description": "Desde 2019, cada edição do simpósio mantém o seu próprio site, com o seu programa, oradores e atas. Revisitá-las abaixo.",
+  "history.recent.title": "Edições recentes",
+  "history.recent.description": "As três últimas edições do simpósio, com os seus programas completos e atas publicadas.",
+  "history.earlier.title": "Edições anteriores",
+  "history.earlier.description": "As primeiras edições do simpósio, mantidas online exatamente como foram publicadas.",
+  "history.visitEdition": "Visitar edição",
+  "history.cta.title": "A próxima edição está a ser escrita agora.",
+  "history.cta.description": "Submeta o seu artigo e junte o seu trabalho às atas do SEI'26.",
+  "history.cta.button": "Submeter artigo"
 }
