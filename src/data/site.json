@@ -25,7 +25,21 @@
   },
   "images": {
     "banner": "/images/sei-banner.png",
-    "proceedingsCover": "/images/proceedings-cover.png"
+    "proceedingsCover": "/images/proceedings-cover.png",
+    "logo": "/images/sei-logo.png"
+  },
+  "contact": {
+    "email": "sei@dei.isep.ipp.pt"
+  },
+  "social": {
+    "linkedin": null
+  },
+  "venue": {
+    "name": "Instituto Superior de Engenharia do Porto",
+    "addressLine1": "Rua Dr. António Bernardino de Almeida, 431",
+    "postalCode": "4249-015",
+    "city": "Porto",
+    "country": "Portugal"
   },
   "footerLogos": [
     {
