@@ -28,6 +28,7 @@
     "banner": "/images/sei22.png",
     "url": "https://sei.dei.isep.ipp.pt/sei22/",
     "alt": "SEI'22 edition",
+    "dateLabel": null,
     "description": "Fourth edition · Instituto Superior de Engenharia do Porto"
   },
   {
@@ -35,6 +36,7 @@
     "banner": "/images/sei21.png",
     "url": "https://sei.dei.isep.ipp.pt/sei21/",
     "alt": "SEI'21 edition",
+    "dateLabel": null,
     "description": "Third edition · Instituto Superior de Engenharia do Porto"
   },
   {
@@ -42,6 +44,7 @@
     "banner": "/images/sei20.png",
     "url": "https://sei.dei.isep.ipp.pt/sei20/",
     "alt": "SEI'20 edition",
+    "dateLabel": null,
     "description": "Second edition · Instituto Superior de Engenharia do Porto"
   },
   {
@@ -49,6 +52,7 @@
     "banner": "/images/sei19.png",
     "url": "https://sei.dei.isep.ipp.pt/sei19/",
     "alt": "SEI'19 edition",
+    "dateLabel": null,
     "description": "First edition · Instituto Superior de Engenharia do Porto"
   }
 ]

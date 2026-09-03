@@ -3,12 +3,14 @@
     {
       "time": "09:15",
       "title": "Registration and check-in",
-      "desc": null
+      "desc": null,
+      "tag": null
     },
     {
       "time": "09:30",
       "title": "Opening session",
-      "desc": null
+      "desc": null,
+      "tag": null
     },
     {
       "time": "10:00",
@@ -19,7 +21,8 @@
     {
       "time": "11:00",
       "title": "Coffee break",
-      "desc": null
+      "desc": null,
+      "tag": null
     },
     {
       "time": "11:30",
@@ -30,39 +33,46 @@
     {
       "time": "12:30",
       "title": "Lunch break",
-      "desc": null
+      "desc": null,
+      "tag": null
     }
   ],
   "afternoon": [
     {
       "time": "14:00",
       "title": "Registration re-opens",
-      "desc": null
+      "desc": null,
+      "tag": null
     },
     {
       "time": "14:15",
       "title": "Paper sessions I",
-      "desc": "Two parallel peer-reviewed sessions."
+      "desc": "Two parallel peer-reviewed sessions.",
+      "tag": null
     },
     {
       "time": "15:15",
       "title": "Paper sessions II",
-      "desc": "Two parallel peer-reviewed sessions."
+      "desc": "Two parallel peer-reviewed sessions.",
+      "tag": null
     },
     {
       "time": "16:15",
       "title": "Coffee break",
-      "desc": null
+      "desc": null,
+      "tag": null
     },
     {
       "time": "16:45",
       "title": "Paper sessions III",
-      "desc": "Two parallel peer-reviewed sessions."
+      "desc": "Two parallel peer-reviewed sessions.",
+      "tag": null
     },
     {
       "time": "17:35",
       "title": "Closing session",
-      "desc": null
+      "desc": null,
+      "tag": null
     }
   ]
 }

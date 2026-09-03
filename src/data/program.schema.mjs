@@ -5,7 +5,7 @@ export const scheduleItemSchema = z.object({
   time: timeSchema,
   title: z.string().min(1),
   desc: z.string().nullable(),
-  tag: z.string().min(1).optional(),
+  tag: z.string().min(1).nullable(),
 });
 
 function assertAscendingTimes(items, ctx, group) {
