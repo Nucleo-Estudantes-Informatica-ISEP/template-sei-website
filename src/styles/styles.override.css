@@ -1,0 +1,36 @@
+/*
+ * Optional edition theme overrides.
+ *
+ * Add only the variables this edition needs to change. Everything not declared
+ * here keeps its default value from tokens.css.
+ *
+ * Example:
+ *
+ * :root {
+ *   --color-accent: #f15a24;
+ *   --space-4: 20px;
+ *   --radius-md: 8px;
+ *   --shadow-md: 0 4px 12px rgb(0 0 0 / 20%);
+ * }
+ *
+ * Available tokens:
+ *
+ * Colors:
+ * --color-bg, --color-surface, --color-text, --color-accent,
+ * --color-accent-2, --color-divider,
+ * --color-neutral-100 through --color-neutral-900,
+ * --color-accent-100 through --color-accent-900,
+ * --color-accent-2-100 through --color-accent-2-900.
+ *
+ * Typography:
+ * --font-heading, --font-heading-weight, --font-body.
+ *
+ * Spacing:
+ * --space-1, --space-2, --space-3, --space-4, --space-6, --space-8.
+ *
+ * Radii:
+ * --radius-sm, --radius-md, --radius-lg.
+ *
+ * Shadows:
+ * --shadow-sm, --shadow-md, --shadow-lg.
+ */
