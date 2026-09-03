@@ -1,74 +1,68 @@
-[
-  {
-    "time": "09:15",
-    "title": "Registration and check-in",
-    "detail": null,
-    "type": "registration"
-  },
-  {
-    "time": "09:30",
-    "title": "Opening session",
-    "detail": null,
-    "type": "session"
-  },
-  {
-    "time": "10:00",
-    "title": "Keynote",
-    "detail": null,
-    "type": "talk"
-  },
-  {
-    "time": "11:00",
-    "title": "Coffee break",
-    "detail": null,
-    "type": "break"
-  },
-  {
-    "time": "11:30",
-    "title": "Panel discussion",
-    "detail": null,
-    "type": "talk"
-  },
-  {
-    "time": "12:30",
-    "title": "Lunch break",
-    "detail": null,
-    "type": "break"
-  },
-  {
-    "time": "14:00",
-    "title": "Registration re-opens",
-    "detail": null,
-    "type": "registration"
-  },
-  {
-    "time": "14:15",
-    "title": "Paper sessions I",
-    "detail": "Two parallel peer-reviewed sessions.",
-    "type": "session"
-  },
-  {
-    "time": "15:15",
-    "title": "Paper sessions II",
-    "detail": "Two parallel peer-reviewed sessions.",
-    "type": "session"
-  },
-  {
-    "time": "16:15",
-    "title": "Coffee break",
-    "detail": null,
-    "type": "break"
-  },
-  {
-    "time": "16:45",
-    "title": "Paper sessions III",
-    "detail": "Two parallel peer-reviewed sessions.",
-    "type": "session"
-  },
-  {
-    "time": "17:35",
-    "title": "Closing session",
-    "detail": null,
-    "type": "closing"
-  }
-]
+{
+  "morning": [
+    {
+      "time": "09:15",
+      "title": "Registration and check-in",
+      "desc": null,
+      "tag": "Registration"
+    },
+    {
+      "time": "09:30",
+      "title": "Opening session",
+      "desc": null
+    },
+    {
+      "time": "10:00",
+      "title": "Keynote",
+      "desc": null
+    },
+    {
+      "time": "11:00",
+      "title": "Coffee break",
+      "desc": null
+    },
+    {
+      "time": "11:30",
+      "title": "Panel discussion",
+      "desc": null
+    },
+    {
+      "time": "12:30",
+      "title": "Lunch break",
+      "desc": null
+    }
+  ],
+  "afternoon": [
+    {
+      "time": "14:00",
+      "title": "Registration re-opens",
+      "desc": null
+    },
+    {
+      "time": "14:15",
+      "title": "Paper sessions I",
+      "desc": "Two parallel peer-reviewed sessions."
+    },
+    {
+      "time": "15:15",
+      "title": "Paper sessions II",
+      "desc": "Two parallel peer-reviewed sessions."
+    },
+    {
+      "time": "16:15",
+      "title": "Coffee break",
+      "desc": null
+    },
+    {
+      "time": "16:45",
+      "title": "Paper sessions III",
+      "desc": "Two parallel peer-reviewed sessions."
+    },
+    {
+      "time": "17:35",
+      "title": "Closing session",
+      "desc": null,
+      "tag": "Closing"
+    }
+  ]
+}

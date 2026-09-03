@@ -1,48 +1,33 @@
 import { z } from "zod";
 import { timeSchema } from "./primitives.schema.mjs";
 
-const types = ["registration", "talk", "break", "session", "closing"];
-
-const startType = types.at(0); // "registration"
-const closingType = types.at(-1); // "closing"
-
-export const scheduleBlockSchema = z.object({
+export const scheduleItemSchema = z.object({
   time: timeSchema,
   title: z.string().min(1),
-  detail: z.string().nullable(),
-  type: z.enum(types),
+  desc: z.string().nullable(),
+  tag: z.string().optional(),
 });
 
 export const programSchema = z
-  .array(scheduleBlockSchema)
-  .min(1)
+  .object({
+    morning: z.array(scheduleItemSchema).min(1),
+    afternoon: z.array(scheduleItemSchema).min(1),
+  })
   .superRefine((program, ctx) => {
-    if (program.length === 0) {
-      return;
-    }
+    const items = [...program.morning, ...program.afternoon];
 
-    if (program[0].type !== startType) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Program must start with a ${startType} block`,
-        path: [0, "type"],
-      });
-    }
+    for (let i = 1; i < items.length; i++) {
+      const prevTime = items[i - 1].time;
+      const currTime = items[i].time;
 
-    if (program[program.length - 1].type !== closingType) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Program must end with a ${closingType} block`,
-        path: [program.length - 1, "type"],
-      });
-    }
-
-    for (let i = 1; i < program.length; i++) {
-      if (program[i].time < program[i - 1].time) {
+      if (prevTime >= currTime) {
+        const period = period.morning.length ? "morning" : "afternoon";
+        const index =
+          i < program.morning.length ? i : i - program.morning.length;
         ctx.addIssue({
           code: "custom",
-          message: `Block time ${program[i].time} is out of order, should be after ${program[i - 1].time}`,
-          path: [i, "time"],
+          message: `Schedule items in ${period} must be in ascending order of time. Time ${prevTime} is not less than ${currTime}.`,
+          path: [period, index, "time"],
         });
       }
     }
