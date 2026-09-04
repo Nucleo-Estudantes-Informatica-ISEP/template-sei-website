@@ -91,12 +91,16 @@ const earlierEditions = history.slice(3);
     <p>{t("history.cta.description")}</p>
   </div>
 
-  <Button
-    variant="primary"
-    href={getRelativeLocaleUrl(lang, site.pages.submissions)}
-  >
-    {t("history.cta.button")}
-  </Button>
+  {
+    site.pages.submissions && (
+      <Button
+        variant="primary"
+        href={getRelativeLocaleUrl(lang, site.pages.submissions)}
+      >
+        {t("history.cta.button")}
+      </Button>
+    )
+  }
 </section>
 
 <style>
