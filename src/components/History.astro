@@ -45,6 +45,11 @@ const earlierEditions = history.slice(3);
           <div class="edition-meta">
             <span class="year">SEI'{String(edition.year).slice(-2)}</span>
 
+            {/*
+        pending schema update after redesign
+        <span class="date">{edition.dateLabel || ""}</span>
+        */}
+
             <span class="visit">{t("history.visitEdition")} →</span>
           </div>
         </a>
@@ -70,6 +75,11 @@ const earlierEditions = history.slice(3);
           class="earlier-edition"
         >
           <span class="year">SEI'{String(edition.year).slice(-2)}</span>
+
+          {/*
+        pending schema update after redesign
+        <span class="description">{edition.description || ""}</span>
+        */}
 
           <span class="visit">{t("history.visitEdition")} →</span>
         </a>
@@ -171,12 +181,22 @@ const earlierEditions = history.slice(3);
   .edition-meta {
     display: flex;
     align-items: baseline;
+    gap: 16px;
     margin-bottom: 6px;
   }
 
   .year {
     font-size: 22px;
     font-weight: 800;
+  }
+
+  .date {
+    color: var(--color-neutral-700);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.55;
   }
 
   .visit {
@@ -206,6 +226,12 @@ const earlierEditions = history.slice(3);
     border-bottom: 1px solid var(--color-divider);
     color: inherit;
     text-decoration: none;
+  }
+
+  .earlier-edition .description {
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.65;
   }
 
   .submission-cta {
