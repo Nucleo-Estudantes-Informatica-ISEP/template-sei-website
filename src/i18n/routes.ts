@@ -21,7 +21,7 @@ export const FOOTER_NAV_LINKS: NavLink[] = [
 ];
 
 export const FOOTER_PARTICIPATION_LINKS: NavLink[] = [
-  { id: "authorGuidelines", labelKey: "nav.authorGuidelines" },
+  { id: "submissions", labelKey: "nav.submissions" },
   { id: "registration", labelKey: "nav.registration" },
   { id: "history", labelKey: "nav.history" },
 ];

@@ -17,6 +17,7 @@ export const siteConfigSchema = z.object({
     speakers: routeSlug,
     committees: routeSlug,
     authorGuidelines: routeSlug,
+    submissions: routeSlug,
     history: routeSlug,
     registration: routeSlug,
   }),
