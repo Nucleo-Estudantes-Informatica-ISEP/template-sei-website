@@ -8,6 +8,8 @@ import committeesData from "../src/data/committees.json" with { type: "json" };
 import { committeesSchema } from "../src/data/committees.schema.mjs";
 import galleryData from "../src/data/gallery.json" with { type: "json" };
 import { gallerySchema } from "../src/data/gallery.schema.mjs";
+import speakersData from "../src/data/speakers.json" with { type: "json" };
+import { speakersSchema } from "../src/data/speakers.schema.mjs";
 
 const registry = [
   { data: siteData, schema: siteConfigSchema },
@@ -15,6 +17,7 @@ const registry = [
   { data: programData, schema: programSchema },
   { data: committeesData, schema: committeesSchema },
   { data: galleryData, schema: gallerySchema },
+  { data: speakersData, schema: speakersSchema },
 ];
 
 for (const { data, schema } of registry) {
