@@ -9,10 +9,16 @@ interface Props {
   lang: Lang;
 }
 
+interface CommitteeMember {
+  name: string;
+  org: string;
+}
+
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const { technicalScientificCommittee, organizationCommittee } = committees;
+const technicalScientificCommittee: CommitteeMember[] = committees.scientific;
+const organizationCommittee: CommitteeMember[] = committees.organizing;
 
 const description = t("committees.description").replace(
   "{edition}",
@@ -38,10 +44,10 @@ const ctaHeading = t("committees.ctaHeading").replace(
     </p>
     <div class="committee-grid">
       {
-        technicalScientificCommittee.map((member) => (
+        technicalScientificCommittee.map((member: CommitteeMember) => (
           <div class="committee-row">
             <span class="member-name">{member.name}</span>
-            <span class="member-org">{member.affiliation}</span>
+            <span class="member-org">{member.org}</span>
           </div>
         ))
       }
@@ -55,10 +61,10 @@ const ctaHeading = t("committees.ctaHeading").replace(
     </p>
     <div class="committee-grid">
       {
-        organizationCommittee.map((member) => (
+        organizationCommittee.map((member: CommitteeMember) => (
           <div class="committee-row">
             <span class="member-name">{member.name}</span>
-            <span class="member-org">{member.affiliation}</span>
+            <span class="member-org">{member.org}</span>
           </div>
         ))
       }
