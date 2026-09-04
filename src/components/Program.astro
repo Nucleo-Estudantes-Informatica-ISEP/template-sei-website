@@ -1,0 +1,393 @@
+---
+// import program from "../data/program.json";
+// import gallery from "../data/gallery.json";
+import { useTranslations, type Lang } from "../i18n/utils";
+import Button from "./Button.astro";
+import site from "../data/site.json";
+// import Tag from "./Tag.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="program-page">
+  <header class="program-header">
+    <div class="eyebrow">{t("program.eyebrow")}</div>
+
+    <h1>{t("program.title")}</h1>
+
+    <p>{t("program.intro")}</p>
+  </header>
+
+  <section class="schedule-section">
+    <div class="schedule-card">
+      <div class="schedule-decoration"></div>
+
+      <div class="schedule-header">
+        <div class="schedule-heading">
+          <div class="section-label">{t("program.scheduleLabel")}</div>
+
+          <h2>{t("program.scheduleTitle")}</h2>
+
+          <p>{t("program.scheduleDescription")}</p>
+        </div>
+
+        <div class="schedule-actions">
+          <span class="date-badge">
+            <span class="date-dot"></span>
+            {t("program.dateToBeAnnounced")}
+          </span>
+
+          {
+            site.links.easyChairProgram && (
+              <Button
+                variant="primary"
+                href={site.links.easyChairProgram}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="detailed-program"
+              >
+                {t("program.detailedProgram")} →
+              </Button>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="schedule">
+        <div class="schedule-period">{t("program.morning")}</div>
+
+        {
+          /* Waiting for the new redesign to merge
+          program.morning.map((item, index) => (
+            <div class="schedule-item">
+              <span class="schedule-time">{item.time}</span>
+
+              <div class="schedule-content">
+                {item.tag && <Tag>{item.tag}</Tag>}
+
+                <div class="schedule-title">{item.title}</div>
+
+                {item.desc && <p>{item.desc}</p>}
+              </div>
+            </div>
+          ))
+        */
+        }
+
+        <div class="schedule-period afternoon">
+          {t("program.afternoon")}
+        </div>
+
+        {
+          /* Waiting for the redesign to merge
+          program.afternoon.map((item, index) => (
+            <div class="schedule-item">
+              <span class="schedule-time">{item.time}</span>
+
+              <div class="schedule-content">
+                {item.tag && <Tag>{item.tag}</Tag>}
+
+                <div class="schedule-title">{item.title}</div>
+
+                {item.desc && <p>{item.desc}</p>}
+              </div>
+            </div>
+          ))
+        */
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <div class="eyebrow">{t("program.galleryLabel")}</div>
+
+      <h2>{t("program.galleryTitle")}</h2>
+
+      <p>{t("program.galleryDescription")}</p>
+    </div>
+
+    <div class="gallery-grid">
+      {
+        (
+          /* Waiting for the new redesign to merge
+        gallery.length > 0 ? (
+          gallery.map((item) => (
+            <div class="gallery-item">
+              <div class="gallery-image">
+                <span>{t("program.galleryPhoto")}</span>
+              </div>
+
+              <div class="gallery-label">{item.label}</div>
+            </div>
+          ))
+        ) : */ <div class="gallery-empty">{t("program.galleryEmpty")}</div>
+        )
+      }
+    </div>
+  </section>
+</section>
+
+<style>
+  .program-page {
+    width: 100%;
+  }
+
+  .program-header {
+    padding: 64px 56px 48px;
+  }
+
+  .eyebrow {
+    margin-bottom: 22px;
+    color: var(--color-neutral-700);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .program-header h1 {
+    max-width: 620px;
+    margin: 0 0 26px;
+    font-size: 56px;
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .program-header p {
+    max-width: 560px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.75;
+    opacity: 0.75;
+  }
+
+  .schedule-section {
+    padding: 8px 56px 88px;
+  }
+
+  .schedule-card {
+    position: relative;
+    overflow: hidden;
+    padding: 52px 48px;
+    border-radius: 22px;
+    background: var(--color-surface);
+  }
+
+  .schedule-decoration {
+    position: absolute;
+    top: -90px;
+    right: -90px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: var(--color-accent-100);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .schedule-header {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 48px;
+    margin-bottom: 52px;
+  }
+
+  .schedule-heading {
+    min-width: 0;
+  }
+
+  .section-label {
+    margin-bottom: 14px;
+    color: var(--color-accent-700);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .schedule-heading h2 {
+    margin: 0 0 14px;
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  .schedule-heading p {
+    max-width: 440px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.75;
+    opacity: 0.7;
+  }
+
+  .schedule-actions {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+  }
+
+  .date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: #fff;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .date-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .detailed-program {
+    white-space: nowrap;
+  }
+
+  .schedule {
+    position: relative;
+  }
+
+  .schedule-period {
+    margin-bottom: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.45;
+  }
+
+  .schedule-period.afternoon {
+    margin: 56px 0 8px;
+  }
+
+  .schedule-item {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 24px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--color-neutral-400);
+  }
+
+  .schedule-item:last-child {
+    border-bottom-color: transparent;
+  }
+
+  .schedule-time {
+    color: var(--color-accent-700);
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  .schedule-content {
+    min-width: 0;
+  }
+
+  .schedule-title {
+    margin-bottom: 7px;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .schedule-content p {
+    max-width: 640px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.65;
+  }
+
+  .gallery-section {
+    padding: 0 56px 88px;
+  }
+
+  .gallery-header {
+    margin-bottom: 36px;
+  }
+
+  .gallery-header .eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .gallery-header h2 {
+    margin: 0 0 12px;
+    font-size: 38px;
+    line-height: 1.15;
+    font-weight: 800;
+  }
+
+  .gallery-header p {
+    max-width: 560px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.75;
+    opacity: 0.7;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 24px;
+  }
+
+  .gallery-item {
+    min-width: 0;
+  }
+
+  .gallery-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--color-surface),
+      var(--color-surface) 10px,
+      var(--color-neutral-300) 10px,
+      var(--color-neutral-300) 20px
+    );
+  }
+
+  .gallery-image span {
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .gallery-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .gallery-empty {
+    grid-column: 1 / -1;
+    padding: 48px 24px;
+    text-align: center;
+    border: 1px dashed var(--color-neutral-400);
+    border-radius: 12px;
+    font-size: 13px;
+    opacity: 0.65;
+  }
+</style>

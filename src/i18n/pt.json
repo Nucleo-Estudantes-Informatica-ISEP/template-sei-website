@@ -6,5 +6,21 @@
   "nav.registration": "Inscrição",
   "nav.photos": "Fotografias",
   "nav.history": "História",
-  "footer.copyright": "Todos os direitos reservados."
+  "footer.copyright": "Todos os direitos reservados.",
+
+  "program.eyebrow": "Programa",
+  "program.title": "Um dia que vale a pena guardar",
+  "program.intro": "Palestras, sessões de artigos científicos com revisão por pares, uma mesa-redonda e o prémio de melhor artigo — tudo num único dia, bem estruturado.",
+  "program.scheduleLabel": "Programa geral",
+  "program.scheduleTitle": "O que esperar do dia",
+  "program.scheduleDescription": "Uma imersão na inovação tecnológica. O programa foi concebido para maximizar a partilha de conhecimento e o networking.",
+  "program.dateToBeAnnounced": "Data a anunciar",
+  "program.detailedProgram": "Programa detalhado (EasyChair)",
+  "program.morning": "Manhã",
+  "program.afternoon": "Tarde",
+  "program.galleryLabel": "Galeria",
+  "program.galleryTitle": "Momentos do SEI",
+  "program.galleryDescription": "Uma visão de algumas edições anteriores — palestras, sessões e a comunidade.",
+  "program.galleryPhoto": "Fotografia",
+  "program.galleryEmpty": "Não existem fotografias disponíveis."
 }
