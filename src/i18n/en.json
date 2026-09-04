@@ -18,5 +18,15 @@
   "footer.location": "Porto, Portugal",
   "footer.copyrightLine": "© {year} {edition} — Symposium of Informatics Engineering · DEI · NEI · ISEP",
   "backToTop.label": "Back to top",
-  "languageSwitcher.label": "Change language"
+  "languageSwitcher.label": "Change language",
+  "committees.eyebrow": "Committees",
+  "committees.heading": "Built by the community",
+  "committees.description": "Students, teachers and researchers from ISEP and beyond make {edition} happen — and review every paper that is submitted.",
+  "committees.technicalHeading": "Technical-Scientific committee",
+  "committees.technicalDescription": "Researchers and teachers responsible for the review and the evaluation of all submitted papers.",
+  "committees.organizationHeading": "Organization committee",
+  "committees.organizationDescription": "The team responsible for the coordination of the symposium, from the program to the logistics.",
+  "committees.ctaHeading": "Reviewers, moderators, hosts — {edition} needs you.",
+  "committees.ctaDescription": "Join the technical-scientific committee or help organise the day. Contact the organization committee at any time.",
+  "committees.ctaButton": "Submit a paper"
 }
