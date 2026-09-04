@@ -7,7 +7,7 @@ import { FOOTER_NAV_LINKS, FOOTER_PARTICIPATION_LINKS } from "../i18n/routes";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const copyright = t("footer.copyrightLine")
-  .replace("{year}", String(site.edition.year))
+  .replace("{year}", String(new Date().getFullYear()))
   .replace("{edition}", site.edition.name);
 ---
 
