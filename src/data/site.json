@@ -1,6 +1,7 @@
 {
   "edition": {
     "name": "SEI'26",
+    "fullName": null,
     "year": 2026
   },
   "pages": {
@@ -35,6 +36,7 @@
   },
   "images": {
     "banner": "/images/sei-banner.png",
+    "eventPhoto": null,
     "proceedingsCover": "/images/proceedings-cover.png",
     "logo": "/images/sei-logo.png"
   },
@@ -53,18 +55,35 @@
   },
   "footerLogos": [
     {
-      "src": "/logos/dei-informatica.png",
+      "src": "/images/dei-informatica.png",
       "alt": "Departamento de Engenharia Informática",
       "href": null
     },
     {
-      "src": "/logos/nei-isep.png",
+      "src": "/images/nei-isep.png",
       "alt": "NEI-ISEP",
       "href": null
     },
     {
-      "src": "/logos/isep.png",
+      "src": "/images/isep.png",
       "alt": "ISEP",
+      "href": null
+    }
+  ],
+  "supportLogos": [
+    {
+      "src": null,
+      "alt": "Logo de apoio 1",
+      "href": null
+    },
+    {
+      "src": null,
+      "alt": "Logo de apoio 2",
+      "href": null
+    },
+    {
+      "src": null,
+      "alt": "Logo de apoio 3",
       "href": null
     }
   ]

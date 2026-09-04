@@ -9,6 +9,7 @@ import {
 export const siteConfigSchema = z.object({
   edition: z.object({
     name: z.string().min(1),
+    fullName: z.string().min(1).nullable(),
     year: yearSchema,
   }),
   pages: z.object({
@@ -41,6 +42,7 @@ export const siteConfigSchema = z.object({
   }),
   images: z.object({
     banner: publicAssetPath,
+    eventPhoto: publicAssetPath.nullable(),
     proceedingsCover: publicAssetPath,
     logo: publicAssetPath,
   }),
@@ -66,4 +68,13 @@ export const siteConfigSchema = z.object({
       }),
     )
     .min(1),
+  supportLogos: z
+    .array(
+      z.object({
+        src: publicAssetPath.nullable(),
+        alt: z.string().min(1),
+        href: optionalUrl,
+      }),
+    )
+    .length(3),
 });
