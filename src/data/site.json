@@ -3,6 +3,16 @@
     "name": "SEI'26",
     "year": 2026
   },
+  "pages": {
+    "home": "",
+    "program": "program",
+    "speakers": "speakers",
+    "committees": "committees",
+    "authorGuidelines": "author-guidelines",
+    "submissions": "submissions",
+    "history": "history",
+    "registration": "registration"
+  },
   "importantDates": [
     {
       "id": "paperSubmission",
@@ -25,7 +35,21 @@
   },
   "images": {
     "banner": "/images/sei-banner.png",
-    "proceedingsCover": "/images/proceedings-cover.png"
+    "proceedingsCover": "/images/proceedings-cover.png",
+    "logo": "/images/sei-logo.png"
+  },
+  "contact": {
+    "email": "sei@dei.isep.ipp.pt"
+  },
+  "social": {
+    "linkedin": null
+  },
+  "venue": {
+    "name": "Instituto Superior de Engenharia do Porto",
+    "addressLine1": "Rua Dr. António Bernardino de Almeida, 431",
+    "postalCode": "4249-015",
+    "city": "Porto",
+    "country": "Portugal"
   },
   "footerLogos": [
     {

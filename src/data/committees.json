@@ -1,14 +1,14 @@
 {
-  "organizationCommittee": [
-    { "name": "Full Name 1", "affiliation": "Institution" },
-    { "name": "Full Name 2", "affiliation": "Institution" },
-    { "name": "Full Name 3", "affiliation": "Institution" }
+  "organizing": [
+    { "name": "Full Name 1", "org": "Institution" },
+    { "name": "Full Name 2", "org": "Institution" },
+    { "name": "Full Name 3", "org": "Institution" }
   ],
-  "technicalScientificCommittee": [
-    { "name": "Full Name 1", "affiliation": "Institution" },
-    { "name": "Full Name 2", "affiliation": "Institution" },
-    { "name": "Full Name 3", "affiliation": "Institution" },
-    { "name": "Full Name 4", "affiliation": "Institution" },
-    { "name": "Full Name 5", "affiliation": "Institution" }
+  "scientific": [
+    { "name": "Full Name 1", "org": "Institution" },
+    { "name": "Full Name 2", "org": "Institution" },
+    { "name": "Full Name 3", "org": "Institution" },
+    { "name": "Full Name 4", "org": "Institution" },
+    { "name": "Full Name 5", "org": "Institution" }
   ]
 }

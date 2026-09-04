@@ -5,6 +5,13 @@ export const languages = ["pt", "en"] as const;
 export type Lang = (typeof languages)[number];
 export type TranslationKey = keyof typeof pt;
 
+// Language endonyms — always shown in their own language, never translated
+// per the current page's locale.
+export const langLabels: Record<Lang, string> = {
+  en: "English",
+  pt: "Português",
+};
+
 const defaultLang: Lang = "pt";
 const translations: Record<Lang, Record<TranslationKey, string>> = { en, pt };
 
