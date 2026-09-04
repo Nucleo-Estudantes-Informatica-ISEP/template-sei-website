@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Speaker Name",
+    "role": "Keynote speaker",
+    "bio": "Bio to be announced.",
+    "links": []
+  },
+  {
+    "name": "Speaker Name",
+    "role": "Roundtable moderator",
+    "bio": "Bio to be announced.",
+    "links": []
+  },
+  {
+    "name": "Speaker Name",
+    "role": "Guest speaker",
+    "bio": "Bio to be announced.",
+    "links": []
+  }
+]
