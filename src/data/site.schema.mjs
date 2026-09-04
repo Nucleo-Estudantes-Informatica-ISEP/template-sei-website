@@ -3,12 +3,22 @@ import {
   publicAssetPath,
   optionalUrl,
   yearSchema,
+  routeSlug,
 } from "./primitives.schema.mjs";
 
 export const siteConfigSchema = z.object({
   edition: z.object({
     name: z.string().min(1),
     year: yearSchema,
+  }),
+  pages: z.object({
+    home: z.literal(""),
+    program: routeSlug,
+    speakers: routeSlug,
+    committees: routeSlug,
+    authorGuidelines: routeSlug,
+    history: routeSlug,
+    registration: routeSlug,
   }),
   importantDates: z
     .array(

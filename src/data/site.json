@@ -3,6 +3,15 @@
     "name": "SEI'26",
     "year": 2026
   },
+  "pages": {
+    "home": "",
+    "program": "program",
+    "speakers": "speakers",
+    "committees": "committees",
+    "authorGuidelines": "author-guidelines",
+    "history": "history",
+    "registration": "registration"
+  },
   "importantDates": [
     {
       "id": "paperSubmission",

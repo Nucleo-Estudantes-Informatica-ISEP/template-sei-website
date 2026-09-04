@@ -1,25 +1,27 @@
 import type { TranslationKey } from "./utils";
+import type { site } from "../data/site";
 
-export type NavLink = { slug: string; labelKey: TranslationKey };
+export type PageId = keyof typeof site.pages;
+export type NavLink = { id: PageId; labelKey: TranslationKey };
 
 export const NAV_LINKS: NavLink[] = [
-  { slug: "", labelKey: "nav.home" },
-  { slug: "program", labelKey: "nav.program" },
-  { slug: "speakers", labelKey: "nav.speakers" },
-  { slug: "committees", labelKey: "nav.committees" },
-  { slug: "author-guidelines", labelKey: "nav.authorGuidelines" },
-  { slug: "history", labelKey: "nav.history" },
+  { id: "home", labelKey: "nav.home" },
+  { id: "program", labelKey: "nav.program" },
+  { id: "speakers", labelKey: "nav.speakers" },
+  { id: "committees", labelKey: "nav.committees" },
+  { id: "authorGuidelines", labelKey: "nav.authorGuidelines" },
+  { id: "history", labelKey: "nav.history" },
 ];
 
 export const FOOTER_NAV_LINKS: NavLink[] = [
-  { slug: "", labelKey: "nav.home" },
-  { slug: "program", labelKey: "nav.program" },
-  { slug: "speakers", labelKey: "nav.speakers" },
-  { slug: "committees", labelKey: "nav.committees" },
+  { id: "home", labelKey: "nav.home" },
+  { id: "program", labelKey: "nav.program" },
+  { id: "speakers", labelKey: "nav.speakers" },
+  { id: "committees", labelKey: "nav.committees" },
 ];
 
 export const FOOTER_PARTICIPATION_LINKS: NavLink[] = [
-  { slug: "author-guidelines", labelKey: "nav.authorGuidelines" },
-  { slug: "registration", labelKey: "nav.registration" },
-  { slug: "history", labelKey: "nav.history" },
+  { id: "authorGuidelines", labelKey: "nav.authorGuidelines" },
+  { id: "registration", labelKey: "nav.registration" },
+  { id: "history", labelKey: "nav.history" },
 ];
