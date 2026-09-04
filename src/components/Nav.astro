@@ -7,7 +7,12 @@ import LanguageSwitcher from "./LanguageSwitcher.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const currentPath = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
+const currentPath = Astro.url.pathname
+  .replace(new RegExp(`^/${lang}/?`), "")
+  .replace(/\/$/, "");
+const registrationHref =
+  site.links.registration ??
+  getRelativeLocaleUrl(lang, site.pages.registration);
 ---
 
 <nav class="site-nav">
@@ -25,8 +30,10 @@ const currentPath = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
       {
         NAV_LINKS.map((link) => (
           <a
-            href={getRelativeLocaleUrl(lang, link.slug)}
-            aria-current={link.slug === currentPath ? "page" : undefined}
+            href={getRelativeLocaleUrl(lang, site.pages[link.id])}
+            aria-current={
+              site.pages[link.id] === currentPath ? "page" : undefined
+            }
           >
             {t(link.labelKey)}
           </a>
@@ -35,7 +42,7 @@ const currentPath = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
     </div>
     <div class="site-nav-actions">
       <LanguageSwitcher />
-      <a href={site.links.registration ?? "#"} class="site-nav-cta">
+      <a href={registrationHref} class="site-nav-cta">
         {t("nav.registration")}
       </a>
     </div>

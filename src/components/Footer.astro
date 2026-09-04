@@ -63,7 +63,9 @@ const copyright = t("footer.copyrightLine")
       <div class="footer-col-heading">{t("footer.navigationHeading")}</div>
       {
         FOOTER_NAV_LINKS.map((link) => (
-          <a href={getRelativeLocaleUrl(lang, link.slug)}>{t(link.labelKey)}</a>
+          <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}>
+            {t(link.labelKey)}
+          </a>
         ))
       }
     </div>
@@ -72,7 +74,9 @@ const copyright = t("footer.copyrightLine")
       <div class="footer-col-heading">{t("footer.participationHeading")}</div>
       {
         FOOTER_PARTICIPATION_LINKS.map((link) => (
-          <a href={getRelativeLocaleUrl(lang, link.slug)}>{t(link.labelKey)}</a>
+          <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}>
+            {t(link.labelKey)}
+          </a>
         ))
       }
     </div>
