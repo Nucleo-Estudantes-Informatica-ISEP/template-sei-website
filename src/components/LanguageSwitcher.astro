@@ -1,0 +1,210 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import {
+  languages,
+  getLangFromUrl,
+  useTranslations,
+  langLabels,
+} from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Strip the current locale prefix so getRelativeLocaleUrl gets a bare path.
+// This is a fully static build, so Astro.url never carries a real query
+// string/hash at build time — the client script below patches those in
+// from window.location once the page has actually loaded.
+const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
+---
+
+<div class="lang-switcher">
+  <button
+    type="button"
+    class="lang-toggle"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-label={t("languageSwitcher.label")}
+  >
+    <span class="flag">
+      {
+        lang === "en" ? (
+          <svg width="17" height="17" viewBox="0 0 20 20">
+            <rect width="20" height="20" fill="#012169" />
+            <path d="M0 0L20 20M20 0L0 20" stroke="#fff" stroke-width="3" />
+            <path
+              d="M0 0L20 20M20 0L0 20"
+              stroke="#C8102E"
+              stroke-width="1.4"
+            />
+            <path d="M10 0V20M0 10H20" stroke="#fff" stroke-width="5" />
+            <path d="M10 0V20M0 10H20" stroke="#C8102E" stroke-width="2.6" />
+          </svg>
+        ) : (
+          <svg width="17" height="17" viewBox="0 0 20 20">
+            <rect width="20" height="20" fill="#FF0000" />
+            <rect width="8" height="20" fill="#006600" />
+            <circle
+              cx="8"
+              cy="10"
+              r="4"
+              fill="#FFCC00"
+              stroke="#fff"
+              stroke-width="0.5"
+            />
+          </svg>
+        )
+      }
+    </span>
+  </button>
+  <div class="lang-menu" hidden>
+    {
+      languages.map((code) => (
+        <a
+          href={getRelativeLocaleUrl(code, rest)}
+          class="lang-option"
+          aria-current={code === lang ? "true" : undefined}
+        >
+          <span class="flag flag-option">
+            {code === "en" ? (
+              <svg width="18" height="18" viewBox="0 0 20 20">
+                <rect width="20" height="20" fill="#012169" />
+                <path d="M0 0L20 20M20 0L0 20" stroke="#fff" stroke-width="3" />
+                <path
+                  d="M0 0L20 20M20 0L0 20"
+                  stroke="#C8102E"
+                  stroke-width="1.4"
+                />
+                <path d="M10 0V20M0 10H20" stroke="#fff" stroke-width="5" />
+                <path
+                  d="M10 0V20M0 10H20"
+                  stroke="#C8102E"
+                  stroke-width="2.6"
+                />
+              </svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 20 20">
+                <rect width="20" height="20" fill="#FF0000" />
+                <rect width="8" height="20" fill="#006600" />
+                <circle
+                  cx="8"
+                  cy="10"
+                  r="4"
+                  fill="#FFCC00"
+                  stroke="#fff"
+                  stroke-width="0.5"
+                />
+              </svg>
+            )}
+          </span>
+          <span>{langLabels[code]}</span>
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  // The href baked into each option at build time only carries the page's
+  // path — this is a static build, so the query string/hash that's actually
+  // in the address bar is only known once the browser has loaded the page.
+  // Patch it in here so switching locale doesn't drop it.
+  const { search, hash } = window.location;
+  if (search || hash) {
+    document
+      .querySelectorAll<HTMLAnchorElement>(".lang-option")
+      .forEach((option) => {
+        option.href += search + hash;
+      });
+  }
+
+  document.querySelectorAll<HTMLElement>(".lang-switcher").forEach((root) => {
+    const toggle = root.querySelector<HTMLButtonElement>(".lang-toggle");
+    const menu = root.querySelector<HTMLElement>(".lang-menu");
+    if (!toggle || !menu) return;
+
+    const close = () => {
+      menu.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+    };
+    const open = () => {
+      menu.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+    };
+
+    toggle.addEventListener("click", () => {
+      if (menu.hidden) open();
+      else close();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!root.contains(event.target as Node)) close();
+    });
+
+    root.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !menu.hidden) {
+        close();
+        toggle.focus();
+      }
+    });
+  });
+</script>
+
+<style>
+  .lang-switcher {
+    position: relative;
+  }
+
+  .lang-toggle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--color-neutral-400);
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flag {
+    display: flex;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: none;
+    line-height: 0;
+  }
+
+  .lang-menu {
+    position: absolute;
+    top: 36px;
+    right: 0;
+    background: var(--color-bg);
+    border: 2px solid var(--color-divider);
+    min-width: 170px;
+    z-index: 40;
+  }
+
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 14px;
+    border: none;
+    border-bottom: 1px solid var(--color-divider);
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .lang-option:last-child {
+    border-bottom: none;
+  }
+
+  .lang-option:hover {
+    background: color-mix(in srgb, var(--color-text) 6%, transparent);
+  }
+</style>

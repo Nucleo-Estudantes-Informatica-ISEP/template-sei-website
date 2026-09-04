@@ -1,10 +1,22 @@
 {
   "nav.home": "Home",
+  "nav.program": "Program",
   "nav.committees": "Committees",
   "nav.authorGuidelines": "Author Guidelines",
+  "nav.submissions": "Submissions",
   "nav.speakers": "Speakers",
   "nav.registration": "Registration",
   "nav.photos": "Photos",
   "nav.history": "History",
-  "footer.copyright": "All rights reserved."
+  "footer.copyright": "All rights reserved.",
+  "footer.navigationHeading": "Navigation",
+  "footer.participationHeading": "Participation",
+  "footer.contactHeading": "Contact & venue",
+  "footer.description": "The annual Informatics Engineering symposium of ISEP — organised by DEI and NEI.",
+  "footer.emailLabel": "Email",
+  "footer.linkedinLabel": "LinkedIn",
+  "footer.location": "Porto, Portugal",
+  "footer.copyrightLine": "© {year} {edition} — Symposium of Informatics Engineering · DEI · NEI · ISEP",
+  "backToTop.label": "Back to top",
+  "languageSwitcher.label": "Change language"
 }
