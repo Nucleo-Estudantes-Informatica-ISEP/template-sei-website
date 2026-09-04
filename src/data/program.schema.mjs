@@ -4,8 +4,8 @@ import { timeSchema } from "./primitives.schema.mjs";
 export const scheduleItemSchema = z.object({
   time: timeSchema,
   title: z.string().min(1),
-  desc: z.string().nullable(),
-  tag: z.string().min(1).nullable(),
+  desc: z.string().min(1).optional(),
+  tag: z.string().min(1).optional(),
 });
 
 function assertAscendingTimes(items, ctx, group) {
@@ -28,4 +28,14 @@ export const programSchema = z
   .superRefine((program, ctx) => {
     assertAscendingTimes(program.morning, ctx, "morning");
     assertAscendingTimes(program.afternoon, ctx, "afternoon");
+
+    const lastMorning = program.morning.at(-1);
+    const firstAfternoon = program.afternoon[0];
+    if (firstAfternoon.time < lastMorning.time) {
+      ctx.addIssue({
+        code: "custom",
+        message: `Afternoon block time ${firstAfternoon.time} is out of order, should be after ${lastMorning.time}`,
+        path: ["afternoon", 0, "time"],
+      });
+    }
   });
