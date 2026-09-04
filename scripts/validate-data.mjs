@@ -6,12 +6,15 @@ import programData from "../src/data/program.json" with { type: "json" };
 import { programSchema } from "../src/data/program.schema.mjs";
 import committeesData from "../src/data/committees.json" with { type: "json" };
 import { committeesSchema } from "../src/data/committees.schema.mjs";
+import speakersData from "../src/data/speakers.json" with { type: "json" };
+import { speakersSchema } from "../src/data/speakers.schema.mjs";
 
 const registry = [
   { data: siteData, schema: siteConfigSchema },
   { data: historyData, schema: historySchema },
   { data: programData, schema: programSchema },
   { data: committeesData, schema: committeesSchema },
+  { data: speakersData, schema: speakersSchema },
 ];
 
 for (const { data, schema } of registry) {
