@@ -1,0 +1,406 @@
+---
+import { useTranslations, type Lang, type TranslationKey } from "../i18n/utils";
+import { site } from "../data/site";
+import { topics } from "../data/topics";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const formatDate = (date: string | null): string => {
+  if (!date) return t("submissions.dates.tba");
+  return new Intl.DateTimeFormat(lang, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T00:00:00Z`));
+};
+
+const dateCards = site.importantDates.map((entry) => ({
+  label: t(`submissions.dates.${entry.id}.label` as TranslationKey),
+  description: t(`submissions.dates.${entry.id}.description` as TranslationKey),
+  date: formatDate(entry.date),
+}));
+
+const formattingItems = [1, 2, 3, 4].map((n) => ({
+  number: n,
+  title: t(`submissions.formatting.item${n}.title` as TranslationKey),
+  description: t(
+    `submissions.formatting.item${n}.description` as TranslationKey,
+  ),
+}));
+
+const resources = [
+  {
+    href: site.links.lncsTemplateLatex,
+    label: t("submissions.resources.lncsTemplateLatex"),
+  },
+  {
+    href: site.links.lncsTemplateWord,
+    label: t("submissions.resources.lncsTemplateWord"),
+  },
+  {
+    href: site.links.callForPapers,
+    label: t("submissions.resources.callForPapers"),
+  },
+].filter(
+  (resource): resource is { href: string; label: string } =>
+    resource.href !== null,
+);
+---
+
+<section class="submissions-page">
+  <header class="submissions-header">
+    <div class="eyebrow">{t("submissions.eyebrow")}</div>
+    <h1>{t("submissions.title")}</h1>
+    <p>{t("submissions.description")}</p>
+  </header>
+
+  <section class="submissions-body">
+    <div class="submissions-main">
+      <div class="date-cards">
+        {
+          dateCards.map((card) => (
+            <div class="date-card">
+              <div class="date-card-label">{card.label}</div>
+              <div class="date-card-value">{card.date}</div>
+              <div class="date-card-description">{card.description}</div>
+            </div>
+          ))
+        }
+      </div>
+
+      <h2>{t("submissions.formatting.title")}</h2>
+      <p class="formatting-intro">{t("submissions.formatting.intro")}</p>
+      <div class="formatting-grid">
+        {
+          formattingItems.map((item) => (
+            <div class="formatting-item">
+              <span class="formatting-number">{item.number}</span>
+              <div>
+                <div class="formatting-item-title">{item.title}</div>
+                <p>{item.description}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="submissions-sidebar">
+      <div class="cta-card">
+        <h3>{t("submissions.cta.title")}</h3>
+        <p>{t("submissions.cta.description")}</p>
+        {
+          site.links.easyChairSubmission && (
+            <a
+              href={site.links.easyChairSubmission}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cta-button"
+            >
+              {t("submissions.cta.button")} →
+            </a>
+          )
+        }
+      </div>
+
+      {
+        resources.length > 0 && (
+          <div class="resources-card">
+            <div class="resources-heading">
+              {t("submissions.resources.heading")}
+            </div>
+            <div class="resources-list">
+              {resources.map((resource) => (
+                <a
+                  href={resource.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="resource-link"
+                >
+                  <span>{resource.label}</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 3v12M7 11l5 5 5-5M4 21h16" />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="topics-section">
+    <h2>{t("submissions.topics.title")}</h2>
+    <div class="topics-grid">
+      {topics.map((topic) => <div class="topic-pill">{topic.name}</div>)}
+    </div>
+  </section>
+</section>
+
+<style>
+  .submissions-page {
+    width: 100%;
+  }
+
+  .submissions-header {
+    padding: 64px 56px 48px;
+  }
+
+  .eyebrow {
+    margin-bottom: 22px;
+    color: var(--color-neutral-700);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .submissions-header h1 {
+    max-width: 620px;
+    margin: 0 0 26px;
+    font-size: 56px;
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .submissions-header p {
+    max-width: 520px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.75;
+    opacity: 0.75;
+  }
+
+  .submissions-body {
+    padding: 8px 56px 72px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 52px;
+    align-items: start;
+  }
+
+  .date-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 64px;
+  }
+
+  .date-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: 26px 28px;
+  }
+
+  .date-card-label {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+    margin-bottom: 14px;
+  }
+
+  .date-card-value {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .date-card-description {
+    font-size: 12px;
+    opacity: 0.65;
+  }
+
+  .submissions-main h2 {
+    font-size: 30px;
+    line-height: 1.2;
+    margin: 0 0 26px;
+  }
+
+  .formatting-intro {
+    font-size: 15px;
+    line-height: 1.75;
+    opacity: 0.8;
+    margin: 0 0 40px;
+    max-width: 700px;
+  }
+
+  .formatting-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 48px;
+  }
+
+  .formatting-item {
+    display: flex;
+    gap: 16px;
+  }
+
+  .formatting-number {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-accent-900);
+    color: var(--color-bg);
+    font-size: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .formatting-item-title {
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .formatting-item p {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  .submissions-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .cta-card {
+    background: var(--color-accent);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .cta-card h3 {
+    font-size: 23px;
+    font-weight: 800;
+    color: var(--color-bg);
+    margin: 0 0 12px;
+  }
+
+  .cta-card p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--color-bg);
+    opacity: 0.9;
+    margin: 0 0 28px;
+  }
+
+  .cta-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    background: var(--color-bg);
+    color: var(--color-accent-700);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+
+  .resources-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+  }
+
+  .resources-heading {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+    margin-bottom: 20px;
+  }
+
+  .resources-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .resource-link svg {
+    flex: none;
+    opacity: 0.6;
+  }
+
+  .topics-section {
+    padding: 0 56px 72px;
+  }
+
+  .topics-section h2 {
+    font-size: 30px;
+    line-height: 1.2;
+    margin: 0 0 32px;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .topic-pill {
+    border: 1px solid var(--color-divider);
+    border-radius: 999px;
+    padding: 16px 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  @media (max-width: 900px) {
+    .submissions-body {
+      grid-template-columns: 1fr;
+    }
+
+    .date-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .formatting-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .topics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
