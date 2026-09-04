@@ -1,0 +1,200 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { site } from "../data/site";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { FOOTER_NAV_LINKS, FOOTER_PARTICIPATION_LINKS } from "../i18n/routes";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const copyright = t("footer.copyrightLine")
+  .replace("{year}", String(new Date().getFullYear()))
+  .replace("{edition}", site.edition.name);
+---
+
+<footer class="site-footer">
+  <div class="site-footer-grid">
+    <div class="footer-col footer-col-brand">
+      <img
+        src={site.images.logo}
+        alt={site.edition.name}
+        width="26"
+        height="26"
+      />
+      <div class="footer-brand-name">{site.edition.name}</div>
+      <p>{t("footer.description")}</p>
+      <div class="footer-socials">
+        <a
+          href={`mailto:${site.contact.email}`}
+          aria-label={t("footer.emailLabel")}
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="4" width="20" height="16"></rect>
+            <path d="M2 6l10 7 10-7"></path>
+          </svg>
+        </a>
+        {
+          site.social.linkedin && (
+            <a
+              href={site.social.linkedin}
+              aria-label={t("footer.linkedinLabel")}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.82-1.95 3.75-1.95 4 0 4.4 2.5 4.4 5.75V21H18v-5.9c0-1.4-.5-2.36-1.76-2.36-1.02 0-1.63.69-1.9 1.36-.1.24-.12.57-.12.9V21H10z" />
+              </svg>
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-heading">{t("footer.navigationHeading")}</div>
+      {
+        FOOTER_NAV_LINKS.map((link) => (
+          <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}>
+            {t(link.labelKey)}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-heading">{t("footer.participationHeading")}</div>
+      {
+        FOOTER_PARTICIPATION_LINKS.map((link) => (
+          <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}>
+            {t(link.labelKey)}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-heading">{t("footer.contactHeading")}</div>
+      <div class="footer-venue-name">{site.venue.name}</div>
+      <p>{site.venue.addressLine1}</p>
+      <p>
+        {`${site.venue.postalCode} ${site.venue.city}, ${site.venue.country}`}
+      </p>
+      <a href={`mailto:${site.contact.email}`} class="footer-email">
+        {site.contact.email}
+      </a>
+    </div>
+  </div>
+
+  <div class="site-footer-bottom">
+    <span>{copyright}</span>
+    <span>{t("footer.location")}</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: 72px 56px 28px;
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .site-footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+    gap: 48px;
+    padding-bottom: 56px;
+  }
+
+  .footer-col a {
+    display: block;
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  .footer-col a + a {
+    margin-top: 12px;
+  }
+
+  .footer-col-brand img {
+    margin-bottom: 18px;
+  }
+
+  .footer-brand-name {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+
+  .footer-col-brand p {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.65;
+    margin: 0 0 22px;
+    max-width: 240px;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 16px;
+  }
+
+  .footer-socials a {
+    display: inline-flex;
+    color: var(--color-text);
+    opacity: 0.65;
+  }
+
+  .footer-col-heading {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.5;
+    margin-bottom: 18px;
+  }
+
+  .footer-venue-name {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .footer-col p {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.65;
+    margin: 0 0 8px;
+  }
+
+  .footer-email {
+    font-weight: 700;
+    color: var(--color-accent-700);
+    margin-top: 14px;
+  }
+
+  .site-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-divider);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+  }
+</style>
