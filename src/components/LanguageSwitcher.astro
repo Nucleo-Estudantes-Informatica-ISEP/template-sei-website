@@ -11,6 +11,9 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 // Strip the current locale prefix so getRelativeLocaleUrl gets a bare path.
+// This is a fully static build, so Astro.url never carries a real query
+// string/hash at build time — the client script below patches those in
+// from window.location once the page has actually loaded.
 const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
 ---
 
@@ -101,6 +104,19 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
 </div>
 
 <script>
+  // The href baked into each option at build time only carries the page's
+  // path — this is a static build, so the query string/hash that's actually
+  // in the address bar is only known once the browser has loaded the page.
+  // Patch it in here so switching locale doesn't drop it.
+  const { search, hash } = window.location;
+  if (search || hash) {
+    document
+      .querySelectorAll<HTMLAnchorElement>(".lang-option")
+      .forEach((option) => {
+        option.href += search + hash;
+      });
+  }
+
   document.querySelectorAll<HTMLElement>(".lang-switcher").forEach((root) => {
     const toggle = root.querySelector<HTMLButtonElement>(".lang-toggle");
     const menu = root.querySelector<HTMLElement>(".lang-menu");
