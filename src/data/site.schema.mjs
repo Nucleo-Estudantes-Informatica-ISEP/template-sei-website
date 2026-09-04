@@ -37,6 +37,9 @@ export const siteConfigSchema = z.object({
     easyChairProgram: optionalUrl,
     registration: optionalUrl,
     proceedings: optionalUrl,
+    lncsTemplateLatex: optionalUrl,
+    lncsTemplateWord: optionalUrl,
+    callForPapers: optionalUrl,
   }),
   images: z.object({
     banner: publicAssetPath,
