@@ -1,0 +1,423 @@
+---
+import { program, gallery } from "../data/program";
+import { useTranslations, type Lang } from "../i18n/utils";
+import Button from "./Button.astro";
+import { site } from "../data/site";
+import Tag from "./Tag.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="program-page">
+  <header class="program-header">
+    <div class="eyebrow">{t("program.eyebrow")}</div>
+
+    <h1>{t("program.title")}</h1>
+
+    <p>{t("program.intro")}</p>
+  </header>
+
+  <section class="schedule-section">
+    <div class="schedule-card">
+      <div class="schedule-decoration"></div>
+
+      <div class="schedule-header">
+        <div class="schedule-heading">
+          <div class="section-label">{t("program.scheduleLabel")}</div>
+
+          <h2>{t("program.scheduleTitle")}</h2>
+
+          <p>{t("program.scheduleDescription")}</p>
+        </div>
+
+        <div class="schedule-actions">
+          <span class="date-badge">
+            <span class="date-dot"></span>
+            {t("program.dateToBeAnnounced")}
+          </span>
+
+          {
+            site.links.easyChairProgram && (
+              <Button
+                variant="primary"
+                href={site.links.easyChairProgram}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="detailed-program"
+              >
+                {t("program.detailedProgram")} →
+              </Button>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="schedule">
+        <div class="schedule-period">{t("program.morning")}</div>
+
+        {
+          program.morning.map((item) => (
+            <div class="schedule-item">
+              <span class="schedule-time">{item.time}</span>
+
+              <div class="schedule-content">
+                {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
+
+                <div class="schedule-title">{item.title}</div>
+
+                {item.desc && <p>{item.desc}</p>}
+              </div>
+            </div>
+          ))
+        }
+
+        <div class="schedule-period afternoon">
+          {t("program.afternoon")}
+        </div>
+
+        {
+          program.afternoon.map((item) => (
+            <div class="schedule-item">
+              <span class="schedule-time">{item.time}</span>
+
+              <div class="schedule-content">
+                {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
+
+                <div class="schedule-title">{item.title}</div>
+
+                {item.desc && <p>{item.desc}</p>}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="gallery-header">
+      <div class="eyebrow">{t("program.galleryLabel")}</div>
+
+      <h2>{t("program.galleryTitle")}</h2>
+
+      <p>{t("program.galleryDescription")}</p>
+    </div>
+
+    <div class="gallery-grid">
+      {
+        gallery.length > 0 ? (
+          gallery.map((item) => (
+            <div class="gallery-item">
+              <div class="gallery-image">
+                <span>{t("program.galleryPhoto")}</span>
+              </div>
+
+              <div class="gallery-label">{item.label}</div>
+            </div>
+          ))
+        ) : (
+          <div class="gallery-empty">{t("program.galleryEmpty")}</div>
+        )
+      }
+    </div>
+  </section>
+</section>
+
+<style>
+  .program-page {
+    width: 100%;
+  }
+
+  .program-header {
+    padding: var(--space-8) var(--space-8) var(--space-6);
+  }
+
+  .program-header h1 {
+    max-width: 620px;
+    margin: 0 0 var(--space-6);
+  }
+
+  .program-header p {
+    max-width: 560px;
+    margin: 0;
+    opacity: 0.75;
+  }
+
+  .eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--color-neutral-700);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .schedule-section {
+    padding: var(--space-2) var(--space-8) var(--space-8);
+  }
+
+  .schedule-card {
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .schedule-decoration {
+    position: absolute;
+    top: -90px;
+    right: -90px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: var(--color-accent-100);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .schedule-header {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+
+  .schedule-heading {
+    min-width: 0;
+  }
+
+  .section-label {
+    margin-bottom: var(--space-3);
+    color: var(--color-accent-700);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .schedule-heading h2 {
+    margin: 0 0 var(--space-3);
+  }
+
+  .schedule-heading p {
+    max-width: 440px;
+    margin: 0;
+    opacity: 0.7;
+  }
+
+  .schedule-actions {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-4);
+  }
+
+  .date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-radius: 999px;
+    background: var(--color-bg);
+    font-weight: var(--font-heading-weight);
+  }
+
+  .date-dot {
+    width: var(--space-2);
+    height: var(--space-2);
+    flex: none;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .detailed-program {
+    white-space: nowrap;
+  }
+
+  .schedule {
+    position: relative;
+  }
+
+  .schedule-period {
+    margin-bottom: var(--space-2);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.45;
+  }
+
+  .schedule-period.afternoon {
+    margin: var(--space-8) 0 var(--space-2);
+  }
+
+  .schedule-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-6);
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--color-neutral-400);
+  }
+
+  .schedule-item:last-child {
+    border-bottom-color: transparent;
+  }
+
+  .schedule-time {
+    color: var(--color-accent-700);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+  }
+
+  .schedule-content {
+    min-width: 0;
+  }
+
+  .schedule-title {
+    margin-bottom: var(--space-2);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+  }
+
+  .schedule-content p {
+    max-width: 640px;
+    margin: 0;
+    opacity: 0.65;
+  }
+
+  .gallery-section {
+    padding: 0 var(--space-8) var(--space-8);
+  }
+
+  .gallery-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .gallery-header .eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .gallery-header h2 {
+    margin: 0 0 var(--space-3);
+  }
+
+  .gallery-header p {
+    max-width: 560px;
+    margin: 0;
+    opacity: 0.7;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .gallery-item {
+    min-width: 0;
+  }
+
+  .gallery-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    margin-bottom: var(--space-3);
+    border-radius: var(--radius-md);
+    background: repeating-linear-gradient(
+      45deg,
+      var(--color-surface),
+      var(--color-surface) var(--space-2),
+      var(--color-neutral-300) var(--space-2),
+      var(--color-neutral-300) var(--space-4)
+    );
+  }
+
+  .gallery-image span {
+    font-family: monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .gallery-label {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .gallery-empty {
+    grid-column: 1 / -1;
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    border: 1px dashed var(--color-neutral-400);
+    border-radius: var(--radius-md);
+    opacity: 0.65;
+  }
+
+  @media (max-width: 768px) {
+    .program-header,
+    .schedule-section,
+    .gallery-section {
+      padding-left: var(--space-6);
+      padding-right: var(--space-6);
+    }
+
+    .program-header {
+      padding-top: var(--space-8);
+      padding-bottom: var(--space-6);
+    }
+
+    .schedule-section {
+      padding-top: var(--space-2);
+      padding-bottom: var(--space-8);
+    }
+
+    .schedule-card {
+      padding: var(--space-6);
+    }
+
+    .schedule-header {
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .schedule-actions {
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    .detailed-program {
+      white-space: normal;
+    }
+
+    .schedule-item {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .schedule-time {
+      order: -1;
+    }
+
+    .gallery-section {
+      padding-bottom: var(--space-8);
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+</style>
