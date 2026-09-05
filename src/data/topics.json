@@ -1,0 +1,20 @@
+[
+  { "name": "Artificial Intelligence" },
+  { "name": "Information Security" },
+  { "name": "Software Architecture and Development" },
+  { "name": "Computer Networks" },
+  { "name": "Decision Support Systems" },
+  { "name": "Internet of Things" },
+  { "name": "Human-Computer Interaction" },
+  { "name": "Information Systems" },
+  { "name": "Robotics and Industrial Automation" },
+  { "name": "Computer Graphics and Vision" },
+  { "name": "Information Retrieval" },
+  { "name": "Serious Games" },
+  { "name": "Critical Systems" },
+  { "name": "Programming Techniques and Paradigms" },
+  { "name": "Simulation Modeling" },
+  { "name": "E-commerce" },
+  { "name": "Software Quality" },
+  { "name": "Collaborative Work Tools" }
+]
