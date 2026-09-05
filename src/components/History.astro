@@ -47,7 +47,7 @@ const earlierEditions = history.slice(3);
           <div class="edition-meta">
             <span class="year">SEI'{String(edition.year).slice(-2)}</span>
 
-            <span class="date">{edition.dateLabel || ""}</span>
+            <span class="date">{edition.dateLabel}</span>
 
             <span class="visit">{t("history.visitEdition")} →</span>
           </div>
@@ -75,7 +75,7 @@ const earlierEditions = history.slice(3);
         >
           <span class="year">SEI'{String(edition.year).slice(-2)}</span>
 
-          <span class="description">{edition.description || ""}</span>
+          <span class="description">{edition.description}</span>
 
           <span class="visit">{t("history.visitEdition")} →</span>
         </a>
