@@ -8,6 +8,7 @@
   "nav.photos": "Photos",
   "nav.history": "History",
   "footer.copyright": "All rights reserved.",
+
   "footer.navigationHeading": "Navigation",
   "footer.participationHeading": "Participation",
   "footer.contactHeading": "Contact & venue",
@@ -28,6 +29,18 @@
   "committees.ctaHeading": "Reviewers, moderators, hosts — {edition} needs you.",
   "committees.ctaDescription": "Join the technical-scientific committee or help organise the day. Contact the organization committee at any time.",
   "committees.ctaButton": "Submit a paper",
+
+  "history.eyebrow": "History",
+  "history.title": "Every edition, still online",
+  "history.description": "Since 2019 each edition of the symposium keeps its own site, with its program, speakers and proceedings. Revisit any of them below.",
+  "history.recent.title": "Recent editions",
+  "history.recent.description": "The three latest editions of the symposium, with their full programs and published proceedings.",
+  "history.earlier.title": "Earlier editions",
+  "history.earlier.description": "The first editions of the symposium, kept online exactly as they were published.",
+  "history.visitEdition": "Visit edition",
+  "history.cta.title": "The next edition is being written now.",
+  "history.cta.description": "Submit your paper and add your work to the SEI'26 proceedings.",
+  "history.cta.button": "Submit a paper",
 
   "submissions.eyebrow": "Call for papers",
   "submissions.title": "Share your scientific work.",
