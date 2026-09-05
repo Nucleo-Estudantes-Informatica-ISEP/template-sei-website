@@ -28,14 +28,17 @@ function tt(key: Parameters<typeof t>[0], vars: Record<string, string> = {}) {
 const links = {
   home: getRelativeLocaleUrl(lang, site.pages.home),
   program: getRelativeLocaleUrl(lang, site.pages.program),
+  // Speakers page isn't built yet (#15) — teaser CTA stays disabled until it lands.
   speakers: getRelativeLocaleUrl(lang, site.pages.speakers),
   committees: getRelativeLocaleUrl(lang, site.pages.committees),
   submissions: getRelativeLocaleUrl(lang, site.pages.submissions),
-  registration:
-    site.links.registration ??
-    getRelativeLocaleUrl(lang, site.pages.registration),
+  // No internal /registration page yet (#16) — CTA only appears once an
+  // external registration link is configured, matching the proceedings CTA.
+  registration: site.links.registration,
   proceedings: site.links.proceedings,
 };
+
+const speakersPageReady = false;
 
 // --- derived data ----------------------------------------------------
 // history.json only holds past editions; the current one isn't in there
@@ -119,9 +122,15 @@ const featuredSpeakers = speakers.slice(0, 3);
         {tt("home.registration.description", { edition: site.edition.name })}
       </p>
     </div>
-    <a class="btn btn--dark" href={links.registration}
-      >{t("home.registration.cta")}</a
-    >
+    {
+      links.registration ? (
+        <a class="btn btn--dark" href={links.registration}>
+          {t("home.registration.cta")}
+        </a>
+      ) : (
+        <p class="muted muted--small">{t("home.registration.pending")}</p>
+      )
+    }
   </div>
 </section>
 
@@ -227,7 +236,13 @@ const featuredSpeakers = speakers.slice(0, 3);
         {tt("home.speakers.description", { edition: site.edition.name })}
       </p>
     </div>
-    <a class="link" href={links.speakers}>{t("home.speakers.cta")} →</a>
+    {
+      speakersPageReady && (
+        <a class="link" href={links.speakers}>
+          {t("home.speakers.cta")} →
+        </a>
+      )
+    }
   </div>
   <div class="speakers">
     {
@@ -334,12 +349,16 @@ const featuredSpeakers = speakers.slice(0, 3);
     }
   </p>
   <div class="closing__actions">
-    <a class="btn btn--accent" href={links.registration}
-      >{t("home.closing.registerCta")}</a
-    >
-    <a class="btn btn--outline" href={links.program}
-      >{t("home.closing.programCta")}</a
-    >
+    {
+      links.registration && (
+        <a class="btn btn--accent" href={links.registration}>
+          {t("home.closing.registerCta")}
+        </a>
+      )
+    }
+    <a class="btn btn--outline" href={links.program}>
+      {t("home.closing.programCta")}
+    </a>
   </div>
 </section>
 
