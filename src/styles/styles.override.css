@@ -23,10 +23,14 @@
  * --color-accent-2-100 through --color-accent-2-900.
  *
  * Typography:
- * --font-heading, --font-heading-weight, --font-body.
+ * --font-heading, --font-heading-weight, --font-body,
+ * --font-size-2xs, --font-size-xs, --font-size-sm, --font-size-md,
+ * --font-size-lg, --font-size-2xl.
  *
  * Spacing:
- * --space-1, --space-2, --space-3, --space-4, --space-6, --space-8.
+ * --space-1, --space-2, --space-3, --space-4, --space-6, --space-7,
+ * --space-8, --space-9, --space-10, --space-12, --space-14, --space-16,
+ * --space-18, --space-20.
  *
  * Radii:
  * --radius-sm, --radius-md, --radius-lg.
