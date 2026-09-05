@@ -25,6 +25,14 @@
     {
       "id": "cameraReady",
       "date": null
+    },
+    {
+      "id": "symposiumInscription",
+      "date": null
+    },
+    {
+      "id": "symposiumDay",
+      "date": null
     }
   ],
   "links": {

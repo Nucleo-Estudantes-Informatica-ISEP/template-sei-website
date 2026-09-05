@@ -28,11 +28,13 @@ export const siteConfigSchema = z.object({
           "paperSubmission",
           "acceptanceNotification",
           "cameraReady",
+          "symposiumInscription",
+          "symposiumDay",
         ]),
         date: z.iso.date().nullable(),
       }),
     )
-    .length(3),
+    .length(5),
   links: z.object({
     easyChairSubmission: optionalUrl,
     easyChairProgram: optionalUrl,
