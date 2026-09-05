@@ -9,6 +9,7 @@ const speakerLinkSchema = z.object({
 export const speakerSchema = z.object({
   name: z.string().min(1),
   role: z.string().min(1),
+  affiliation: z.string().min(1),
   bio: z.string().min(1),
   photo: publicAssetPath.optional(),
   links: z.array(speakerLinkSchema).default([]),

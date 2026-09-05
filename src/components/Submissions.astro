@@ -195,7 +195,7 @@ const resources = [
 
   .date-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: calc(var(--space-4) + var(--space-1));
     margin-bottom: calc(var(--space-8) * 2);
   }

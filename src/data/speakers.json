@@ -2,18 +2,21 @@
   {
     "name": "Speaker Name",
     "role": "Keynote speaker",
+    "affiliation": "Institution",
     "bio": "Bio to be announced.",
     "links": []
   },
   {
     "name": "Speaker Name",
     "role": "Roundtable moderator",
+    "affiliation": "Institution",
     "bio": "Bio to be announced.",
     "links": []
   },
   {
     "name": "Speaker Name",
     "role": "Guest speaker",
+    "affiliation": "Institution",
     "bio": "Bio to be announced.",
     "links": []
   }

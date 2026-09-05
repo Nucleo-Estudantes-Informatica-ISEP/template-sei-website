@@ -1,0 +1,867 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { site } from "../data/site";
+import { speakers } from "../data/speakers";
+import { committees } from "../data/committees";
+import { history } from "../data/history";
+import { topics } from "../data/topics";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const editionTitle = site.edition.fullName ?? site.edition.name;
+
+// --- small helper: fills {placeholders} in a translated string --------
+function tt(key: Parameters<typeof t>[0], vars: Record<string, string> = {}) {
+  const raw = t(key);
+  if (raw === undefined) {
+    console.warn(`[Home.astro] Missing i18n key: "${key}"`);
+    return "";
+  }
+  return raw.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? "");
+}
+
+const links = {
+  home: getRelativeLocaleUrl(lang, site.pages.home),
+  program: getRelativeLocaleUrl(lang, site.pages.program),
+  // Speakers page isn't built yet (#15) — teaser CTA stays disabled until it lands.
+  speakers: getRelativeLocaleUrl(lang, site.pages.speakers),
+  committees: getRelativeLocaleUrl(lang, site.pages.committees),
+  submissions: getRelativeLocaleUrl(lang, site.pages.submissions),
+  // No internal /registration page yet (#16) — CTA only appears once an
+  // external registration link is configured, matching the proceedings CTA.
+  registration: site.links.registration,
+  proceedings: site.links.proceedings,
+};
+
+const speakersPageReady = false;
+
+// --- derived data ----------------------------------------------------
+// history.json only holds past editions; the current one isn't in there
+// yet, so it's +1.
+const editionsCount = history.length + 1;
+
+const thematicAreasCount = topics.length;
+
+const technicalCommitteeCount = committees.scientific.length;
+const organizingCommitteeCount = committees.organizing.length;
+const committeeMembersCount =
+  technicalCommitteeCount + organizingCommitteeCount;
+
+const dateFormatter = new Intl.DateTimeFormat(lang, {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+
+function formatDate(iso: string | null) {
+  if (!iso) return t("home.dates.tba");
+  return dateFormatter.format(new Date(iso));
+}
+
+// site.importantDates carries all 5 rows of the calendar.
+const importantDates = site.importantDates.map((entry, i) => ({
+  index: i + 1,
+  label: t(`dates.${entry.id}.label` as Parameters<typeof t>[0]),
+  description: t(`dates.${entry.id}.description` as Parameters<typeof t>[0]),
+  value: formatDate(entry.date),
+}));
+
+const featuredSpeakers = speakers.slice(0, 3);
+---
+
+<header class="hero">
+  <div class="hero__26" aria-hidden="true">
+    {site.edition.year.toString().slice(-2)}
+  </div>
+  <div class="hero__content">
+    <div class="hero__eyebrow">
+      {
+        tt("home.hero.eyebrow", { edition: site.edition.name })
+          .split(" / ")
+          .map((part, i) => (
+            <>
+              {i > 0 && <span class="hero__eyebrow-sep">/</span>}
+              <span>{part}</span>
+            </>
+          ))
+      }
+    </div>
+    <h1 class="hero__title">{editionTitle}</h1>
+    <p class="hero__tagline">{t("home.hero.tagline")}</p>
+    <p class="hero__description">{t("home.hero.description")}</p>
+    <a class="btn btn--light" href={links.submissions}>{t("home.hero.cta")} →</a
+    >
+  </div>
+</header>
+
+<section class="section section--tight">
+  <div class="panel panel--row">
+    <div>
+      <div class="eyebrow eyebrow--icon">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+          aria-hidden="true"
+        >
+          <rect x="3" y="5" width="18" height="16"></rect>
+          <path d="M8 3v4M16 3v4M3 11h18"></path>
+        </svg>
+        {t("home.registration.eyebrow")}
+      </div>
+      <h2 class="heading heading--md">{t("home.registration.heading")}</h2>
+      <p class="muted">
+        {tt("home.registration.description", { edition: site.edition.name })}
+      </p>
+    </div>
+    {
+      links.registration ? (
+        <a class="btn btn--dark" href={links.registration}>
+          {t("home.registration.cta")}
+        </a>
+      ) : (
+        <p class="muted muted--small">{t("home.registration.pending")}</p>
+      )
+    }
+  </div>
+</section>
+
+<section class="section grid-2">
+  <div>
+    <div class="eyebrow">{t("home.about.eyebrow")}</div>
+    <h2 class="heading heading--lg">{t("home.about.heading")}</h2>
+    <p class="muted muted--body">{t("home.about.paragraph1")}</p>
+    <p class="muted muted--body">{t("home.about.paragraph2")}</p>
+  </div>
+  {
+    site.images.eventPhoto ? (
+      <img
+        class="about__photo"
+        src={site.images.eventPhoto}
+        alt={t("home.about.photoAlt")}
+      />
+    ) : (
+      <div class="about__photo about__photo--placeholder" aria-hidden="true">
+        {t("home.about.photoAlt")}
+      </div>
+    )
+  }
+</section>
+
+<section class="section section--tight">
+  <div class="stats">
+    <div class="stats__item">
+      <div class="stats__value">{editionsCount}</div>
+      <div class="stats__label">{t("home.stats.editionsLabel")}</div>
+    </div>
+    <div class="stats__item">
+      <div class="stats__value">{thematicAreasCount}</div>
+      <div class="stats__label">{t("home.stats.thematicAreasLabel")}</div>
+    </div>
+    <div class="stats__item">
+      <div class="stats__value">{committeeMembersCount}</div>
+      <div class="stats__label">{t("home.stats.committeeMembersLabel")}</div>
+    </div>
+    <div class="stats__item">
+      <div class="stats__value">{t("home.stats.freeEntranceValue")}</div>
+      <div class="stats__label">{t("home.stats.freeEntranceLabel")}</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="panel proceedings">
+    <img
+      class="proceedings__cover"
+      src={site.images.proceedingsCover}
+      alt={t("home.proceedings.coverAlt")}
+    />
+    <div>
+      <div class="eyebrow">{t("home.proceedings.eyebrow")}</div>
+      <h2 class="heading heading--lg">{t("home.proceedings.heading")}</h2>
+      <p class="muted muted--body">
+        {tt("home.proceedings.description", { edition: site.edition.name })}
+      </p>
+      {
+        links.proceedings ? (
+          <a class="btn btn--dark" href={links.proceedings}>
+            {t("home.proceedings.cta")} →
+          </a>
+        ) : (
+          <p class="muted muted--small">{t("home.proceedings.pending")}</p>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="eyebrow">{t("home.dates.eyebrow")}</div>
+  <h2 class="heading heading--lg">
+    {tt("home.dates.heading", { edition: site.edition.name })}
+  </h2>
+  <ol class="dates">
+    {
+      importantDates.map((row) => (
+        <li class="dates__row">
+          <span class="dates__index">{String(row.index).padStart(2, "0")}</span>
+          <div>
+            <div class="dates__label">{row.label}</div>
+            <div class="dates__description">{row.description}</div>
+          </div>
+          <span class="dates__value">{row.value}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <div class="section__cta">
+    <a class="link" href={links.program}>{t("home.dates.cta")} →</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section__header">
+    <div>
+      <div class="eyebrow">{t("home.speakers.eyebrow")}</div>
+      <h2 class="heading heading--lg">{t("home.speakers.heading")}</h2>
+      <p class="muted muted--small">
+        {tt("home.speakers.description", { edition: site.edition.name })}
+      </p>
+    </div>
+    {
+      speakersPageReady && (
+        <a class="link" href={links.speakers}>
+          {t("home.speakers.cta")} →
+        </a>
+      )
+    }
+  </div>
+  <div class="speakers">
+    {
+      featuredSpeakers.map((speaker) => (
+        <div class="speakers__card">
+          {speaker.photo ? (
+            <img
+              class="speakers__portrait"
+              src={speaker.photo}
+              alt={speaker.name}
+            />
+          ) : (
+            <div
+              class="speakers__portrait speakers__portrait--placeholder"
+              aria-hidden="true"
+            >
+              {t("home.speakers.portraitAlt")}
+            </div>
+          )}
+          <div class="speakers__name">{speaker.name}</div>
+          <div class="speakers__role">{speaker.role}</div>
+          <div class="speakers__affiliation">{speaker.affiliation}</div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<section class="section">
+  <div class="grid-2 committees-intro">
+    <div>
+      <div class="eyebrow">{t("home.committees.eyebrow")}</div>
+      <h2 class="heading heading--lg">{t("home.committees.heading")}</h2>
+    </div>
+    <p class="muted muted--body committees-intro__text">
+      {tt("home.committees.description", { edition: site.edition.name })}
+    </p>
+  </div>
+  <div class="committees-grid">
+    <div class="committees-grid__card">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        aria-hidden="true"
+      >
+        <path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13M8 8h8M8 12h8M8 16h5"
+        ></path>
+      </svg>
+      <h3>{t("home.committees.technicalHeading")}</h3>
+      <p class="committees-grid__count">
+        {
+          tt("home.committees.memberCount", {
+            count: String(technicalCommitteeCount),
+          })
+        }
+      </p>
+      <p>{t("home.committees.technicalDescription")}</p>
+      <a class="link" href={links.committees}>{t("home.committees.cta")} →</a>
+    </div>
+    <div class="committees-grid__card">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        aria-hidden="true"
+      >
+        <path
+          d="M16 20v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 6a3 3 0 100 6 3 3 0 000-6M22 20v-2a4 4 0 00-3-3.9M16 6.1A3 3 0 0116 12"
+        ></path>
+      </svg>
+      <h3>{t("home.committees.organizationHeading")}</h3>
+      <p class="committees-grid__count">
+        {
+          tt("home.committees.memberCount", {
+            count: String(organizingCommitteeCount),
+          })
+        }
+      </p>
+      <p>{t("home.committees.organizationDescription")}</p>
+      <a class="link" href={links.committees}>{t("home.committees.cta")} →</a>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="eyebrow eyebrow--light">{t("home.closing.eyebrow")}</div>
+  <h2 class="closing__heading">
+    {tt("home.closing.heading", { edition: site.edition.name })}
+  </h2>
+  <p class="closing__subtitle">
+    {
+      tt("home.closing.dateLocation", {
+        venue: site.venue.name,
+        city: site.venue.city,
+        country: site.venue.country,
+      })
+    }
+  </p>
+  <div class="closing__actions">
+    {
+      links.registration && (
+        <a class="btn btn--accent" href={links.registration}>
+          {t("home.closing.registerCta")}
+        </a>
+      )
+    }
+    <a class="btn btn--outline" href={links.program}>
+      {t("home.closing.programCta")}
+    </a>
+  </div>
+</section>
+
+<section class="partners">
+  <div class="partners__label">{t("home.partners.organizedByLabel")}</div>
+  <div class="partners__logos partners__logos--bordered">
+    {
+      site.footerLogos.map((logo) =>
+        logo.href ? (
+          <a href={logo.href}>
+            <img src={logo.src} alt={logo.alt} />
+          </a>
+        ) : (
+          <img src={logo.src} alt={logo.alt} />
+        ),
+      )
+    }
+  </div>
+  <div class="partners__label partners__label--support">
+    {t("home.partners.acknowledgementsLabel")}
+  </div>
+  <div class="partners__logos">
+    {
+      site.supportLogos.map((logo) =>
+        logo.src ? (
+          logo.href ? (
+            <a href={logo.href}>
+              <img src={logo.src} alt={logo.alt} />
+            </a>
+          ) : (
+            <img src={logo.src} alt={logo.alt} />
+          )
+        ) : (
+          <div class="partners__placeholder" aria-label={logo.alt}>
+            {t("home.partners.logoPlaceholder")}
+          </div>
+        ),
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: var(--space-2) var(--space-14) var(--space-16);
+  }
+  .section--tight {
+    padding: var(--space-12) var(--space-14) var(--space-2);
+  }
+  .section__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-10);
+    margin-bottom: var(--space-8);
+  }
+  .section__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-7);
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  /* -- hero -- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-accent-900);
+    color: var(--color-neutral-100);
+    padding: var(--space-14) var(--space-14) var(--space-22);
+  }
+  .hero__26 {
+    position: absolute;
+    right: var(--space-10);
+    top: calc(var(--space-10) * -1);
+    font-size: var(--font-size-420);
+    line-height: 0.8;
+    font-weight: 800;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--color-accent-700);
+    opacity: 0.55;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero__content {
+    position: relative;
+    max-width: 720px;
+  }
+  .hero__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent-300);
+    margin-bottom: var(--space-7);
+  }
+  .hero__eyebrow-sep {
+    opacity: 0.5;
+  }
+  .hero__title {
+    font-size: var(--font-size-66);
+    line-height: 1.02;
+    font-weight: 800;
+    margin: 0 0 var(--space-6);
+    color: var(--color-neutral-100);
+    white-space: pre-line;
+  }
+  .hero__tagline {
+    font-size: var(--font-size-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent-300);
+    margin: 0 0 var(--space-5);
+    max-width: 520px;
+  }
+  .hero__description {
+    line-height: 1.7;
+    color: var(--color-neutral-300);
+    max-width: 520px;
+    margin: 0 0 var(--space-9);
+  }
+
+  /* -- buttons / links -- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-7);
+    text-decoration: none;
+    font-size: var(--font-size-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .btn--light {
+    background: var(--color-neutral-100);
+    color: var(--color-accent-900);
+  }
+  .btn--dark {
+    background: var(--color-accent-900);
+    color: var(--color-neutral-100);
+    padding: var(--space-4) var(--space-6);
+  }
+  .btn--accent {
+    background: var(--color-accent);
+    color: var(--color-neutral-100);
+  }
+  .btn--outline {
+    border: 1px solid var(--color-accent-700);
+    color: var(--color-neutral-100);
+  }
+  .link {
+    font-size: var(--font-size-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-700);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* -- eyebrow / heading / muted text -- */
+  .eyebrow {
+    font-size: var(--font-size-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+  }
+  .eyebrow--icon {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-accent-700);
+  }
+  .eyebrow--light {
+    text-align: center;
+    color: var(--color-accent-300);
+    letter-spacing: 0.14em;
+    margin-bottom: var(--space-6);
+  }
+  .heading {
+    margin: 0 0 var(--space-4);
+    line-height: 1.2;
+  }
+  .heading--md {
+    font-size: var(--font-size-26);
+    line-height: 1.25;
+    margin: 0 0 var(--space-2);
+    max-width: 520px;
+  }
+  .heading--lg {
+    font-size: var(--font-size-34);
+  }
+  .muted {
+    opacity: 0.7;
+    margin: 0;
+  }
+  .muted--body {
+    opacity: 0.85;
+    line-height: 1.75;
+    margin: 0 0 var(--space-4);
+  }
+  .muted--small {
+    font-size: var(--font-size-sm);
+  }
+
+  /* -- registration panel -- */
+  .panel {
+    background: var(--color-surface);
+    padding: var(--space-9) var(--space-10);
+  }
+  .panel--row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-10);
+  }
+
+  /* -- about -- */
+  .about__photo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--color-surface);
+  }
+  .about__photo--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--color-surface),
+      var(--color-surface) 10px,
+      var(--color-neutral-300) 10px,
+      var(--color-neutral-300) 20px
+    );
+  }
+
+  /* -- stats -- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 2px solid var(--color-divider);
+    border-bottom: 2px solid var(--color-divider);
+  }
+  .stats__item {
+    padding: var(--space-8) 0;
+    text-align: center;
+  }
+  .stats__value {
+    font-size: var(--font-size-40);
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: var(--space-2);
+  }
+  .stats__label {
+    font-size: var(--font-size-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+  }
+
+  /* -- proceedings -- */
+  .proceedings {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--space-14);
+    align-items: center;
+    padding: var(--space-12);
+  }
+  .proceedings__cover {
+    width: 100%;
+    aspect-ratio: 420 / 594;
+    object-fit: cover;
+    box-shadow: var(--shadow-md);
+  }
+
+  /* -- important dates -- */
+  .dates {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid var(--color-divider);
+  }
+  .dates__row {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: var(--space-6);
+    align-items: baseline;
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .dates__index {
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    opacity: 0.4;
+  }
+  .dates__label {
+    font-size: var(--font-size-17);
+    font-weight: 800;
+    margin-bottom: var(--space-1);
+  }
+  .dates__description {
+    font-size: var(--font-size-sm);
+    opacity: 0.65;
+  }
+  .dates__value {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-accent-700);
+    white-space: nowrap;
+  }
+
+  /* -- speakers -- */
+  .speakers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+  .speakers__portrait {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin-bottom: var(--space-4);
+    background: var(--color-surface);
+  }
+  .speakers__portrait--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .speakers__name {
+    font-size: var(--font-size-16);
+    font-weight: 800;
+    margin-bottom: var(--space-1);
+  }
+  .speakers__role {
+    font-size: var(--font-size-2xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-700);
+  }
+  .speakers__affiliation {
+    font-size: var(--font-size-2xs);
+    opacity: 0.6;
+    margin-top: var(--space-1);
+  }
+
+  /* -- committees -- */
+  .committees-intro {
+    margin-bottom: var(--space-8);
+    align-items: start;
+  }
+  .committees-intro__text {
+    padding-top: var(--space-8);
+    margin: 0;
+  }
+  .committees-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+  .committees-grid__card {
+    background: var(--color-surface);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .committees-grid__card svg {
+    color: var(--color-accent);
+  }
+  .committees-grid__card h3 {
+    font-size: var(--font-size-20);
+    margin: 0;
+  }
+  .committees-grid__count {
+    font-size: var(--font-size-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-700);
+    margin: 0;
+  }
+  .committees-grid__card p {
+    font-size: var(--font-size-md);
+    opacity: 0.75;
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* -- closing -- */
+  .closing {
+    margin: 0 var(--space-14) var(--space-16);
+    background: var(--color-accent-900);
+    color: var(--color-neutral-100);
+    padding: var(--space-18) var(--space-14);
+    text-align: center;
+  }
+  .closing__heading {
+    font-size: var(--font-size-46);
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 0 0 var(--space-4);
+    color: var(--color-neutral-100);
+  }
+  .closing__subtitle {
+    font-size: var(--font-size-md);
+    color: var(--color-neutral-300);
+    margin: 0 0 var(--space-8);
+  }
+  .closing__actions {
+    display: flex;
+    gap: 0;
+    justify-content: center;
+  }
+
+  /* -- partners -- */
+  .partners {
+    margin: 0 var(--space-14) var(--space-14);
+    background: var(--color-neutral-900);
+    padding: var(--space-12) var(--space-14);
+  }
+  .partners__label {
+    text-align: center;
+    font-size: var(--font-size-2xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-neutral-400);
+    margin-bottom: var(--space-7);
+  }
+  .partners__logos {
+    display: flex;
+    gap: var(--space-16);
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .partners__logos--bordered {
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--color-neutral-700);
+  }
+  .partners__label--support {
+    margin-top: var(--space-8);
+  }
+  .partners__logos img {
+    height: 48px;
+  }
+  .partners__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    height: 46px;
+    border: 1px dashed var(--color-neutral-600);
+    color: var(--color-neutral-400);
+    font-family: monospace;
+    font-size: var(--font-size-2xs);
+  }
+
+  @media (max-width: 900px) {
+    .section,
+    .section--tight,
+    .hero,
+    .closing,
+    .partners {
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
+    }
+    .grid-2,
+    .proceedings,
+    .stats,
+    .speakers,
+    .committees-grid,
+    .committees-intro {
+      grid-template-columns: 1fr;
+    }
+    .hero__title {
+      font-size: var(--font-size-42);
+    }
+  }
+</style>
