@@ -1,9 +1,9 @@
 ---
-import history from "../data/history.json";
+import { history } from "../data/history";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations, type Lang } from "../i18n/utils";
 import Button from "./Button.astro";
-import site from "../data/site.json";
+import { site } from "../data/site";
 
 interface Props {
   lang: Lang;
