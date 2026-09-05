@@ -9,7 +9,6 @@
     "program": "program",
     "speakers": "speakers",
     "committees": "committees",
-    "authorGuidelines": "author-guidelines",
     "submissions": "submissions",
     "history": "history",
     "registration": "registration"
@@ -32,7 +31,10 @@
     "easyChairSubmission": null,
     "easyChairProgram": null,
     "registration": null,
-    "proceedings": null
+    "proceedings": null,
+    "lncsTemplateLatex": null,
+    "lncsTemplateWord": null,
+    "callForPapers": null
   },
   "images": {
     "banner": "/images/sei-banner.png",
