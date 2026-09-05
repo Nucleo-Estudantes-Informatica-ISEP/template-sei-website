@@ -1,12 +1,24 @@
 {
   "nav.home": "Home",
+  "nav.program": "Program",
   "nav.committees": "Committees",
-  "nav.authorGuidelines": "Author Guidelines",
+  "nav.submissions": "Submissions",
   "nav.speakers": "Speakers",
   "nav.registration": "Registration",
   "nav.photos": "Photos",
   "nav.history": "History",
   "footer.copyright": "All rights reserved.",
+
+  "footer.navigationHeading": "Navigation",
+  "footer.participationHeading": "Participation",
+  "footer.contactHeading": "Contact & venue",
+  "footer.description": "The annual Informatics Engineering symposium of ISEP — organised by DEI and NEI.",
+  "footer.emailLabel": "Email",
+  "footer.linkedinLabel": "LinkedIn",
+  "footer.location": "Porto, Portugal",
+  "footer.copyrightLine": "© {year} {edition} — Symposium of Informatics Engineering · DEI · NEI · ISEP",
+  "backToTop.label": "Back to top",
+  "languageSwitcher.label": "Change language",
 
   "program.eyebrow": "Program",
   "program.title": "A day worth keeping",
@@ -22,5 +34,39 @@
   "program.galleryTitle": "Moments from SEI",
   "program.galleryDescription": "A glimpse of past editions — talks, sessions and the community.",
   "program.galleryPhoto": "Photo",
-  "program.galleryEmpty": "No gallery photos available."
+  "program.galleryEmpty": "No gallery photos available.",
+
+  "submissions.eyebrow": "Call for papers",
+  "submissions.title": "Share your scientific work.",
+  "submissions.description": "SEI is the ideal stage for student researchers to present their findings to the academic and professional community.",
+
+  "submissions.dates.tba": "TBA",
+  "submissions.dates.paperSubmission.label": "Submission",
+  "submissions.dates.paperSubmission.description": "Deadline for sending papers",
+  "submissions.dates.acceptanceNotification.label": "Notification",
+  "submissions.dates.acceptanceNotification.description": "Communication of acceptance",
+  "submissions.dates.cameraReady.label": "Final version",
+  "submissions.dates.cameraReady.description": "Camera-ready submission",
+
+  "submissions.formatting.title": "Formatting instructions",
+  "submissions.formatting.intro": "Papers must be original and cannot be under review at any other conference or publication. Acceptance implies the presentation of the work at the symposium.",
+  "submissions.formatting.item1.title": "LNCS template",
+  "submissions.formatting.item1.description": "Papers must follow the Springer LNCS (Lecture Notes in Computer Science) format.",
+  "submissions.formatting.item2.title": "Length",
+  "submissions.formatting.item2.description": "A paper must have a minimum of 6 and a maximum of 10 pages, including figures and references.",
+  "submissions.formatting.item3.title": "Accepted languages",
+  "submissions.formatting.item3.description": "Submissions are accepted in Portuguese, Spanish or English.",
+  "submissions.formatting.item4.title": "Blind review",
+  "submissions.formatting.item4.description": "The initial version for review must not contain author names or affiliations.",
+
+  "submissions.cta.title": "Ready to submit?",
+  "submissions.cta.description": "The review process is managed through the EasyChair platform.",
+  "submissions.cta.button": "Submit a paper",
+
+  "submissions.resources.heading": "Useful resources",
+  "submissions.resources.lncsTemplateLatex": "LNCS template (LaTeX)",
+  "submissions.resources.lncsTemplateWord": "LNCS template (Word)",
+  "submissions.resources.callForPapers": "Call for papers (PDF)",
+
+  "submissions.topics.title": "Topics of interest"
 }

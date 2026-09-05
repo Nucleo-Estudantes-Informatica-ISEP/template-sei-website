@@ -3,12 +3,22 @@ import {
   publicAssetPath,
   optionalUrl,
   yearSchema,
+  routeSlug,
 } from "./primitives.schema.mjs";
 
 export const siteConfigSchema = z.object({
   edition: z.object({
     name: z.string().min(1),
     year: yearSchema,
+  }),
+  pages: z.object({
+    home: z.literal(""),
+    program: routeSlug,
+    speakers: routeSlug,
+    committees: routeSlug,
+    submissions: routeSlug,
+    history: routeSlug,
+    registration: routeSlug,
   }),
   importantDates: z
     .array(
@@ -27,10 +37,27 @@ export const siteConfigSchema = z.object({
     easyChairProgram: optionalUrl,
     registration: optionalUrl,
     proceedings: optionalUrl,
+    lncsTemplateLatex: optionalUrl,
+    lncsTemplateWord: optionalUrl,
+    callForPapers: optionalUrl,
   }),
   images: z.object({
     banner: publicAssetPath,
     proceedingsCover: publicAssetPath,
+    logo: publicAssetPath,
+  }),
+  contact: z.object({
+    email: z.email(),
+  }),
+  social: z.object({
+    linkedin: optionalUrl,
+  }),
+  venue: z.object({
+    name: z.string().min(1),
+    addressLine1: z.string().min(1),
+    postalCode: z.string().min(1),
+    city: z.string().min(1),
+    country: z.string().min(1),
   }),
   footerLogos: z
     .array(
