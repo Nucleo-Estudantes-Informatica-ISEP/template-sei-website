@@ -1,8 +1,10 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { site } from "../data/site";
 import { speakers } from "../data/speakers";
 import { committees } from "../data/committees";
 import { history } from "../data/history";
+import { topics } from "../data/topics";
 import { useTranslations, type Lang } from "../i18n/utils";
 
 interface Props {
@@ -23,22 +25,15 @@ function tt(key: Parameters<typeof t>[0], vars: Record<string, string> = {}) {
   return raw.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? "");
 }
 
-// --- routing -------------------------------------------------------
-// pt is the default locale and has no URL prefix; en is served under /en.
-// (Matches i18n/utils.ts: defaultLang = "pt", getLangFromUrl falls back
-// to "pt" when the first path segment isn't a recognised language.)
-const path = (slug: string) => {
-  const prefix = lang === "pt" ? "" : `/${lang}`;
-  return slug ? `${prefix}/${slug}` : `${prefix}/`;
-};
-
 const links = {
-  home: path(site.pages.home),
-  program: path(site.pages.program),
-  speakers: path(site.pages.speakers),
-  committees: path(site.pages.committees),
-  submissions: path(site.pages.submissions),
-  registration: site.links.registration ?? path(site.pages.registration),
+  home: getRelativeLocaleUrl(lang, site.pages.home),
+  program: getRelativeLocaleUrl(lang, site.pages.program),
+  speakers: getRelativeLocaleUrl(lang, site.pages.speakers),
+  committees: getRelativeLocaleUrl(lang, site.pages.committees),
+  submissions: getRelativeLocaleUrl(lang, site.pages.submissions),
+  registration:
+    site.links.registration ??
+    getRelativeLocaleUrl(lang, site.pages.registration),
   proceedings: site.links.proceedings,
 };
 
@@ -47,10 +42,12 @@ const links = {
 // yet, so it's +1.
 const editionsCount = history.length + 1;
 
-// TODO: still no topics/thematic-areas collection — leaving this one as
-// a static i18n value (home.stats.thematicAreasValue) until it exists.
+const thematicAreasCount = topics.length;
+
+const technicalCommitteeCount = committees.scientific.length;
+const organizingCommitteeCount = committees.organizing.length;
 const committeeMembersCount =
-  committees.scientific.length + committees.organizing.length;
+  technicalCommitteeCount + organizingCommitteeCount;
 
 const dateFormatter = new Intl.DateTimeFormat(lang, {
   year: "numeric",
@@ -63,27 +60,13 @@ function formatDate(iso: string | null) {
   return dateFormatter.format(new Date(iso));
 }
 
-// The 3 real, data-backed rows.
+// site.importantDates carries all 5 rows of the calendar.
 const importantDates = site.importantDates.map((entry, i) => ({
   index: i + 1,
   label: t(`dates.${entry.id}.label` as Parameters<typeof t>[0]),
   description: t(`dates.${entry.id}.description` as Parameters<typeof t>[0]),
   value: formatDate(entry.date),
 }));
-
-// 2 extra display-only rows (no schema-backed date yet) to match the
-// full 5-row calendar in the design. Remove once/if these get a real date.
-const staticDateRows = [
-  { id: "symposiumInscription" },
-  { id: "symposiumDay" },
-].map((entry, i) => ({
-  index: importantDates.length + i + 1,
-  label: t(`dates.${entry.id}.label` as Parameters<typeof t>[0]),
-  description: t(`dates.${entry.id}.description` as Parameters<typeof t>[0]),
-  value: t("home.dates.tba"),
-}));
-
-const allDateRows = [...importantDates, ...staticDateRows];
 
 const featuredSpeakers = speakers.slice(0, 3);
 ---
@@ -124,6 +107,7 @@ const featuredSpeakers = speakers.slice(0, 3);
           fill="none"
           stroke="currentColor"
           stroke-width="2.4"
+          aria-hidden="true"
         >
           <rect x="3" y="5" width="18" height="16"></rect>
           <path d="M8 3v4M16 3v4M3 11h18"></path>
@@ -170,7 +154,7 @@ const featuredSpeakers = speakers.slice(0, 3);
       <div class="stats__label">{t("home.stats.editionsLabel")}</div>
     </div>
     <div class="stats__item">
-      <div class="stats__value">{t("home.stats.thematicAreasValue")}</div>
+      <div class="stats__value">{thematicAreasCount}</div>
       <div class="stats__label">{t("home.stats.thematicAreasLabel")}</div>
     </div>
     <div class="stats__item">
@@ -217,7 +201,7 @@ const featuredSpeakers = speakers.slice(0, 3);
   </h2>
   <ol class="dates">
     {
-      allDateRows.map((row) => (
+      importantDates.map((row) => (
         <li class="dates__row">
           <span class="dates__index">{String(row.index).padStart(2, "0")}</span>
           <div>
@@ -265,6 +249,7 @@ const featuredSpeakers = speakers.slice(0, 3);
           )}
           <div class="speakers__name">{speaker.name}</div>
           <div class="speakers__role">{speaker.role}</div>
+          <div class="speakers__affiliation">{speaker.affiliation}</div>
         </div>
       ))
     }
@@ -290,11 +275,19 @@ const featuredSpeakers = speakers.slice(0, 3);
         fill="none"
         stroke="currentColor"
         stroke-width="2.2"
+        aria-hidden="true"
       >
         <path d="M4 19V6a2 2 0 012-2h12a2 2 0 012 2v13M8 8h8M8 12h8M8 16h5"
         ></path>
       </svg>
       <h3>{t("home.committees.technicalHeading")}</h3>
+      <p class="committees-grid__count">
+        {
+          tt("home.committees.memberCount", {
+            count: String(technicalCommitteeCount),
+          })
+        }
+      </p>
       <p>{t("home.committees.technicalDescription")}</p>
       <a class="link" href={links.committees}>{t("home.committees.cta")} →</a>
     </div>
@@ -306,12 +299,20 @@ const featuredSpeakers = speakers.slice(0, 3);
         fill="none"
         stroke="currentColor"
         stroke-width="2.2"
+        aria-hidden="true"
       >
         <path
           d="M16 20v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 6a3 3 0 100 6 3 3 0 000-6M22 20v-2a4 4 0 00-3-3.9M16 6.1A3 3 0 0116 12"
         ></path>
       </svg>
       <h3>{t("home.committees.organizationHeading")}</h3>
+      <p class="committees-grid__count">
+        {
+          tt("home.committees.memberCount", {
+            count: String(organizingCommitteeCount),
+          })
+        }
+      </p>
       <p>{t("home.committees.organizationDescription")}</p>
       <a class="link" href={links.committees}>{t("home.committees.cta")} →</a>
     </div>
@@ -373,7 +374,7 @@ const featuredSpeakers = speakers.slice(0, 3);
           )
         ) : (
           <div class="partners__placeholder" aria-label={logo.alt}>
-            LOGO
+            {t("home.partners.logoPlaceholder")}
           </div>
         ),
       )
@@ -383,27 +384,27 @@ const featuredSpeakers = speakers.slice(0, 3);
 
 <style>
   .section {
-    padding: 8px 56px 64px;
+    padding: var(--space-2) var(--space-14) var(--space-16);
   }
   .section--tight {
-    padding: 48px 56px 8px;
+    padding: var(--space-12) var(--space-14) var(--space-2);
   }
   .section__header {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 40px;
-    margin-bottom: 32px;
+    gap: var(--space-10);
+    margin-bottom: var(--space-8);
   }
   .section__cta {
     display: flex;
     justify-content: center;
-    margin-top: 28px;
+    margin-top: var(--space-7);
   }
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 64px;
+    gap: var(--space-16);
     align-items: center;
   }
 
@@ -413,12 +414,12 @@ const featuredSpeakers = speakers.slice(0, 3);
     overflow: hidden;
     background: var(--color-accent-900);
     color: var(--color-neutral-100);
-    padding: 56px 56px 88px;
+    padding: var(--space-14) var(--space-14) var(--space-22);
   }
   .hero__26 {
     position: absolute;
-    right: 40px;
-    top: -40px;
+    right: var(--space-10);
+    top: calc(var(--space-10) * -1);
     font-size: 420px;
     line-height: 0.8;
     font-weight: 800;
@@ -435,49 +436,48 @@ const featuredSpeakers = speakers.slice(0, 3);
   .hero__eyebrow {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 11px;
+    gap: var(--space-2);
+    font-size: var(--font-size-xs);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--color-accent-300);
-    margin-bottom: 28px;
+    margin-bottom: var(--space-7);
   }
   .hero__eyebrow-sep {
     opacity: 0.5;
   }
   .hero__title {
-    font-size: 66px;
+    font-size: var(--font-size-66);
     line-height: 1.02;
     font-weight: 800;
-    margin: 0 0 26px;
+    margin: 0 0 var(--space-6);
     color: var(--color-neutral-100);
     white-space: pre-line;
   }
   .hero__tagline {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-accent-300);
-    margin: 0 0 20px;
+    margin: 0 0 var(--space-5);
     max-width: 520px;
   }
   .hero__description {
-    font-size: 15px;
     line-height: 1.7;
     color: var(--color-neutral-300);
     max-width: 520px;
-    margin: 0 0 36px;
+    margin: 0 0 var(--space-9);
   }
 
   /* -- buttons / links -- */
   .btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 15px 28px;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-7);
     text-decoration: none;
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -488,19 +488,19 @@ const featuredSpeakers = speakers.slice(0, 3);
   }
   .btn--dark {
     background: var(--color-accent-900);
-    color: #fff;
-    padding: 15px 26px;
+    color: var(--color-neutral-100);
+    padding: var(--space-4) var(--space-6);
   }
   .btn--accent {
     background: var(--color-accent);
-    color: #fff;
+    color: var(--color-neutral-100);
   }
   .btn--outline {
     border: 1px solid var(--color-accent-700);
     color: var(--color-neutral-100);
   }
   .link {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -511,37 +511,37 @@ const featuredSpeakers = speakers.slice(0, 3);
 
   /* -- eyebrow / heading / muted text -- */
   .eyebrow {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-accent);
-    margin-bottom: 14px;
+    margin-bottom: var(--space-3);
   }
   .eyebrow--icon {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
     color: var(--color-accent-700);
   }
   .eyebrow--light {
     text-align: center;
     color: var(--color-accent-300);
     letter-spacing: 0.14em;
-    margin-bottom: 24px;
+    margin-bottom: var(--space-6);
   }
   .heading {
-    margin: 0 0 16px;
+    margin: 0 0 var(--space-4);
     line-height: 1.2;
   }
   .heading--md {
-    font-size: 26px;
+    font-size: var(--font-size-26);
     line-height: 1.25;
-    margin: 0 0 10px;
+    margin: 0 0 var(--space-2);
     max-width: 520px;
   }
   .heading--lg {
-    font-size: 34px;
+    font-size: var(--font-size-34);
   }
   .muted {
     opacity: 0.7;
@@ -550,22 +550,22 @@ const featuredSpeakers = speakers.slice(0, 3);
   .muted--body {
     opacity: 0.85;
     line-height: 1.75;
-    margin: 0 0 16px;
+    margin: 0 0 var(--space-4);
   }
   .muted--small {
-    font-size: 13px;
+    font-size: var(--font-size-sm);
   }
 
   /* -- registration panel -- */
   .panel {
     background: var(--color-surface);
-    padding: 36px 40px;
+    padding: var(--space-9) var(--space-10);
   }
   .panel--row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 40px;
+    gap: var(--space-10);
   }
 
   /* -- about -- */
@@ -580,7 +580,7 @@ const featuredSpeakers = speakers.slice(0, 3);
     align-items: center;
     justify-content: center;
     font-family: monospace;
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     opacity: 0.6;
@@ -601,17 +601,17 @@ const featuredSpeakers = speakers.slice(0, 3);
     border-bottom: 2px solid var(--color-divider);
   }
   .stats__item {
-    padding: 32px 0;
+    padding: var(--space-8) 0;
     text-align: center;
   }
   .stats__value {
-    font-size: 40px;
+    font-size: var(--font-size-40);
     font-weight: 800;
     line-height: 1;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-2);
   }
   .stats__label {
-    font-size: 10px;
+    font-size: var(--font-size-2xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -622,9 +622,9 @@ const featuredSpeakers = speakers.slice(0, 3);
   .proceedings {
     display: grid;
     grid-template-columns: 200px 1fr;
-    gap: 56px;
+    gap: var(--space-14);
     align-items: center;
-    padding: 48px;
+    padding: var(--space-12);
   }
   .proceedings__cover {
     width: 100%;
@@ -645,27 +645,27 @@ const featuredSpeakers = speakers.slice(0, 3);
   .dates__row {
     display: grid;
     grid-template-columns: 48px 1fr auto;
-    gap: 24px;
+    gap: var(--space-6);
     align-items: baseline;
-    padding: 24px 0;
+    padding: var(--space-6) 0;
     border-bottom: 1px solid var(--color-divider);
   }
   .dates__index {
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     font-weight: 700;
     opacity: 0.4;
   }
   .dates__label {
-    font-size: 17px;
+    font-size: var(--font-size-17);
     font-weight: 800;
-    margin-bottom: 4px;
+    margin-bottom: var(--space-1);
   }
   .dates__description {
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     opacity: 0.65;
   }
   .dates__value {
-    font-size: 13px;
+    font-size: var(--font-size-sm);
     font-weight: 700;
     color: var(--color-accent-700);
     white-space: nowrap;
@@ -675,67 +675,80 @@ const featuredSpeakers = speakers.slice(0, 3);
   .speakers {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: var(--space-6);
   }
   .speakers__portrait {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    margin-bottom: 16px;
+    margin-bottom: var(--space-4);
     background: var(--color-surface);
   }
   .speakers__portrait--placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: var(--font-size-xs);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     opacity: 0.6;
   }
   .speakers__name {
-    font-size: 16px;
+    font-size: var(--font-size-16);
     font-weight: 800;
-    margin-bottom: 4px;
+    margin-bottom: var(--space-1);
   }
   .speakers__role {
-    font-size: 10px;
+    font-size: var(--font-size-2xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-accent-700);
   }
+  .speakers__affiliation {
+    font-size: var(--font-size-2xs);
+    opacity: 0.6;
+    margin-top: var(--space-1);
+  }
 
   /* -- committees -- */
   .committees-intro {
-    margin-bottom: 32px;
+    margin-bottom: var(--space-8);
     align-items: start;
   }
   .committees-intro__text {
-    padding-top: 34px;
+    padding-top: var(--space-8);
     margin: 0;
   }
   .committees-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: var(--space-6);
   }
   .committees-grid__card {
     background: var(--color-surface);
-    padding: 32px;
+    padding: var(--space-8);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-3);
   }
   .committees-grid__card svg {
     color: var(--color-accent);
   }
   .committees-grid__card h3 {
-    font-size: 20px;
+    font-size: var(--font-size-20);
+    margin: 0;
+  }
+  .committees-grid__count {
+    font-size: var(--font-size-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent-700);
     margin: 0;
   }
   .committees-grid__card p {
-    font-size: 14px;
+    font-size: var(--font-size-md);
     opacity: 0.75;
     margin: 0;
     line-height: 1.7;
@@ -743,23 +756,23 @@ const featuredSpeakers = speakers.slice(0, 3);
 
   /* -- closing -- */
   .closing {
-    margin: 0 56px 64px;
+    margin: 0 var(--space-14) var(--space-16);
     background: var(--color-accent-900);
     color: var(--color-neutral-100);
-    padding: 72px 56px;
+    padding: var(--space-18) var(--space-14);
     text-align: center;
   }
   .closing__heading {
-    font-size: 46px;
+    font-size: var(--font-size-46);
     line-height: 1.1;
     font-weight: 800;
-    margin: 0 0 18px;
+    margin: 0 0 var(--space-4);
     color: var(--color-neutral-100);
   }
   .closing__subtitle {
-    font-size: 14px;
+    font-size: var(--font-size-md);
     color: var(--color-neutral-300);
-    margin: 0 0 32px;
+    margin: 0 0 var(--space-8);
   }
   .closing__actions {
     display: flex;
@@ -769,32 +782,32 @@ const featuredSpeakers = speakers.slice(0, 3);
 
   /* -- partners -- */
   .partners {
-    margin: 0 56px 56px;
+    margin: 0 var(--space-14) var(--space-14);
     background: var(--color-neutral-900);
-    padding: 48px 56px;
+    padding: var(--space-12) var(--space-14);
   }
   .partners__label {
     text-align: center;
-    font-size: 10px;
+    font-size: var(--font-size-2xs);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--color-neutral-400);
-    margin-bottom: 28px;
+    margin-bottom: var(--space-7);
   }
   .partners__logos {
     display: flex;
-    gap: 64px;
+    gap: var(--space-16);
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
   }
   .partners__logos--bordered {
-    padding-bottom: 40px;
+    padding-bottom: var(--space-10);
     border-bottom: 1px solid var(--color-neutral-700);
   }
   .partners__label--support {
-    margin-top: 32px;
+    margin-top: var(--space-8);
   }
   .partners__logos img {
     height: 48px;
@@ -808,7 +821,7 @@ const featuredSpeakers = speakers.slice(0, 3);
     border: 1px dashed var(--color-neutral-600);
     color: var(--color-neutral-400);
     font-family: monospace;
-    font-size: 10px;
+    font-size: var(--font-size-2xs);
   }
 
   @media (max-width: 900px) {
@@ -817,8 +830,8 @@ const featuredSpeakers = speakers.slice(0, 3);
     .hero,
     .closing,
     .partners {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
     }
     .grid-2,
     .proceedings,
@@ -829,7 +842,7 @@ const featuredSpeakers = speakers.slice(0, 3);
       grid-template-columns: 1fr;
     }
     .hero__title {
-      font-size: 42px;
+      font-size: var(--font-size-42);
     }
   }
 </style>
