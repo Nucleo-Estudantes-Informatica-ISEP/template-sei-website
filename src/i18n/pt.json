@@ -2,7 +2,6 @@
   "nav.home": "Início",
   "nav.program": "Programa",
   "nav.committees": "Comissões",
-  "nav.authorGuidelines": "Instruções para Autores",
   "nav.submissions": "Submissões",
   "nav.speakers": "Oradores",
   "nav.registration": "Inscrição",
@@ -18,5 +17,39 @@
   "footer.location": "Porto, Portugal",
   "footer.copyrightLine": "© {year} {edition} — Simpósio de Engenharia Informática · DEI · NEI · ISEP",
   "backToTop.label": "Voltar ao topo",
-  "languageSwitcher.label": "Mudar idioma"
+  "languageSwitcher.label": "Mudar idioma",
+
+  "submissions.eyebrow": "Chamada de trabalhos",
+  "submissions.title": "Partilhe o seu trabalho científico.",
+  "submissions.description": "O SEI é o palco ideal para os estudantes investigadores apresentarem os seus resultados à comunidade académica e profissional.",
+
+  "submissions.dates.tba": "TBA",
+  "submissions.dates.paperSubmission.label": "Submissão",
+  "submissions.dates.paperSubmission.description": "Prazo para o envio de artigos",
+  "submissions.dates.acceptanceNotification.label": "Notificação",
+  "submissions.dates.acceptanceNotification.description": "Comunicação da aceitação",
+  "submissions.dates.cameraReady.label": "Versão final",
+  "submissions.dates.cameraReady.description": "Submissão da versão camera-ready",
+
+  "submissions.formatting.title": "Instruções de formatação",
+  "submissions.formatting.intro": "Os artigos devem ser originais e não podem estar em avaliação em qualquer outra conferência ou publicação. A aceitação implica a apresentação do trabalho no simpósio.",
+  "submissions.formatting.item1.title": "Modelo LNCS",
+  "submissions.formatting.item1.description": "Os artigos devem seguir o formato Springer LNCS (Lecture Notes in Computer Science).",
+  "submissions.formatting.item2.title": "Extensão",
+  "submissions.formatting.item2.description": "Um artigo deve ter no mínimo 6 e no máximo 10 páginas, incluindo figuras e referências.",
+  "submissions.formatting.item3.title": "Idiomas aceites",
+  "submissions.formatting.item3.description": "São aceites submissões em português, espanhol ou inglês.",
+  "submissions.formatting.item4.title": "Revisão cega",
+  "submissions.formatting.item4.description": "A versão inicial para revisão não pode conter nomes de autores ou afiliações.",
+
+  "submissions.cta.title": "Pronto para submeter?",
+  "submissions.cta.description": "O processo de revisão é gerido através da plataforma EasyChair.",
+  "submissions.cta.button": "Submeter um artigo",
+
+  "submissions.resources.heading": "Recursos úteis",
+  "submissions.resources.lncsTemplateLatex": "Modelo LNCS (LaTeX)",
+  "submissions.resources.lncsTemplateWord": "Modelo LNCS (Word)",
+  "submissions.resources.callForPapers": "Chamada de trabalhos (PDF)",
+
+  "submissions.topics.title": "Tópicos de interesse"
 }

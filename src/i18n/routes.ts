@@ -9,7 +9,7 @@ export const NAV_LINKS: NavLink[] = [
   { id: "program", labelKey: "nav.program" },
   { id: "speakers", labelKey: "nav.speakers" },
   { id: "committees", labelKey: "nav.committees" },
-  { id: "authorGuidelines", labelKey: "nav.authorGuidelines" },
+  { id: "submissions", labelKey: "nav.submissions" },
   { id: "history", labelKey: "nav.history" },
 ];
 

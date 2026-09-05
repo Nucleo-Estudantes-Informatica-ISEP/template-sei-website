@@ -16,7 +16,6 @@ export const siteConfigSchema = z.object({
     program: routeSlug,
     speakers: routeSlug,
     committees: routeSlug,
-    authorGuidelines: routeSlug,
     submissions: routeSlug,
     history: routeSlug,
     registration: routeSlug,
@@ -38,6 +37,9 @@ export const siteConfigSchema = z.object({
     easyChairProgram: optionalUrl,
     registration: optionalUrl,
     proceedings: optionalUrl,
+    lncsTemplateLatex: optionalUrl,
+    lncsTemplateWord: optionalUrl,
+    callForPapers: optionalUrl,
   }),
   images: z.object({
     banner: publicAssetPath,
