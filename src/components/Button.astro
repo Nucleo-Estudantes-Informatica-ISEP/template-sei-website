@@ -43,18 +43,12 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
     cursor: pointer;
     text-decoration: none;
     font-family: var(--font-heading);
-    font-weight: var(--font-heading-weight);
-    font-size: 14px;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     line-height: 1.2;
-    color: var(--color-text);
-    background: transparent;
     border: 1px solid transparent;
-    padding: var(--space-2) calc(var(--space-3) * 1.2);
-    border-radius: var(--radius-md);
-  }
-
-  .btn svg {
-    display: block;
   }
 
   .btn:disabled {
@@ -62,54 +56,59 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
     cursor: not-allowed;
   }
 
-  .btn-primary {
-    background: var(--color-accent);
-    color: var(--color-bg);
+  .btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 
+  .btn-primary {
+    background: var(--color-accent);
+    color: #fff;
+    border-radius: 999px;
+    padding: 12px 26px;
+  }
   .btn-primary:hover {
     background: var(--color-accent-600);
   }
-
   .btn-primary:active {
     background: var(--color-accent-700);
   }
 
   .btn-secondary {
-    border-color: var(--color-divider);
+    background: transparent;
+    color: var(--color-accent-700);
+    border-color: var(--color-accent-700);
+    border-radius: 0;
+    padding: 15px 28px;
   }
-
   .btn-secondary:hover {
-    background: color-mix(in srgb, var(--color-text) 7%, transparent);
+    background: color-mix(in srgb, var(--color-accent-700) 8%, transparent);
   }
-
   .btn-secondary:active {
-    background: color-mix(in srgb, var(--color-text) 14%, transparent);
+    background: color-mix(in srgb, var(--color-accent-700) 16%, transparent);
   }
 
   .btn-ghost {
-    color: var(--color-accent);
-    padding-inline: var(--space-1);
+    background: transparent;
+    color: var(--color-accent-700);
+    padding: 0;
   }
-
+  .btn-ghost::after {
+    content: "\2192"; /* → */
+    display: inline-block;
+    transition: transform 0.15s ease;
+  }
   .btn-ghost:hover {
-    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-accent-800);
   }
-
-  .btn-ghost:active {
-    background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  .btn-ghost:hover::after {
+    transform: translateX(3px);
   }
 
   .btn-icon {
     width: 36px;
     height: 36px;
     padding: 0;
-  }
-
-  .btn-block {
-    width: 100%;
-    margin-top: var(--space-2);
-    justify-content: flex-start;
-    text-align: left;
+    border-radius: 999px;
   }
 </style>
