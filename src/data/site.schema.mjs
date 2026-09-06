@@ -49,6 +49,7 @@ export const siteConfigSchema = z.object({
     eventPhoto: publicAssetPath.nullable(),
     proceedingsCover: publicAssetPath,
     logo: publicAssetPath,
+    qrCode: publicAssetPath.nullable(),
   }),
   contact: z.object({
     email: z.email(),

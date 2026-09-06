@@ -1,0 +1,288 @@
+---
+import Button from "./Button.astro";
+import Tag from "./Tag.astro";
+import { site } from "../data/site";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const registrationHref = site.links.registration;
+
+const symposiumDay = site.importantDates.find(
+  (d) => d.id === "symposiumDay",
+)?.date;
+
+const dateBadge = symposiumDay
+  ? new Intl.DateTimeFormat(lang === "pt" ? "pt-PT" : "en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).format(new Date(symposiumDay))
+  : t("registration.ticket.dateTba");
+
+const title = t("registration.title").replace(
+  "{highlight}",
+  `<span class="accent-text">${t("registration.titleHighlight")}</span>`,
+);
+const descriptionLine2 = t("registration.descriptionLine2").replace(
+  "{edition}",
+  site.edition.name,
+);
+
+const notices = [
+  t("registration.importantInformation.item1"),
+  t("registration.importantInformation.item2"),
+];
+
+const features = [
+  t("registration.ticket.feature1"),
+  t("registration.ticket.feature2"),
+  t("registration.ticket.feature3"),
+];
+---
+
+<header style="padding: 64px 56px 48px;">
+  <Tag tone="accent">{t("registration.eyebrow")}</Tag>
+  <h1
+    style="font-size: 76px; line-height: 1.02; font-weight: 800; margin: 30px 0;"
+    set:html={title}
+  />
+  <p style="font-size: 17px; opacity: 0.75; max-width: 560px;">
+    {t("registration.description")}<br />
+    {descriptionLine2}
+  </p>
+</header>
+
+<section
+  style="padding: 8px 56px 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 52px;"
+>
+  <div style="display: flex; flex-direction: column; gap: 28px;">
+    <!-- Why register? -->
+    <div class="card">
+      <h2 style="font-size: 30px; margin-bottom: 30px;">
+        {t("registration.whyRegister.title")}
+      </h2>
+      <div
+        style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px 32px;"
+      >
+        <div>
+          <div class="benefit-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--color-accent)"
+              stroke-width="2"
+              ><rect x="2" y="5" width="20" height="14" rx="2"></rect><circle
+                cx="8"
+                cy="12"
+                r="2"></circle><path d="M14 10h4M14 14h4"></path></svg
+            >
+          </div>
+          <div style="font-weight: 800; margin-bottom: 8px;">
+            {t("registration.whyRegister.item1.title")}
+          </div>
+          <p style="font-size: 13px; opacity: 0.7;">
+            {t("registration.whyRegister.item1.description")}
+          </p>
+        </div>
+
+        <div>
+          <div class="benefit-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--color-accent)"
+              stroke-width="2"
+              ><path d="M3 8h13v6a4 4 0 01-4 4H7a4 4 0 01-4-4z"></path><path
+                d="M16 9h2a3 3 0 010 6h-2"></path><path d="M3 21h14"
+              ></path></svg
+            >
+          </div>
+          <div style="font-weight: 800; margin-bottom: 8px;">
+            {t("registration.whyRegister.item2.title")}
+          </div>
+          <p style="font-size: 13px; opacity: 0.7;">
+            {t("registration.whyRegister.item2.description")}
+          </p>
+        </div>
+
+        <div>
+          <div class="benefit-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--color-accent)"
+              stroke-width="2"
+              ><path d="M2 4h7a3 3 0 013 3v13a2.5 2.5 0 00-2.5-2.5H2z"
+              ></path><path d="M22 4h-7a3 3 0 00-3 3v13a2.5 2.5 0 012.5-2.5H22z"
+              ></path></svg
+            >
+          </div>
+          <div style="font-weight: 800; margin-bottom: 8px;">
+            {
+              t("registration.whyRegister.item3.title").replace(
+                "{edition}",
+                site.edition.name,
+              )
+            }
+          </div>
+          <p style="font-size: 13px; opacity: 0.7;">
+            {
+              t("registration.whyRegister.item3.description").replace(
+                "{edition}",
+                site.edition.name,
+              )
+            }
+          </p>
+        </div>
+
+        <div>
+          <div class="benefit-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--color-accent)"
+              stroke-width="2"
+              ><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0z"></path><path
+                d="M17 5h3v2a3 3 0 01-3 3M7 5H4v2a3 3 0 003 3"></path></svg
+            >
+          </div>
+          <div style="font-weight: 800; margin-bottom: 8px;">
+            {t("registration.whyRegister.item4.title")}
+          </div>
+          <p style="font-size: 13px; opacity: 0.7;">
+            {t("registration.whyRegister.item4.description")}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Important information -->
+    <div
+      style="border: 1px solid var(--color-divider); border-radius: 16px; padding: 40px 44px;"
+    >
+      <h3 style="font-size: 19px; margin-bottom: 24px;">
+        {t("registration.importantInformation.title")}
+      </h3>
+      {
+        notices.map((notice) => (
+          <p style="font-size: 13px; opacity: 0.8; margin-bottom: 14px;">
+            ⓘ {notice}
+          </p>
+        ))
+      }
+    </div>
+  </div>
+
+  <div
+    style="background: var(--color-accent-900); border-radius: 20px; padding: 44px; box-shadow: var(--shadow-lg);"
+  >
+    <div
+      style="display: flex; justify-content: space-between; margin-bottom: 36px;"
+    >
+      <span
+        style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--color-accent-300);"
+      >
+        {t("registration.ticket.type")}
+      </span>
+      <span
+        style="padding: 6px 14px; border-radius: 999px; background: var(--color-accent-800); color: var(--color-neutral-100); font-size: 10px; font-weight: 800; text-transform: uppercase;"
+      >
+        {dateBadge}
+      </span>
+    </div>
+
+    <div
+      style="font-size: 60px; font-weight: 800; color: white; margin-bottom: 12px;"
+    >
+      {t("registration.ticket.price")}
+    </div>
+    <p
+      style="font-size: 13px; color: var(--color-accent-300); margin-bottom: 34px;"
+    >
+      {t("registration.ticket.capacityNote")}
+    </p>
+
+    <div style="margin-bottom: 36px;">
+      {features.map((feature) => <div class="ticket-feature">✓ {feature}</div>)}
+    </div>
+
+    {
+      registrationHref ? (
+        <Button variant="primary" href={registrationHref}>
+          {t("registration.ticket.cta")} →
+        </Button>
+      ) : (
+        <Button variant="primary" disabled>
+          {t("registration.ticket.ctaPending")}
+        </Button>
+      )
+    }
+
+    <div
+      style="display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 36px;"
+    >
+      <div
+        style="width: 170px; height: 170px; background: white; border-radius: 10px; padding: 12px;"
+      >
+        {
+          site.images.qrCode ? (
+            <img
+              src={site.images.qrCode}
+              alt={t("registration.ticket.qrAlt")}
+              width="146"
+              height="146"
+              style="width: 100%; height: 100%; object-fit: contain;"
+            />
+          ) : (
+            <div style="width: 100%; height: 100%; background: var(--color-neutral-200); display: flex; align-items: center; justify-content: center;">
+              <span style="font-size: 10px; text-transform: uppercase;">
+                {t("registration.ticket.qrPlaceholder")}
+              </span>
+            </div>
+          )
+        }
+      </div>
+      <span
+        style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--color-accent-300);"
+      >
+        {t("registration.ticket.qrCaption")}
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .accent-text {
+    color: var(--color-accent);
+  }
+  .benefit-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .ticket-feature {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-accent-800);
+    color: var(--color-neutral-100);
+    font-size: 14px;
+  }
+</style>
