@@ -48,7 +48,8 @@
     "banner": "/images/sei-banner.png",
     "eventPhoto": null,
     "proceedingsCover": "/images/proceedings-cover.png",
-    "logo": "/images/sei-logo.png"
+    "logo": "/images/sei-logo.png",
+    "qrCode": null
   },
   "contact": {
     "email": "sei@dei.isep.ipp.pt"
