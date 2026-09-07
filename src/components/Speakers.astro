@@ -1,0 +1,249 @@
+---
+import { speakers } from "../data/speakers";
+import { useTranslations, type Lang } from "../i18n/utils";
+import Button from "./Button.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<header class="speakers-header">
+  <div class="eyebrow">{t("speakers.eyebrow")}</div>
+  <h1>{t("speakers.title")}</h1>
+  <p>{t("speakers.description")}</p>
+</header>
+
+{
+  speakers.map((speaker, index) => (
+    <section class:list={["speaker-row", { reversed: index % 2 !== 0 }]}>
+      <div class="speaker-portrait">
+        {speaker.photo ? (
+          <img src={speaker.photo} alt={speaker.name} />
+        ) : (
+          <div class="portrait-fallback">
+            <span>{t("speakers.portraitFallback")}</span>
+          </div>
+        )}
+      </div>
+      <div class="speaker-detail">
+        <div class="speaker-role">{speaker.role}</div>
+        <h2>{speaker.name}</h2>
+        <div class="speaker-affiliation">{speaker.affiliation}</div>
+        <p>{speaker.bio}</p>
+        {speaker.links.length > 0 && (
+          <div class="speaker-links">
+            {speaker.links.map((link) => (
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                {link.label} ↗
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  ))
+}
+
+<section class="pending-slot">
+  <div class="pending-eyebrow">{t("speakers.pending.eyebrow")}</div>
+  <h2>{t("speakers.pending.title")}</h2>
+  <p>{t("speakers.pending.description")}</p>
+  <span class="pending-badge">{t("speakers.pending.status")}</span>
+</section>
+
+<section class="closing-cta">
+  <div>
+    <h2>{t("speakers.closing.title")}</h2>
+    <p>{t("speakers.closing.description")}</p>
+  </div>
+  <Button variant="primary" href="/submissions/">
+    {t("speakers.closing.cta")}
+  </Button>
+</section>
+
+<style>
+  .speakers-header {
+    padding: var(--space-18) var(--space-14) var(--space-14);
+  }
+  .speakers-header h1 {
+    font-size: 60px;
+    line-height: 1.05;
+    max-width: 720px;
+    margin: 0 0 var(--space-7);
+  }
+  .speakers-header p {
+    max-width: 600px;
+    margin: 0;
+    opacity: 0.75;
+  }
+  .eyebrow {
+    margin-bottom: var(--space-6);
+    color: var(--color-neutral-700);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .speaker-row {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--space-14);
+    align-items: start;
+    padding: var(--space-20) var(--space-14) 0;
+  }
+  .speaker-row.reversed {
+    grid-template-columns: 1fr 300px;
+  }
+  .speaker-row.reversed .speaker-portrait {
+    order: 2;
+  }
+
+  .speaker-portrait {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .speaker-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .portrait-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--color-surface),
+      var(--color-surface) 10px,
+      var(--color-neutral-300) 10px,
+      var(--color-neutral-300) 20px
+    );
+  }
+  .portrait-fallback span {
+    font-family: monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+
+  .speaker-detail {
+    padding-top: var(--space-2);
+  }
+  .speaker-role {
+    margin-bottom: var(--space-3);
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .speaker-detail h2 {
+    font-size: 38px;
+    line-height: 1.1;
+    margin: 0 0 var(--space-2);
+  }
+  .speaker-affiliation {
+    margin-bottom: var(--space-6);
+    opacity: 0.7;
+  }
+  .speaker-detail p {
+    max-width: 600px;
+    margin: 0 0 var(--space-7);
+    line-height: 1.8;
+    opacity: 0.85;
+  }
+  .speaker-links {
+    display: flex;
+    gap: var(--space-7);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .speaker-links a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .pending-slot {
+    margin: var(--space-20) var(--space-14) 0;
+    padding: var(--space-16);
+    border-radius: 24px;
+    background: var(--color-surface);
+    text-align: center;
+  }
+  .pending-eyebrow {
+    margin-bottom: var(--space-4);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .pending-slot h2 {
+    font-size: 32px;
+    margin: 0 0 var(--space-4);
+  }
+  .pending-slot p {
+    max-width: 460px;
+    margin: 0 auto var(--space-6);
+    opacity: 0.7;
+  }
+  .pending-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: var(--color-accent-200);
+    color: var(--color-accent-800);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .closing-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-14);
+    margin: var(--space-20) var(--space-14) 0;
+    padding: var(--space-14) 0 var(--space-18);
+    border-top: 1px solid var(--color-divider);
+  }
+  .closing-cta h2 {
+    font-size: 30px;
+    margin: 0 0 var(--space-3);
+  }
+  .closing-cta p {
+    max-width: 460px;
+    margin: 0;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 768px) {
+    .speaker-row,
+    .speaker-row.reversed {
+      grid-template-columns: 1fr;
+    }
+    .speaker-row.reversed .speaker-portrait {
+      order: 0;
+    }
+    .closing-cta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
