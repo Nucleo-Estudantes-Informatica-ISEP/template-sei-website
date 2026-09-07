@@ -120,6 +120,20 @@
   "program.galleryPhoto": "Fotografia",
   "program.galleryEmpty": "Não existem fotografias disponíveis.",
 
+  "speakers.eyebrow": "Oradores convidados",
+  "speakers.title": "Vozes que vale a pena ouvir",
+  "speakers.description": "Palestras e convidados da mesa-redonda do {edition}. O painel é confirmado à medida que os oradores aceitam — volta a verificar regularmente.",
+  "speakers.portraitFallback": "Retrato",
+
+  "speakers.pending.eyebrow": "Próxima confirmação",
+  "speakers.pending.title": "A anunciar",
+  "speakers.pending.description": "Esta sessão será anunciada assim que a confirmação do orador estiver completa. Acompanha as novidades nos canais oficiais do SEI.",
+  "speakers.pending.status": "Estado: por confirmar",
+
+  "speakers.closing.title": "Queres fazer parte do dia?",
+  "speakers.closing.description": "Submete um artigo e partilha a tua investigação no palco — os artigos são aceites até ao prazo de submissão.",
+  "speakers.closing.cta": "Submeter um artigo",
+
   "submissions.eyebrow": "Chamada de trabalhos",
   "submissions.title": "Partilhe o seu trabalho científico.",
   "submissions.description": "O SEI é o palco ideal para os estudantes investigadores apresentarem os seus resultados à comunidade académica e profissional.",

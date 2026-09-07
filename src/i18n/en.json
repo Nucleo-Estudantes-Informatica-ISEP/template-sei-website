@@ -120,6 +120,20 @@
   "program.galleryPhoto": "Photo",
   "program.galleryEmpty": "No gallery photos available.",
 
+  "speakers.eyebrow": "Invited speakers",
+  "speakers.title": "Voices worth hearing",
+  "speakers.description": "Talks and roundtable guests for {edition}. The lineup is confirmed as speakers accept — check back regularly for updates.",
+  "speakers.portraitFallback": "Portrait",
+
+  "speakers.pending.eyebrow": "Next confirmation",
+  "speakers.pending.title": "To be announced",
+  "speakers.pending.description": "This session will be announced as soon as the speaker's confirmation is complete. Follow the news on SEI's official channels.",
+  "speakers.pending.status": "Status: to confirm",
+
+  "speakers.closing.title": "Want to be part of the day?",
+  "speakers.closing.description": "Submit a paper and share your research on the stage — papers are accepted until the submission deadline.",
+  "speakers.closing.cta": "Submit a paper",
+
   "submissions.eyebrow": "Call for papers",
   "submissions.title": "Share your scientific work.",
   "submissions.description": "SEI is the ideal stage for student researchers to present their findings to the academic and professional community.",
