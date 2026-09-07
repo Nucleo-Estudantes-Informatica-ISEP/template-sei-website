@@ -174,13 +174,24 @@ const featuredSpeakers = speakers.slice(0, 3);
   </div>
 </section>
 
-<section class="section">
+<section class="section proceedings-section">
   <div class="panel proceedings">
-    <img
-      class="proceedings__cover"
-      src={site.images.proceedingsCover}
-      alt={t("home.proceedings.coverAlt")}
-    />
+    {
+      site.images.proceedingsCover ? (
+        <img
+          class="proceedings__cover"
+          src={site.images.proceedingsCover}
+          alt={t("home.proceedings.coverAlt")}
+        />
+      ) : (
+        <div
+          class="proceedings__cover proceedings__cover--placeholder"
+          aria-hidden="true"
+        >
+          {t("home.proceedings.coverAlt")}
+        </div>
+      )
+    }
     <div>
       <div class="eyebrow">{t("home.proceedings.eyebrow")}</div>
       <h2 class="heading heading--lg">{t("home.proceedings.heading")}</h2>
@@ -648,6 +659,24 @@ const featuredSpeakers = speakers.slice(0, 3);
     aspect-ratio: 420 / 594;
     object-fit: cover;
     box-shadow: var(--shadow-md);
+  }
+  .proceedings__cover--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: monospace;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--color-surface),
+      var(--color-surface) 10px,
+      var(--color-neutral-300) 10px,
+      var(--color-neutral-300) 20px
+    );
   }
 
   /* -- important dates -- */

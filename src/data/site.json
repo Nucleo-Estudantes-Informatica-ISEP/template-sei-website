@@ -47,7 +47,7 @@
   "images": {
     "banner": "/images/sei-banner.png",
     "eventPhoto": null,
-    "proceedingsCover": "/images/proceedings-cover.png",
+    "proceedingsCover": null,
     "logo": "/images/sei-logo.png",
     "qrCode": null
   },
