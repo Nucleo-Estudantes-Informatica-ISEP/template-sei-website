@@ -28,7 +28,6 @@ function tt(key: Parameters<typeof t>[0], vars: Record<string, string> = {}) {
 const links = {
   home: getRelativeLocaleUrl(lang, site.pages.home),
   program: getRelativeLocaleUrl(lang, site.pages.program),
-  // Speakers page isn't built yet (#15) — teaser CTA stays disabled until it lands.
   speakers: getRelativeLocaleUrl(lang, site.pages.speakers),
   committees: getRelativeLocaleUrl(lang, site.pages.committees),
   submissions: getRelativeLocaleUrl(lang, site.pages.submissions),
@@ -37,8 +36,6 @@ const links = {
   registration: site.links.registration,
   proceedings: site.links.proceedings,
 };
-
-const speakersPageReady = false;
 
 // --- derived data ----------------------------------------------------
 // history.json only holds past editions; the current one isn't in there
@@ -236,13 +233,9 @@ const featuredSpeakers = speakers.slice(0, 3);
         {tt("home.speakers.description", { edition: site.edition.name })}
       </p>
     </div>
-    {
-      speakersPageReady && (
-        <a class="link" href={links.speakers}>
-          {t("home.speakers.cta")} →
-        </a>
-      )
-    }
+    <a class="link" href={links.speakers}>
+      {t("home.speakers.cta")} →
+    </a>
   </div>
   <div class="speakers">
     {
