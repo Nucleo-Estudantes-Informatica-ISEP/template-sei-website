@@ -1,23 +1,59 @@
 [
   {
-    "name": "Speaker Name",
-    "role": "Keynote speaker",
-    "affiliation": "Institution",
-    "bio": "Bio to be announced.",
-    "links": []
+    "name": "Hugo Ferreira",
+    "role": {
+      "en": "Keynote speaker",
+      "pt": "Orador principal (keynote)"
+    },
+    "affiliation": "Ethiack",
+    "bio": {
+      "pt": "Diretor de Operações de Hacking na Ethiack e docente no ISTEC-Porto, com mais de sete anos de experiência em segurança informática. Entusiasta de engenharia social e hacking ético, liderou Live Hacking Events, publicou CVEs e gere equipas dedicadas a encontrar vulnerabilidades em organizações para que possam ser mitigadas antes de serem exploradas.",
+      "en": "Director of Hacking Operations at Ethiack and lecturer at ISTEC-Porto, with over seven years of experience in information security. An enthusiast of social engineering and ethical hacking, he has led Live Hacking Events, published CVEs and manages teams finding vulnerabilities so organizations can address them before they are exploited."
+    },
+    "photo": "/images/design-review/hugo-ferreira.webp",
+    "links": [
+      {
+        "label": "Ethiack",
+        "url": "https://ethiack.com/"
+      }
+    ]
   },
   {
-    "name": "Speaker Name",
-    "role": "Roundtable moderator",
-    "affiliation": "Institution",
-    "bio": "Bio to be announced.",
-    "links": []
+    "name": "Pedro Pinto",
+    "role": {
+      "en": "Roundtable moderator",
+      "pt": "Moderador da mesa-redonda"
+    },
+    "affiliation": "ISEP",
+    "bio": {
+      "pt": "Professor Adjunto no ISEP e investigador no GECAD e INESC TEC. Antigo DPO e diretor do Mestrado em Cibersegurança no IPVC. Os seus interesses abrangem telecomunicações, redes e sistemas, cibersegurança, proteção de dados e privacidade, contando com distinções em programas de recompensas por vulnerabilidades e colaborações como perito para a Procuradoria Geral da República e para a Comissão Europeia.",
+      "en": "Adjunct Professor at ISEP and researcher at GECAD and INESC TEC. Former DPO and director of the Cybersecurity Master’s programme at IPVC. His interests include telecommunications, networks and systems, cybersecurity, data protection and privacy, with recognition in vulnerability reward programmes and expert collaborations with the Portuguese Attorney General’s Office and the European Commission."
+    },
+    "photo": "/images/design-review/pedro-pinto.webp",
+    "links": [
+      {
+        "label": "ISEP",
+        "url": "https://www.isep.ipp.pt/"
+      }
+    ]
   },
   {
-    "name": "Speaker Name",
-    "role": "Guest speaker",
-    "affiliation": "Institution",
-    "bio": "Bio to be announced.",
-    "links": []
+    "name": "Rui Moura",
+    "role": {
+      "en": "Guest speaker",
+      "pt": "Orador convidado"
+    },
+    "affiliation": "Critical TechWorks",
+    "bio": {
+      "pt": "Especialista em cibersegurança, soluções avançadas e gestão de projetos. Liderou projetos globais de grande escala em identificação eletrónica, ePassports e segurança da informação na Europa, Ásia, África e Américas, liderando atualmente a área de Cyber Security and Infrastructure na Critical TechWorks no Porto.",
+      "en": "Specialist in cybersecurity, advanced solutions and project management. He has led large global projects in electronic identification, ePassports and information security across Europe, Asia, Africa and the Americas, and currently leads Cyber Security and Infrastructure at Critical TechWorks in Porto."
+    },
+    "photo": "/images/design-review/rui-moura.webp",
+    "links": [
+      {
+        "label": "Critical TechWorks",
+        "url": "https://www.criticaltechworks.com/"
+      }
+    ]
   }
 ]

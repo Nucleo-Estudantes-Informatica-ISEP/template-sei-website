@@ -1,6 +1,6 @@
 ---
 import { program, gallery } from "../data/program";
-import { useTranslations, type Lang } from "../i18n/utils";
+import { localize, useTranslations, type Lang } from "../i18n/utils";
 import Button from "./Button.astro";
 import { site } from "../data/site";
 import Tag from "./Tag.astro";
@@ -113,11 +113,22 @@ const t = useTranslations(lang);
         gallery.length > 0 ? (
           gallery.map((item) => (
             <div class="gallery-item">
-              <div class="gallery-image">
-                <span>{t("program.galleryPhoto")}</span>
-              </div>
+              {item.src ? (
+                <img
+                  class="gallery-image"
+                  src={item.src}
+                  alt={localize(item.alt ?? item.label, lang)}
+                  loading="lazy"
+                  width="374"
+                  height="374"
+                />
+              ) : (
+                <div class="gallery-image">
+                  <span>{t("program.galleryPhoto")}</span>
+                </div>
+              )}
 
-              <div class="gallery-label">{item.label}</div>
+              <div class="gallery-label">{localize(item.label, lang)}</div>
             </div>
           ))
         ) : (
@@ -332,7 +343,9 @@ const t = useTranslations(lang);
     align-items: center;
     justify-content: center;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1;
+    height: auto;
+    object-fit: cover;
     margin-bottom: var(--space-3);
     border-radius: var(--radius-md);
     background: repeating-linear-gradient(

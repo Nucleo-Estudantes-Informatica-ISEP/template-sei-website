@@ -2,7 +2,7 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { speakers } from "../data/speakers";
 import { site } from "../data/site";
-import { useTranslations, type Lang } from "../i18n/utils";
+import { localize, useTranslations, type Lang } from "../i18n/utils";
 import Button from "./Button.astro";
 import Tag from "./Tag.astro";
 
@@ -30,7 +30,7 @@ const description = t("speakers.description").replace(
     <section class:list={["speaker-row", { reversed: index % 2 !== 0 }]}>
       <div class="speaker-portrait">
         {speaker.photo ? (
-          <img src={speaker.photo} alt={speaker.name} />
+          <img src={speaker.photo} alt={speaker.name} loading="lazy" />
         ) : (
           <div class="portrait-fallback">
             <span>{t("speakers.portraitFallback")}</span>
@@ -38,10 +38,10 @@ const description = t("speakers.description").replace(
         )}
       </div>
       <div class="speaker-detail">
-        <div class="speaker-role">{speaker.role}</div>
+        <div class="speaker-role">{localize(speaker.role, lang)}</div>
         <h2>{speaker.name}</h2>
         <div class="speaker-affiliation">{speaker.affiliation}</div>
-        <p>{speaker.bio}</p>
+        <p>{localize(speaker.bio, lang)}</p>
         {speaker.links.length > 0 && (
           <div class="speaker-links">
             {speaker.links.map((link) => (

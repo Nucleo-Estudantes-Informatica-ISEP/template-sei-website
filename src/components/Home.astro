@@ -5,7 +5,7 @@ import { speakers } from "../data/speakers";
 import { committees } from "../data/committees";
 import { history } from "../data/history";
 import { topics } from "../data/topics";
-import { useTranslations, type Lang } from "../i18n/utils";
+import { localize, useTranslations, type Lang } from "../i18n/utils";
 
 interface Props {
   lang: Lang;
@@ -72,6 +72,12 @@ const featuredSpeakers = speakers.slice(0, 3);
 ---
 
 <header class="hero">
+  <img
+    class="hero__background"
+    src={site.images.banner}
+    alt=""
+    fetchpriority="high"
+  />
   <div class="hero__26" aria-hidden="true">
     {site.edition.year.toString().slice(-2)}
   </div>
@@ -267,7 +273,7 @@ const featuredSpeakers = speakers.slice(0, 3);
             </div>
           )}
           <div class="speakers__name">{speaker.name}</div>
-          <div class="speakers__role">{speaker.role}</div>
+          <div class="speakers__role">{localize(speaker.role, lang)}</div>
           <div class="speakers__affiliation">{speaker.affiliation}</div>
         </div>
       ))
@@ -452,6 +458,14 @@ const featuredSpeakers = speakers.slice(0, 3);
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
+  }
+  .hero__background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
   }
   .hero__26 {
     position: absolute;
