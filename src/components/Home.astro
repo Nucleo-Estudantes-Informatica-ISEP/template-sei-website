@@ -427,6 +427,11 @@ const featuredSpeakers = speakers.slice(0, 3);
     background: var(--color-accent-900);
     color: var(--color-neutral-100);
     padding: var(--space-14) var(--space-14) var(--space-22);
+    /* break out of .page-content's max-width so the banner reaches both
+       viewport edges, like the nav's background does */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
   .hero__26 {
     position: absolute;
@@ -794,7 +799,12 @@ const featuredSpeakers = speakers.slice(0, 3);
 
   /* -- partners -- */
   .partners {
-    margin: 0 var(--space-14) var(--space-14);
+    /* break out of .page-content's max-width so the band reaches both
+       viewport edges, like the nav and hero banner do */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-bottom: var(--space-14);
     background: var(--color-neutral-900);
     padding: var(--space-12) var(--space-14);
   }
