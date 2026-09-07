@@ -153,7 +153,7 @@ const featuredSpeakers = speakers.slice(0, 3);
   }
 </section>
 
-<section class="section section--tight">
+<section class="section stats-section">
   <div class="stats">
     <div class="stats__item">
       <div class="stats__value">{editionsCount}</div>
@@ -412,6 +412,15 @@ const featuredSpeakers = speakers.slice(0, 3);
   .section--tight {
     padding: var(--space-12) var(--space-14) var(--space-2);
   }
+  /* mirrors .section--tight so the gap after stats (this padding-bottom +
+     .proceedings-section's padding-top) matches the gap before it (the
+     about section's padding-bottom + this padding-top) */
+  .stats-section {
+    padding: var(--space-12) var(--space-14) var(--space-16);
+  }
+  .proceedings-section {
+    padding-top: var(--space-12);
+  }
   .section__header {
     display: flex;
     align-items: flex-end;
@@ -625,8 +634,6 @@ const featuredSpeakers = speakers.slice(0, 3);
   .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border-top: 2px solid var(--color-divider);
-    border-bottom: 2px solid var(--color-divider);
   }
   .stats__item {
     padding: var(--space-8) 0;
@@ -686,7 +693,6 @@ const featuredSpeakers = speakers.slice(0, 3);
     padding: 0;
     display: flex;
     flex-direction: column;
-    border-top: 2px solid var(--color-divider);
   }
   .dates__row {
     display: grid;
