@@ -4,6 +4,10 @@
     "fullName": null,
     "year": 2026
   },
+  "seo": {
+    "description": "SEI'26 — Symposium on Engineering and Innovation at ISEP.",
+    "ogImage": "/images/sei-og-image.png"
+  },
   "pages": {
     "home": "",
     "program": "program",
