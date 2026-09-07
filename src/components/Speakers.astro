@@ -1,4 +1,5 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { speakers } from "../data/speakers";
 import { site } from "../data/site";
 import { useTranslations, type Lang } from "../i18n/utils";
@@ -67,7 +68,10 @@ const description = t("speakers.description").replace(
     <h2>{t("speakers.closing.title")}</h2>
     <p>{t("speakers.closing.description")}</p>
   </div>
-  <Button variant="primary" href="/submissions/">
+  <Button
+    variant="primary"
+    href={getRelativeLocaleUrl(lang, site.pages.submissions)}
+  >
     {t("speakers.closing.cta")}
   </Button>
 </section>
@@ -85,6 +89,7 @@ const description = t("speakers.description").replace(
   .speakers-header p {
     max-width: 600px;
     margin: 0;
+    line-height: 1.75;
     opacity: 0.75;
   }
   .eyebrow {
@@ -92,6 +97,7 @@ const description = t("speakers.description").replace(
     color: var(--color-neutral-700);
     font-family: var(--font-heading);
     font-weight: var(--font-heading-weight);
+    font-size: var(--font-size-xs);
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
@@ -157,17 +163,19 @@ const description = t("speakers.description").replace(
     text-transform: uppercase;
   }
   .speaker-detail h2 {
-    font-size: 38px;
+    font-size: var(--font-size-38);
     line-height: 1.1;
     margin: 0 0 var(--space-2);
   }
   .speaker-affiliation {
     margin-bottom: var(--space-6);
+    font-size: var(--font-size-md);
     opacity: 0.7;
   }
   .speaker-detail p {
     max-width: 600px;
     margin: 0 0 var(--space-7);
+    font-size: var(--font-size-md);
     line-height: 1.8;
     opacity: 0.85;
   }
@@ -185,7 +193,7 @@ const description = t("speakers.description").replace(
   }
 
   .pending-slot {
-    margin: var(--space-20) var(--space-14) 0;
+    margin: var(--space-22) var(--space-14) 0;
     padding: var(--space-16);
     border-radius: 24px;
     background: var(--color-surface);
@@ -200,12 +208,14 @@ const description = t("speakers.description").replace(
     opacity: 0.55;
   }
   .pending-slot h2 {
-    font-size: 32px;
+    font-size: var(--font-size-32);
     margin: 0 0 var(--space-4);
   }
   .pending-slot p {
     max-width: 460px;
     margin: 0 auto var(--space-6);
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
     opacity: 0.7;
   }
   .closing-cta {
@@ -213,7 +223,7 @@ const description = t("speakers.description").replace(
     align-items: center;
     justify-content: space-between;
     gap: var(--space-14);
-    margin: var(--space-20) var(--space-14) 0;
+    margin: var(--space-22) var(--space-14) 0;
     padding: var(--space-14) 0 var(--space-18);
     border-top: 1px solid var(--color-divider);
   }
@@ -224,6 +234,8 @@ const description = t("speakers.description").replace(
   .closing-cta p {
     max-width: 460px;
     margin: 0;
+    font-size: var(--font-size-md);
+    line-height: 1.75;
     opacity: 0.75;
   }
 
