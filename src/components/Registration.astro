@@ -46,30 +46,21 @@ const features = [
 ];
 ---
 
-<header style="padding: 64px 56px 48px;">
+<header class="reg-header">
   <Tag tone="accent">{t("registration.eyebrow")}</Tag>
-  <h1
-    style="font-size: 76px; line-height: 1.02; font-weight: 800; margin: 30px 0;"
-    set:html={title}
-  />
-  <p style="font-size: 17px; opacity: 0.75; max-width: 560px;">
+  <h1 set:html={title} />
+  <p>
     {t("registration.description")}<br />
     {descriptionLine2}
   </p>
 </header>
 
-<section
-  style="padding: 8px 56px 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 52px;"
->
-  <div style="display: flex; flex-direction: column; gap: 28px;">
+<section class="reg-body">
+  <div class="reg-left">
     <!-- Why register? -->
     <div class="card">
-      <h2 style="font-size: 30px; margin-bottom: 30px;">
-        {t("registration.whyRegister.title")}
-      </h2>
-      <div
-        style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px 32px;"
-      >
+      <h2>{t("registration.whyRegister.title")}</h2>
+      <div class="benefits-grid">
         <div>
           <div class="benefit-icon">
             <svg
@@ -85,10 +76,10 @@ const features = [
                 r="2"></circle><path d="M14 10h4M14 14h4"></path></svg
             >
           </div>
-          <div style="font-weight: 800; margin-bottom: 8px;">
+          <div class="benefit-title">
             {t("registration.whyRegister.item1.title")}
           </div>
-          <p style="font-size: 13px; opacity: 0.7;">
+          <p class="benefit-description">
             {t("registration.whyRegister.item1.description")}
           </p>
         </div>
@@ -107,10 +98,10 @@ const features = [
               ></path></svg
             >
           </div>
-          <div style="font-weight: 800; margin-bottom: 8px;">
+          <div class="benefit-title">
             {t("registration.whyRegister.item2.title")}
           </div>
-          <p style="font-size: 13px; opacity: 0.7;">
+          <p class="benefit-description">
             {t("registration.whyRegister.item2.description")}
           </p>
         </div>
@@ -129,7 +120,7 @@ const features = [
               ></path></svg
             >
           </div>
-          <div style="font-weight: 800; margin-bottom: 8px;">
+          <div class="benefit-title">
             {
               t("registration.whyRegister.item3.title").replace(
                 "{edition}",
@@ -137,7 +128,7 @@ const features = [
               )
             }
           </div>
-          <p style="font-size: 13px; opacity: 0.7;">
+          <p class="benefit-description">
             {
               t("registration.whyRegister.item3.description").replace(
                 "{edition}",
@@ -160,10 +151,10 @@ const features = [
                 d="M17 5h3v2a3 3 0 01-3 3M7 5H4v2a3 3 0 003 3"></path></svg
             >
           </div>
-          <div style="font-weight: 800; margin-bottom: 8px;">
+          <div class="benefit-title">
             {t("registration.whyRegister.item4.title")}
           </div>
-          <p style="font-size: 13px; opacity: 0.7;">
+          <p class="benefit-description">
             {t("registration.whyRegister.item4.description")}
           </p>
         </div>
@@ -171,52 +162,22 @@ const features = [
     </div>
 
     <!-- Important information -->
-    <div
-      style="border: 1px solid var(--color-divider); border-radius: 16px; padding: 40px 44px;"
-    >
-      <h3 style="font-size: 19px; margin-bottom: 24px;">
-        {t("registration.importantInformation.title")}
-      </h3>
-      {
-        notices.map((notice) => (
-          <p style="font-size: 13px; opacity: 0.8; margin-bottom: 14px;">
-            ⓘ {notice}
-          </p>
-        ))
-      }
+    <div class="info-panel">
+      <h3>{t("registration.importantInformation.title")}</h3>
+      {notices.map((notice) => <p class="notice">ⓘ {notice}</p>)}
     </div>
   </div>
 
-  <div
-    style="background: var(--color-accent-900); border-radius: 20px; padding: 44px; box-shadow: var(--shadow-lg);"
-  >
-    <div
-      style="display: flex; justify-content: space-between; margin-bottom: 36px;"
-    >
-      <span
-        style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--color-accent-300);"
-      >
-        {t("registration.ticket.type")}
-      </span>
-      <span
-        style="padding: 6px 14px; border-radius: 999px; background: var(--color-accent-800); color: var(--color-neutral-100); font-size: 10px; font-weight: 800; text-transform: uppercase;"
-      >
-        {dateBadge}
-      </span>
+  <div class="ticket-card">
+    <div class="ticket-header">
+      <span class="ticket-type">{t("registration.ticket.type")}</span>
+      <span class="date-badge">{dateBadge}</span>
     </div>
 
-    <div
-      style="font-size: 60px; font-weight: 800; color: white; margin-bottom: 12px;"
-    >
-      {t("registration.ticket.price")}
-    </div>
-    <p
-      style="font-size: 13px; color: var(--color-accent-300); margin-bottom: 34px;"
-    >
-      {t("registration.ticket.capacityNote")}
-    </p>
+    <div class="ticket-price">{t("registration.ticket.price")}</div>
+    <p class="ticket-capacity">{t("registration.ticket.capacityNote")}</p>
 
-    <div style="margin-bottom: 36px;">
+    <div class="ticket-features">
       {features.map((feature) => <div class="ticket-feature">✓ {feature}</div>)}
     </div>
 
@@ -232,35 +193,27 @@ const features = [
       )
     }
 
-    <div
-      style="display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 36px;"
-    >
-      <div
-        style="width: 170px; height: 170px; background: white; border-radius: 10px; padding: 12px;"
-      >
+    <div class="qr-wrapper">
+      <div class="qr-box">
         {
           site.images.qrCode ? (
             <img
+              class="qr-image"
               src={site.images.qrCode}
               alt={t("registration.ticket.qrAlt")}
               width="146"
               height="146"
-              style="width: 100%; height: 100%; object-fit: contain;"
             />
           ) : (
-            <div style="width: 100%; height: 100%; background: var(--color-neutral-200); display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 10px; text-transform: uppercase;">
+            <div class="qr-placeholder">
+              <span class="qr-placeholder-label">
                 {t("registration.ticket.qrPlaceholder")}
               </span>
             </div>
           )
         }
       </div>
-      <span
-        style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--color-accent-300);"
-      >
-        {t("registration.ticket.qrCaption")}
-      </span>
+      <span class="qr-caption">{t("registration.ticket.qrCaption")}</span>
     </div>
   </div>
 </section>
@@ -268,6 +221,43 @@ const features = [
 <style>
   .accent-text {
     color: var(--color-accent);
+  }
+
+  .reg-header {
+    padding: var(--space-16) var(--space-14) var(--space-12);
+  }
+  .reg-header h1 {
+    font-size: 76px;
+    line-height: 1.02;
+    font-weight: 800;
+    margin: var(--space-7) 0;
+  }
+  .reg-header p {
+    font-size: 17px;
+    opacity: 0.75;
+    max-width: 560px;
+  }
+
+  .reg-body {
+    padding: var(--space-2) var(--space-14) var(--space-18);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 52px;
+  }
+  .reg-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .card h2 {
+    font-size: 30px;
+    margin-bottom: var(--space-7);
+  }
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10) var(--space-8);
   }
   .benefit-icon {
     width: 44px;
@@ -279,10 +269,114 @@ const features = [
     justify-content: center;
     margin-bottom: 18px;
   }
+  .benefit-title {
+    font-weight: 800;
+    margin-bottom: var(--space-2);
+  }
+  .benefit-description {
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  .info-panel {
+    border: 1px solid var(--color-divider);
+    border-radius: 16px;
+    padding: var(--space-10) 44px;
+  }
+  .info-panel h3 {
+    font-size: 19px;
+    margin-bottom: var(--space-6);
+  }
+  .notice {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-bottom: 14px;
+  }
+
+  .ticket-card {
+    background: var(--color-accent-900);
+    border-radius: 20px;
+    padding: 44px;
+    box-shadow: var(--shadow-lg);
+  }
+  .ticket-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-9);
+  }
+  .ticket-type {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-accent-300);
+  }
+  .date-badge {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--color-accent-800);
+    color: var(--color-neutral-100);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .ticket-price {
+    font-size: 60px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: var(--space-3);
+  }
+  .ticket-capacity {
+    font-size: 13px;
+    color: var(--color-accent-300);
+    margin-bottom: 34px;
+  }
+
+  .ticket-features {
+    margin-bottom: var(--space-9);
+  }
   .ticket-feature {
     padding: 16px 0;
     border-bottom: 1px solid var(--color-accent-800);
     color: var(--color-neutral-100);
     font-size: 14px;
+  }
+
+  .qr-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-9);
+  }
+  .qr-box {
+    width: 170px;
+    height: 170px;
+    background: white;
+    border-radius: 10px;
+    padding: var(--space-3);
+  }
+  .qr-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .qr-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--color-neutral-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .qr-placeholder-label {
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+  .qr-caption {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-accent-300);
   }
 </style>
