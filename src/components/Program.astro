@@ -268,7 +268,8 @@ const t = useTranslations(lang);
     border-bottom: 1px solid var(--color-neutral-400);
   }
 
-  .schedule-item:last-child {
+  .schedule-item:last-child,
+  .schedule-item:has(+ .schedule-period) {
     border-bottom-color: transparent;
   }
 
