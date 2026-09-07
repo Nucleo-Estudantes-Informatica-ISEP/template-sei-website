@@ -1,5 +1,6 @@
 ---
 import { speakers } from "../data/speakers";
+import { site } from "../data/site";
 import { useTranslations, type Lang } from "../i18n/utils";
 import Button from "./Button.astro";
 
@@ -9,12 +10,17 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+const description = t("speakers.description").replace(
+  "{edition}",
+  site.edition.name,
+);
 ---
 
 <header class="speakers-header">
   <div class="eyebrow">{t("speakers.eyebrow")}</div>
   <h1>{t("speakers.title")}</h1>
-  <p>{t("speakers.description")}</p>
+  <p>{description}</p>
 </header>
 
 {
