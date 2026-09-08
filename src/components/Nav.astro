@@ -13,9 +13,10 @@ const currentPath = Astro.url.pathname
 const registrationHref =
   site.links.registration ??
   getRelativeLocaleUrl(lang, site.pages.registration);
+const isHome = currentPath === site.pages.home;
 ---
 
-<nav class="site-nav">
+<nav class:list={["site-nav", { "site-nav--home": isHome }]}>
   <div class="site-nav-inner">
     <a href={getRelativeLocaleUrl(lang, "")} class="site-nav-brand">
       <img
@@ -51,8 +52,12 @@ const registrationHref =
 
 <style>
   .site-nav {
+    padding: 20px 40px;
+  }
+
+  .site-nav--home {
     background: var(--color-accent-900);
-    padding: 20px 40px 8px;
+    padding-bottom: 8px;
   }
 
   .site-nav-inner {
@@ -60,9 +65,13 @@ const registrationHref =
     align-items: center;
     justify-content: space-between;
     gap: 32px;
-    background: var(--color-neutral-200);
+    background: #fff;
     border-radius: 999px;
     padding: 10px 12px 10px 24px;
+  }
+
+  .site-nav--home .site-nav-inner {
+    background: var(--color-neutral-200);
   }
 
   .site-nav-brand {
