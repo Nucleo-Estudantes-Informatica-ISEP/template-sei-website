@@ -16,7 +16,7 @@ const registrationHref =
 const isHome = currentPath === site.pages.home;
 ---
 
-<nav class:list={["site-nav", { "site-nav--home": isHome }]}>
+<nav id="site-nav" class:list={["site-nav", { "site-nav--home": isHome }]}>
   <div class="site-nav-inner">
     <a href={getRelativeLocaleUrl(lang, "")} class="site-nav-brand">
       <img
@@ -43,6 +43,36 @@ const isHome = currentPath === site.pages.home;
     </div>
     <div class="site-nav-actions">
       <LanguageSwitcher />
+      <details class="site-nav-menu">
+        <summary aria-label={t("nav.menu")}>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </summary>
+        <div class="site-nav-menu-panel">
+          {
+            NAV_LINKS.map((link) => (
+              <a
+                href={getRelativeLocaleUrl(lang, site.pages[link.id])}
+                aria-current={
+                  site.pages[link.id] === currentPath ? "page" : undefined
+                }
+              >
+                {t(link.labelKey)}
+              </a>
+            ))
+          }
+          <a href={registrationHref}>{t("nav.registration")}</a>
+        </div>
+      </details>
       <a href={registrationHref} class="site-nav-cta">
         {t("nav.registration")}
       </a>
@@ -52,26 +82,40 @@ const isHome = currentPath === site.pages.home;
 
 <style>
   .site-nav {
-    padding: 20px 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: var(--space-6) var(--space-8);
+    transition: transform 0.3s ease-in-out;
   }
 
   .site-nav--home {
-    background: var(--color-accent-900);
-    padding-bottom: 8px;
+    /* No solid background, allowing hero to go behind */
   }
 
   .site-nav-inner {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 32px;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(39.6px);
+    -webkit-backdrop-filter: blur(39.6px);
+    border: 1px solid #e2e2e5;
     border-radius: 999px;
     padding: 10px 12px 10px 24px;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.05),
+      var(--shadow-sm);
+    max-width: 1440px;
+    margin: 0 auto;
   }
 
   .site-nav--home .site-nav-inner {
-    background: var(--color-neutral-200);
+    /* Use the same translucent background as other pages */
   }
 
   .site-nav-brand {
@@ -111,6 +155,10 @@ const isHome = currentPath === site.pages.home;
     gap: 14px;
   }
 
+  .site-nav-menu {
+    display: none;
+  }
+
   .site-nav-cta {
     display: inline-flex;
     align-items: center;
@@ -128,4 +176,102 @@ const isHome = currentPath === site.pages.home;
   .site-nav-cta:hover {
     background: var(--color-accent-600);
   }
+
+  @media (max-width: 900px) {
+    .site-nav {
+      padding: var(--space-4) var(--space-4);
+    }
+
+    .site-nav-inner {
+      gap: 16px;
+      padding: 8px 12px 8px 16px;
+    }
+
+    .site-nav-links,
+    .site-nav-cta {
+      display: none;
+    }
+
+    .site-nav-actions {
+      gap: var(--space-2);
+    }
+
+    .site-nav-menu {
+      display: block;
+    }
+
+    .site-nav-menu summary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--color-neutral-400);
+      border-radius: 50%;
+      color: var(--color-accent-900);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .site-nav-menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .site-nav-menu-panel {
+      position: absolute;
+      top: calc(100% + var(--space-2));
+      right: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-3);
+      border: 1px solid var(--color-divider);
+      border-radius: var(--radius-md);
+      background: var(--color-bg);
+      box-shadow: var(--shadow-md);
+    }
+
+    .site-nav-menu-panel a {
+      padding: var(--space-3) var(--space-4);
+      color: var(--color-neutral-700);
+      text-decoration: none;
+      font-size: var(--font-size-sm);
+      font-weight: 700;
+    }
+
+    .site-nav-menu-panel a:hover,
+    .site-nav-menu-panel a[aria-current="page"] {
+      color: var(--color-accent-900);
+      background: var(--color-surface);
+    }
+  }
 </style>
+
+<script>
+  let lastScroll = 0;
+  const nav = document.getElementById("site-nav");
+
+  if (nav) {
+    window.addEventListener(
+      "scroll",
+      () => {
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll <= 0) {
+          nav.style.transform = "translateY(0)";
+          return;
+        }
+
+        if (currentScroll > lastScroll && currentScroll > 80) {
+          // Scroll Down
+          nav.style.transform = "translateY(-100%)";
+        } else {
+          // Scroll Up
+          nav.style.transform = "translateY(0)";
+        }
+        lastScroll = currentScroll;
+      },
+      { passive: true },
+    );
+  }
+</script>
