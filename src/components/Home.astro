@@ -5,7 +5,7 @@ import { speakers } from "../data/speakers";
 import { committees } from "../data/committees";
 import { history } from "../data/history";
 import { topics } from "../data/topics";
-import { useTranslations, type Lang } from "../i18n/utils";
+import { localize, useTranslations, type Lang } from "../i18n/utils";
 
 interface Props {
   lang: Lang;
@@ -72,6 +72,12 @@ const featuredSpeakers = speakers.slice(0, 3);
 ---
 
 <header class="hero">
+  <img
+    class="hero__background"
+    src={site.images.banner}
+    alt=""
+    fetchpriority="high"
+  />
   <div class="hero__26" aria-hidden="true">
     {site.edition.year.toString().slice(-2)}
   </div>
@@ -153,7 +159,7 @@ const featuredSpeakers = speakers.slice(0, 3);
   }
 </section>
 
-<section class="section section--tight">
+<section class="section stats-section">
   <div class="stats">
     <div class="stats__item">
       <div class="stats__value">{editionsCount}</div>
@@ -174,13 +180,24 @@ const featuredSpeakers = speakers.slice(0, 3);
   </div>
 </section>
 
-<section class="section">
+<section class="section proceedings-section">
   <div class="panel proceedings">
-    <img
-      class="proceedings__cover"
-      src={site.images.proceedingsCover}
-      alt={t("home.proceedings.coverAlt")}
-    />
+    {
+      site.images.proceedingsCover ? (
+        <img
+          class="proceedings__cover"
+          src={site.images.proceedingsCover}
+          alt={t("home.proceedings.coverAlt")}
+        />
+      ) : (
+        <div
+          class="proceedings__cover proceedings__cover--placeholder"
+          aria-hidden="true"
+        >
+          {t("home.proceedings.coverAlt")}
+        </div>
+      )
+    }
     <div>
       <div class="eyebrow">{t("home.proceedings.eyebrow")}</div>
       <h2 class="heading heading--lg">{t("home.proceedings.heading")}</h2>
@@ -256,7 +273,7 @@ const featuredSpeakers = speakers.slice(0, 3);
             </div>
           )}
           <div class="speakers__name">{speaker.name}</div>
-          <div class="speakers__role">{speaker.role}</div>
+          <div class="speakers__role">{localize(speaker.role, lang)}</div>
           <div class="speakers__affiliation">{speaker.affiliation}</div>
         </div>
       ))
@@ -401,6 +418,15 @@ const featuredSpeakers = speakers.slice(0, 3);
   .section--tight {
     padding: var(--space-12) var(--space-14) var(--space-2);
   }
+  /* mirrors .section--tight so the gap after stats (this padding-bottom +
+     .proceedings-section's padding-top) matches the gap before it (the
+     about section's padding-bottom + this padding-top) */
+  .stats-section {
+    padding: var(--space-12) var(--space-14) var(--space-16);
+  }
+  .proceedings-section {
+    padding-top: var(--space-12);
+  }
   .section__header {
     display: flex;
     align-items: flex-end;
@@ -427,6 +453,19 @@ const featuredSpeakers = speakers.slice(0, 3);
     background: var(--color-accent-900);
     color: var(--color-neutral-100);
     padding: var(--space-14) var(--space-14) var(--space-22);
+    /* break out of .page-content's max-width so the banner reaches both
+       viewport edges, like the nav's background does */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+  .hero__background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
   }
   .hero__26 {
     position: absolute;
@@ -609,8 +648,6 @@ const featuredSpeakers = speakers.slice(0, 3);
   .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border-top: 2px solid var(--color-divider);
-    border-bottom: 2px solid var(--color-divider);
   }
   .stats__item {
     padding: var(--space-8) 0;
@@ -644,6 +681,24 @@ const featuredSpeakers = speakers.slice(0, 3);
     object-fit: cover;
     box-shadow: var(--shadow-md);
   }
+  .proceedings__cover--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: monospace;
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--color-surface),
+      var(--color-surface) 10px,
+      var(--color-neutral-300) 10px,
+      var(--color-neutral-300) 20px
+    );
+  }
 
   /* -- important dates -- */
   .dates {
@@ -652,7 +707,6 @@ const featuredSpeakers = speakers.slice(0, 3);
     padding: 0;
     display: flex;
     flex-direction: column;
-    border-top: 2px solid var(--color-divider);
   }
   .dates__row {
     display: grid;
@@ -794,7 +848,12 @@ const featuredSpeakers = speakers.slice(0, 3);
 
   /* -- partners -- */
   .partners {
-    margin: 0 var(--space-14) var(--space-14);
+    /* break out of .page-content's max-width so the band reaches both
+       viewport edges, like the nav and hero banner do */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-bottom: var(--space-14);
     background: var(--color-neutral-900);
     padding: var(--space-12) var(--space-14);
   }

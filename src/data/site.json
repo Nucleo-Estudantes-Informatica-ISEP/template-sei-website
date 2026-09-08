@@ -45,9 +45,9 @@
     "callForPapers": null
   },
   "images": {
-    "banner": "/images/sei-banner.png",
-    "eventPhoto": null,
-    "proceedingsCover": "/images/proceedings-cover.png",
+    "banner": "/images/design-review/banner.webp",
+    "eventPhoto": "/images/design-review/about.webp",
+    "proceedingsCover": "/images/design-review/proceedings.webp",
     "logo": "/images/sei-logo.png",
     "qrCode": null
   },

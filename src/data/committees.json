@@ -1,14 +1,182 @@
 {
   "organizing": [
-    { "name": "Full Name 1", "org": "Institution" },
-    { "name": "Full Name 2", "org": "Institution" },
-    { "name": "Full Name 3", "org": "Institution" }
+    {
+      "name": "Carolina Sá",
+      "org": "NEI-ISEP"
+    },
+    {
+      "name": "Catarina Oliveira",
+      "org": "ISEP"
+    },
+    {
+      "name": "Emanuel Silva",
+      "org": "ISEP"
+    },
+    {
+      "name": "Marílio Cardoso",
+      "org": "ISEP"
+    },
+    {
+      "name": "Nuno Morgado",
+      "org": "ISEP"
+    },
+    {
+      "name": "Paulo Proença",
+      "org": "ISEP"
+    },
+    {
+      "name": "Piedade Carvalho",
+      "org": "ISEP"
+    },
+    {
+      "name": "Rafael Vieira",
+      "org": "NEI-ISEP"
+    },
+    {
+      "name": "Ricardo Meireles",
+      "org": "NEI-ISEP"
+    },
+    {
+      "name": "Sérgio Moreira",
+      "org": "ISEP"
+    }
   ],
   "scientific": [
-    { "name": "Full Name 1", "org": "Institution" },
-    { "name": "Full Name 2", "org": "Institution" },
-    { "name": "Full Name 3", "org": "Institution" },
-    { "name": "Full Name 4", "org": "Institution" },
-    { "name": "Full Name 5", "org": "Institution" }
+    {
+      "name": "Alexandre Gouveia",
+      "org": "ISEP"
+    },
+    {
+      "name": "Álvaro Rocha",
+      "org": "ISEG"
+    },
+    {
+      "name": "Ana Rita Teixeira",
+      "org": "ISEP"
+    },
+    {
+      "name": "Anabela Serrano",
+      "org": "ISCAP"
+    },
+    {
+      "name": "Augusto Sousa",
+      "org": "FEUP"
+    },
+    {
+      "name": "Bertil Marques",
+      "org": "ISEP"
+    },
+    {
+      "name": "Catarina Oliveira",
+      "org": "ISEP"
+    },
+    {
+      "name": "Emanuel Silva",
+      "org": "ISEP"
+    },
+    {
+      "name": "Fátima Leal",
+      "org": "UPT"
+    },
+    {
+      "name": "Fátima Rodrigues",
+      "org": "ISEP"
+    },
+    {
+      "name": "Helder Pinto",
+      "org": "ISTEC"
+    },
+    {
+      "name": "João Pascoal Faria",
+      "org": "FEUP"
+    },
+    {
+      "name": "Jorge Duarte",
+      "org": "ISEP"
+    },
+    {
+      "name": "José Marinho",
+      "org": "ISEP"
+    },
+    {
+      "name": "Luís Alves",
+      "org": "IPB"
+    },
+    {
+      "name": "Marílio Cardoso",
+      "org": "ISEP"
+    },
+    {
+      "name": "Mário Cruz",
+      "org": "ESE"
+    },
+    {
+      "name": "Mário Pinto",
+      "org": "ESMAD"
+    },
+    {
+      "name": "Nuno Bettencourt",
+      "org": "ISEP"
+    },
+    {
+      "name": "Orlando Sousa",
+      "org": "ISEP"
+    },
+    {
+      "name": "Paula Quadros Flores",
+      "org": "ESE"
+    },
+    {
+      "name": "Paula Tavares",
+      "org": "ISEP"
+    },
+    {
+      "name": "Paulo Baltarajo",
+      "org": "ISEP"
+    },
+    {
+      "name": "Paulo Maio",
+      "org": "ISEP"
+    },
+    {
+      "name": "Paulo Proença",
+      "org": "ISEP"
+    },
+    {
+      "name": "Pedro Pinto",
+      "org": "ISEP"
+    },
+    {
+      "name": "Piedade Carvalho",
+      "org": "ISEP"
+    },
+    {
+      "name": "Raquel Faria",
+      "org": "ISEP"
+    },
+    {
+      "name": "Rosa Reis",
+      "org": "ISEP"
+    },
+    {
+      "name": "Rui Marques",
+      "org": "ISEP"
+    },
+    {
+      "name": "Sérgio Moreira",
+      "org": "ISEP"
+    },
+    {
+      "name": "Tânia Rocha",
+      "org": "UTAD"
+    },
+    {
+      "name": "Telmo Matos",
+      "org": "FEUP"
+    },
+    {
+      "name": "Teresa Terroso",
+      "org": "ESMAD"
+    }
   ]
 }
