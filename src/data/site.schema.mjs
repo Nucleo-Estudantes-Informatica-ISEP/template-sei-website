@@ -12,6 +12,10 @@ export const siteConfigSchema = z.object({
     fullName: z.string().min(1).nullable(),
     year: yearSchema,
   }),
+  seo: z.object({
+    description: z.string().min(1),
+    ogImage: publicAssetPath,
+  }),
   pages: z.object({
     home: z.literal(""),
     program: routeSlug,
