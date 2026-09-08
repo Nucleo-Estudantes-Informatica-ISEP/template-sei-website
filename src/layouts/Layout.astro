@@ -40,11 +40,17 @@ const seoPages = {
   },
   speakers: {
     title: t("speakers.eyebrow"),
-    description: t("speakers.description"),
+    description: t("speakers.description").replace(
+      "{edition}",
+      site.edition.name,
+    ),
   },
   committees: {
     title: t("committees.eyebrow"),
-    description: t("committees.description"),
+    description: t("committees.description").replace(
+      "{edition}",
+      site.edition.name,
+    ),
   },
   submissions: {
     title: t("submissions.eyebrow"),
