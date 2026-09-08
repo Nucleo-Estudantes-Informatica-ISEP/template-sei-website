@@ -197,13 +197,21 @@ const ctaHeading = t("committees.ctaHeading").replace(
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
+    .committees-header,
+    .committee-section {
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
+    }
+
     .committees-header {
-      padding: var(--space-10) var(--space-4) var(--space-6);
+      padding-top: var(--space-10);
+      padding-bottom: var(--space-6);
     }
 
     .committee-section {
-      padding: var(--space-4) var(--space-4) 0;
+      padding-top: var(--space-4);
+      padding-bottom: 0;
     }
 
     .committee-section + .committee-section {
@@ -211,7 +219,7 @@ const ctaHeading = t("committees.ctaHeading").replace(
     }
 
     .committees-cta {
-      margin: var(--space-10) var(--space-4) 0;
+      margin: var(--space-10) var(--space-5) 0;
       padding: var(--space-6) 0 var(--space-10);
       gap: var(--space-6);
     }
