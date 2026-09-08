@@ -81,24 +81,25 @@ const featuredSpeakers = speakers.slice(0, 3);
   <div class="hero__26" aria-hidden="true">
     {site.edition.year.toString().slice(-2)}
   </div>
-  <div class="hero__content">
-    <div class="hero__eyebrow">
-      {
-        tt("home.hero.eyebrow", { edition: site.edition.name })
-          .split(" / ")
-          .map((part, i) => (
-            <>
-              {i > 0 && <span class="hero__eyebrow-sep">/</span>}
-              <span>{part}</span>
-            </>
-          ))
-      }
+  <div class="hero__inner">
+    <div class="hero__content">
+      <div class="hero__eyebrow">
+        {
+          tt("home.hero.eyebrow", { edition: site.edition.name })
+            .split(" / ")
+            .map((part, i) => (
+              <>
+                {i > 0 && <span class="hero__eyebrow-sep">/</span>}
+                <span>{part}</span>
+              </>
+            ))
+        }
+      </div>
+      <h1 class="hero__title">{editionTitle}</h1>
+      <p class="hero__tagline">{t("home.hero.tagline")}</p>
+      <p class="hero__description">{t("home.hero.description")}</p>
+      <a class="btn btn--light" href={links.submissions}>{t("home.hero.cta")} →</a>
     </div>
-    <h1 class="hero__title">{editionTitle}</h1>
-    <p class="hero__tagline">{t("home.hero.tagline")}</p>
-    <p class="hero__description">{t("home.hero.description")}</p>
-    <a class="btn btn--light" href={links.submissions}>{t("home.hero.cta")} →</a
-    >
   </div>
 </header>
 
@@ -373,41 +374,43 @@ const featuredSpeakers = speakers.slice(0, 3);
 </section>
 
 <section class="partners">
-  <div class="partners__label">{t("home.partners.organizedByLabel")}</div>
-  <div class="partners__logos partners__logos--bordered">
-    {
-      site.footerLogos.map((logo) =>
-        logo.href ? (
-          <a href={logo.href}>
-            <img src={logo.src} alt={logo.alt} />
-          </a>
-        ) : (
-          <img src={logo.src} alt={logo.alt} />
-        ),
-      )
-    }
-  </div>
-  <div class="partners__label partners__label--support">
-    {t("home.partners.acknowledgementsLabel")}
-  </div>
-  <div class="partners__logos">
-    {
-      site.supportLogos.map((logo) =>
-        logo.src ? (
+  <div class="partners__inner">
+    <div class="partners__label">{t("home.partners.organizedByLabel")}</div>
+    <div class="partners__logos partners__logos--bordered">
+      {
+        site.footerLogos.map((logo) =>
           logo.href ? (
             <a href={logo.href}>
               <img src={logo.src} alt={logo.alt} />
             </a>
           ) : (
             <img src={logo.src} alt={logo.alt} />
-          )
-        ) : (
-          <div class="partners__placeholder" aria-label={logo.alt}>
-            {t("home.partners.logoPlaceholder")}
-          </div>
-        ),
-      )
-    }
+          ),
+        )
+      }
+    </div>
+    <div class="partners__label partners__label--support">
+      {t("home.partners.acknowledgementsLabel")}
+    </div>
+    <div class="partners__logos">
+      {
+        site.supportLogos.map((logo) =>
+          logo.src ? (
+            logo.href ? (
+              <a href={logo.href}>
+                <img src={logo.src} alt={logo.alt} />
+              </a>
+            ) : (
+              <img src={logo.src} alt={logo.alt} />
+            )
+          ) : (
+            <div class="partners__placeholder" aria-label={logo.alt}>
+              {t("home.partners.logoPlaceholder")}
+            </div>
+          ),
+        )
+      }
+    </div>
   </div>
 </section>
 
@@ -452,12 +455,16 @@ const featuredSpeakers = speakers.slice(0, 3);
     overflow: hidden;
     background: var(--color-accent-900);
     color: var(--color-neutral-100);
-    padding: 160px var(--space-14) var(--space-22);
     /* break out of .page-content's max-width so the banner reaches both
        viewport edges, like the nav's background does */
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
+  }
+  .hero__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 160px var(--space-14) var(--space-22);
   }
   .hero__background {
     position: absolute;
@@ -857,13 +864,15 @@ const featuredSpeakers = speakers.slice(0, 3);
 
   /* -- partners -- */
   .partners {
-    /* break out of .page-content's max-width so the band reaches both
-       viewport edges, like the nav and hero banner do */
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     margin-bottom: var(--space-14);
     background: var(--color-neutral-900);
+  }
+  .partners__inner {
+    max-width: 1440px;
+    margin: 0 auto;
     padding: var(--space-12) var(--space-14);
   }
   .partners__label {

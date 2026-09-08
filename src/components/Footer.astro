@@ -12,103 +12,110 @@ const copyright = t("footer.copyrightLine")
 ---
 
 <footer class="site-footer">
-  <div class="site-footer-grid">
-    <div class="footer-col footer-col-brand">
-      <img
-        src={site.images.logo}
-        alt={site.edition.name}
-        width="26"
-        height="26"
-      />
-      <div class="footer-brand-name">{site.edition.name}</div>
-      <p>{t("footer.description")}</p>
-      <div class="footer-socials">
-        <a
-          href={`mailto:${site.contact.email}`}
-          aria-label={t("footer.emailLabel")}
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
+  <div class="site-footer-inner">
+    <div class="site-footer-grid">
+      <div class="footer-col footer-col-brand">
+        <img
+          src={site.images.logo}
+          alt={site.edition.name}
+          width="26"
+          height="26"
+        />
+        <div class="footer-brand-name">{site.edition.name}</div>
+        <p>{t("footer.description")}</p>
+        <div class="footer-socials">
+          <a
+            href={`mailto:${site.contact.email}`}
+            aria-label={t("footer.emailLabel")}
           >
-            <rect x="2" y="4" width="20" height="16"></rect>
-            <path d="M2 6l10 7 10-7"></path>
-          </svg>
-        </a>
-        {
-          site.social.linkedin && (
-            <a
-              href={site.social.linkedin}
-              aria-label={t("footer.linkedinLabel")}
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
+              <rect x="2" y="4" width="20" height="16"></rect>
+              <path d="M2 6l10 7 10-7"></path>
+            </svg>
+          </a>
+          {
+            site.social.linkedin && (
+              <a
+                href={site.social.linkedin}
+                aria-label={t("footer.linkedinLabel")}
               >
-                <path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.82-1.95 3.75-1.95 4 0 4.4 2.5 4.4 5.75V21H18v-5.9c0-1.4-.5-2.36-1.76-2.36-1.02 0-1.63.69-1.9 1.36-.1.24-.12.57-.12.9V21H10z" />
-              </svg>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.82-1.95 3.75-1.95 4 0 4.4 2.5 4.4 5.75V21H18v-5.9c0-1.4-.5-2.36-1.76-2.36-1.02 0-1.63.69-1.9 1.36-.1.24-.12.57-.12.9V21H10z" />
+                </svg>
+              </a>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-heading">{t("footer.navigationHeading")}</div>
+        {
+          FOOTER_NAV_LINKS.map((link) => (
+            <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}>
+              {t(link.labelKey)}
             </a>
-          )
+          ))
         }
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-heading">{t("footer.participationHeading")}</div>
+        {
+          FOOTER_PARTICIPATION_LINKS.map((link) => (
+            <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}>
+              {t(link.labelKey)}
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-heading">{t("footer.contactHeading")}</div>
+        <div class="footer-venue-name">{site.venue.name}</div>
+        <p>{site.venue.addressLine1}</p>
+        <p>
+          {`${site.venue.postalCode} ${site.venue.city}, ${site.venue.country}`}
+        </p>
+        <a href={`mailto:${site.contact.email}`} class="footer-email">
+          {site.contact.email}
+        </a>
       </div>
     </div>
 
-    <div class="footer-col">
-      <div class="footer-col-heading">{t("footer.navigationHeading")}</div>
-      {
-        FOOTER_NAV_LINKS.map((link) => (
-          <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}>
-            {t(link.labelKey)}
-          </a>
-        ))
-      }
+    <div class="site-footer-bottom">
+      <span>{copyright}</span>
+      <span>{t("footer.location")}</span>
     </div>
-
-    <div class="footer-col">
-      <div class="footer-col-heading">{t("footer.participationHeading")}</div>
-      {
-        FOOTER_PARTICIPATION_LINKS.map((link) => (
-          <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}>
-            {t(link.labelKey)}
-          </a>
-        ))
-      }
-    </div>
-
-    <div class="footer-col">
-      <div class="footer-col-heading">{t("footer.contactHeading")}</div>
-      <div class="footer-venue-name">{site.venue.name}</div>
-      <p>{site.venue.addressLine1}</p>
-      <p>
-        {`${site.venue.postalCode} ${site.venue.city}, ${site.venue.country}`}
-      </p>
-      <a href={`mailto:${site.contact.email}`} class="footer-email">
-        {site.contact.email}
-      </a>
-    </div>
-  </div>
-
-  <div class="site-footer-bottom">
-    <span>{copyright}</span>
-    <span>{t("footer.location")}</span>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    padding: 96px 56px 28px;
     border-top: 1px solid var(--color-divider);
     /* break out of .page-content's max-width so the footer reaches both
        viewport edges, like the nav and hero banner do */
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
+  }
+
+  .site-footer-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 96px var(--space-14) 28px;
   }
 
   .site-footer-grid {
