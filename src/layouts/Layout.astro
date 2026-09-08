@@ -9,6 +9,8 @@ import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
 
 const lang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "").replace(/\/$/, "");
+const isHome = currentPath === site.pages.home || currentPath === "";
 ---
 
 <!doctype html>
@@ -30,7 +32,7 @@ const lang = getLangFromUrl(Astro.url);
   <body>
     <div id="top">
       <Nav />
-      <div class="page-content">
+      <div class:list={["page-content", { "is-home": isHome }]}>
         <slot />
         <Footer />
       </div>
@@ -58,10 +60,11 @@ const lang = getLangFromUrl(Astro.url);
     overflow-x: hidden;
   }
 
-  /* Halves the outer gutter vs. a flat 1440px cap: at viewport V the margin
-     works out to (V - 1440) / 4 per side instead of (V - 1440) / 2. */
   .page-content {
-    max-width: calc((100vw + 1440px) / 2);
+    max-width: 1440px;
     margin: 0 auto;
+  }
+  .page-content:not(.is-home) {
+    padding-top: 100px;
   }
 </style>
