@@ -2,17 +2,78 @@
 import "../styles/tokens.css";
 import "../styles/primitives.css";
 import "../styles/styles.override.css";
+
 import { site } from "../data/site";
-import { getLangFromUrl } from "../i18n/utils";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
+import Seo from "../components/Seo.astro";
+
+import seiIconMark from "../assets/sei-icon-mark.png";
+
+interface Props {
+  page:
+    | "home"
+    | "program"
+    | "speakers"
+    | "committees"
+    | "submissions"
+    | "history"
+    | "registration";
+}
+
+const { page } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
 const currentPath = Astro.url.pathname
   .replace(new RegExp(`^/${lang}/?`), "")
   .replace(/\/$/, "");
 const isHome = currentPath === site.pages.home || currentPath === "";
+const t = useTranslations(lang);
+
+const seoPages = {
+  home: {
+    title: site.edition.name,
+    description: t("home.hero.description"),
+  },
+  program: {
+    title: t("program.eyebrow"),
+    description: t("program.intro"),
+  },
+  speakers: {
+    title: t("speakers.eyebrow"),
+    description: t("speakers.description").replace(
+      "{edition}",
+      site.edition.name,
+    ),
+  },
+  committees: {
+    title: t("committees.eyebrow"),
+    description: t("committees.description").replace(
+      "{edition}",
+      site.edition.name,
+    ),
+  },
+  submissions: {
+    title: t("submissions.eyebrow"),
+    description: t("submissions.description"),
+  },
+  history: {
+    title: t("history.eyebrow"),
+    description: t("history.description"),
+  },
+  registration: {
+    title: t("registration.eyebrow"),
+    description: t("registration.description"),
+  },
+} as const;
+
+const seo = seoPages[page];
+
+const title =
+  page === "home" ? seo.title : `${seo.title} | ${site.edition.name}`;
 ---
 
 <!doctype html>
@@ -20,17 +81,19 @@ const isHome = currentPath === site.pages.home || currentPath === "";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+
+    <link rel="icon" type="image/png" href={seiIconMark.src} />
+
     <meta name="generator" content={Astro.generator} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
+
+    <Seo
+      title={title}
+      description={seo.description}
+      ogImage={site.seo.ogImage}
+      url={Astro.url}
     />
-    <title>{site.edition.name}</title>
   </head>
+
   <body>
     <div id="top">
       <Nav />
@@ -39,6 +102,7 @@ const isHome = currentPath === site.pages.home || currentPath === "";
         <Footer />
       </div>
     </div>
+
     <BackToTop />
   </body>
 </html>
