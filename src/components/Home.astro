@@ -917,19 +917,26 @@ const featuredSpeakers = speakers.slice(0, 3);
   @media (max-width: 900px) {
     .section,
     .section--tight,
-    .hero,
+    .hero__inner,
     .closing,
-    .partners {
+    .partners__inner {
       padding-left: var(--space-5);
       padding-right: var(--space-5);
     }
+    .hero__inner {
+      padding-top: 140px;
+      padding-bottom: var(--space-16);
+    }
     .grid-2,
     .proceedings,
-    .stats,
     .speakers,
     .committees-grid,
     .committees-intro {
       grid-template-columns: 1fr;
+    }
+    .stats {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8) 0;
     }
     .hero__title {
       font-size: var(--font-size-42);

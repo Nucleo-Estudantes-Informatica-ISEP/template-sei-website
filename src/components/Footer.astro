@@ -209,4 +209,22 @@ const copyright = t("footer.copyrightLine")
     letter-spacing: 0.1em;
     opacity: 0.5;
   }
+
+  @media (max-width: 900px) {
+    .site-footer-inner {
+      padding: var(--space-12) var(--space-5) var(--space-6);
+    }
+    
+    .site-footer-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding-bottom: 32px;
+    }
+
+    .site-footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
 </style>
