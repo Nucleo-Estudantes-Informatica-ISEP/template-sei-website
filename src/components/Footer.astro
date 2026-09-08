@@ -104,6 +104,11 @@ const copyright = t("footer.copyrightLine")
   .site-footer {
     padding: 72px 56px 28px;
     border-top: 1px solid var(--color-divider);
+    /* break out of .page-content's max-width so the footer reaches both
+       viewport edges, like the nav and hero banner do */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
 
   .site-footer-grid {

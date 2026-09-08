@@ -51,7 +51,7 @@ export const siteConfigSchema = z.object({
   images: z.object({
     banner: publicAssetPath,
     eventPhoto: publicAssetPath.nullable(),
-    proceedingsCover: publicAssetPath,
+    proceedingsCover: publicAssetPath.nullable(),
     logo: publicAssetPath,
     qrCode: publicAssetPath.nullable(),
   }),
