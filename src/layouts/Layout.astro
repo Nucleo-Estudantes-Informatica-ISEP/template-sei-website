@@ -9,7 +9,9 @@ import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
 
 const lang = getLangFromUrl(Astro.url);
-const currentPath = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "").replace(/\/$/, "");
+const currentPath = Astro.url.pathname
+  .replace(new RegExp(`^/${lang}/?`), "")
+  .replace(/\/$/, "");
 const isHome = currentPath === site.pages.home || currentPath === "";
 ---
 
