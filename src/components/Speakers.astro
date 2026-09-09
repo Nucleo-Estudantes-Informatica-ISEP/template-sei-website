@@ -240,20 +240,31 @@ const description = t("speakers.description").replace(
 
   @media (max-width: 768px) {
     .speakers-header,
-    .speaker-row,
-    .pending-slot,
-    .closing-cta {
+    .speaker-row {
       padding-left: var(--space-5);
       padding-right: var(--space-5);
     }
+
     .speaker-row,
     .speaker-row.reversed {
       grid-template-columns: 1fr;
     }
+
     .speaker-row.reversed .speaker-portrait {
       order: 0;
     }
+
+    .pending-slot {
+      margin-left: var(--space-5);
+      margin-right: var(--space-5);
+      padding: var(--space-10) var(--space-5);
+    }
+
     .closing-cta {
+      margin-left: var(--space-5);
+      margin-right: var(--space-5);
+      padding-left: 0;
+      padding-right: 0;
       flex-direction: column;
       align-items: flex-start;
     }

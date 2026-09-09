@@ -944,4 +944,41 @@ const featuredSpeakers = speakers.slice(0, 3);
       font-size: var(--font-size-42);
     }
   }
+
+  @media (max-width: 768px) {
+    .panel--row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .section__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .dates__row {
+      grid-template-columns: 32px 1fr;
+      gap: var(--space-3);
+    }
+
+    .dates__value {
+      grid-column: 2;
+      white-space: normal;
+    }
+
+    .closing__actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-3);
+    }
+
+    .closing__actions .btn {
+      justify-content: center;
+    }
+
+    .hero__26 {
+      display: none;
+    }
+  }
 </style>
