@@ -11,8 +11,6 @@ import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
 import Seo from "../components/Seo.astro";
 
-import seiIconMark from "../assets/sei-icon-mark.png";
-
 interface Props {
   page:
     | "home"
@@ -89,7 +87,7 @@ const title =
       rel="stylesheet"
     />
 
-    <link rel="icon" type="image/png" href={seiIconMark.src} />
+    <link rel="icon" type="image/png" href={site.images.logo} />
 
     <meta name="generator" content={Astro.generator} />
 
