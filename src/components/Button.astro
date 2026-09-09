@@ -13,7 +13,7 @@ type Props =
 const { variant, href, class: className, ...attrs } = Astro.props;
 
 const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
-const opensNewTab = href && attrs.target === "_blank";
+const opensNewTab = href && "target" in attrs && attrs.target === "_blank";
 const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
