@@ -1,0 +1,68 @@
+[
+  {
+    "src": "/images/design-review/keynote.webp",
+    "label": {
+      "en": "Plenary session / keynote",
+      "pt": "Sessão plenária / keynote"
+    },
+    "alt": {
+      "en": "Audience watching a conference presentation",
+      "pt": "Público a assistir a uma apresentação numa conferência"
+    }
+  },
+  {
+    "src": "/images/design-review/papers.webp",
+    "label": {
+      "en": "Paper sessions",
+      "pt": "Sessões de artigos"
+    },
+    "alt": {
+      "en": "Speaker presenting at a lectern",
+      "pt": "Oradora a apresentar num púlpito"
+    }
+  },
+  {
+    "src": "/images/design-review/roundtable.webp",
+    "label": {
+      "en": "Roundtable",
+      "pt": "Mesa-redonda"
+    },
+    "alt": {
+      "en": "Participants discussing around a table",
+      "pt": "Participantes em discussão à volta de uma mesa"
+    }
+  },
+  {
+    "src": "/images/design-review/networking.webp",
+    "label": {
+      "en": "Coffee break and networking",
+      "pt": "Pausa para café e networking"
+    },
+    "alt": {
+      "en": "Attendees chatting over coffee",
+      "pt": "Participantes a conversar durante uma pausa para café"
+    }
+  },
+  {
+    "src": "/images/design-review/group.webp",
+    "label": {
+      "en": "Group photograph",
+      "pt": "Fotografia de grupo"
+    },
+    "alt": {
+      "en": "Conference participants posing outside a building",
+      "pt": "Participantes numa conferência a posar em frente a um edifício"
+    }
+  },
+  {
+    "src": "/images/design-review/awards.webp",
+    "label": {
+      "en": "Closing and awards",
+      "pt": "Encerramento e prémios"
+    },
+    "alt": {
+      "en": "Participant holding a trophy at an awards ceremony",
+      "pt": "Participante com um troféu numa cerimónia de prémios"
+    }
+  }
+]

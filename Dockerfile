@@ -13,7 +13,7 @@ FROM deps AS build
 COPY . .
 RUN pnpm build
 
-FROM nginxinc/nginx-unprivileged:1.30-alpine AS runner
+FROM nginxinc/nginx-unprivileged:1.31-alpine AS runner
 USER root
 RUN apk add --no-cache curl
 USER nginx

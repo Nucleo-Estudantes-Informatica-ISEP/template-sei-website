@@ -1,12 +1,29 @@
 import { z } from "zod";
-
-const publicAssetPath = z.string().startsWith("/");
-const optionalUrl = z.url().nullable();
+import {
+  publicAssetPath,
+  optionalUrl,
+  yearSchema,
+  routeSlug,
+} from "./primitives.schema.mjs";
 
 export const siteConfigSchema = z.object({
   edition: z.object({
     name: z.string().min(1),
-    year: z.number().int().min(2000).max(2100),
+    fullName: z.string().min(1).nullable(),
+    year: yearSchema,
+  }),
+  seo: z.object({
+    description: z.string().min(1),
+    ogImage: publicAssetPath,
+  }),
+  pages: z.object({
+    home: z.literal(""),
+    program: routeSlug,
+    speakers: routeSlug,
+    committees: routeSlug,
+    submissions: routeSlug,
+    history: routeSlug,
+    registration: routeSlug,
   }),
   importantDates: z
     .array(
@@ -15,20 +32,41 @@ export const siteConfigSchema = z.object({
           "paperSubmission",
           "acceptanceNotification",
           "cameraReady",
+          "symposiumInscription",
+          "symposiumDay",
         ]),
         date: z.iso.date().nullable(),
       }),
     )
-    .length(3),
+    .length(5),
   links: z.object({
     easyChairSubmission: optionalUrl,
     easyChairProgram: optionalUrl,
     registration: optionalUrl,
     proceedings: optionalUrl,
+    lncsTemplateLatex: optionalUrl,
+    lncsTemplateWord: optionalUrl,
+    callForPapers: optionalUrl,
   }),
   images: z.object({
     banner: publicAssetPath,
-    proceedingsCover: publicAssetPath,
+    eventPhoto: publicAssetPath.nullable(),
+    proceedingsCover: publicAssetPath.nullable(),
+    logo: publicAssetPath,
+    qrCode: publicAssetPath.nullable(),
+  }),
+  contact: z.object({
+    email: z.email(),
+  }),
+  social: z.object({
+    linkedin: optionalUrl,
+  }),
+  venue: z.object({
+    name: z.string().min(1),
+    addressLine1: z.string().min(1),
+    postalCode: z.string().min(1),
+    city: z.string().min(1),
+    country: z.string().min(1),
   }),
   footerLogos: z
     .array(
@@ -39,4 +77,13 @@ export const siteConfigSchema = z.object({
       }),
     )
     .min(1),
+  supportLogos: z
+    .array(
+      z.object({
+        src: publicAssetPath.nullable(),
+        alt: z.string().min(1),
+        href: optionalUrl,
+      }),
+    )
+    .length(3),
 });

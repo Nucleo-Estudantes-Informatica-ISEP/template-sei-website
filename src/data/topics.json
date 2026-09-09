@@ -1,0 +1,110 @@
+[
+  {
+    "name": {
+      "en": "Artificial Intelligence",
+      "pt": "Inteligência Artificial"
+    }
+  },
+  {
+    "name": {
+      "en": "Information Security",
+      "pt": "Segurança da Informação"
+    }
+  },
+  {
+    "name": {
+      "en": "Software Architecture and Development",
+      "pt": "Arquitetura e Desenvolvimento de Software"
+    }
+  },
+  {
+    "name": {
+      "en": "Computer Networks",
+      "pt": "Redes de Computadores"
+    }
+  },
+  {
+    "name": {
+      "en": "Decision Support Systems",
+      "pt": "Sistemas de Apoio à Decisão"
+    }
+  },
+  {
+    "name": {
+      "en": "Internet of Things",
+      "pt": "Internet das Coisas"
+    }
+  },
+  {
+    "name": {
+      "en": "Human-Computer Interaction",
+      "pt": "Interação Humano-Computador"
+    }
+  },
+  {
+    "name": {
+      "en": "Information Systems",
+      "pt": "Sistemas de Informação"
+    }
+  },
+  {
+    "name": {
+      "en": "Robotics and Industrial Automation",
+      "pt": "Robótica e Automação Industrial"
+    }
+  },
+  {
+    "name": {
+      "en": "Computer Graphics and Vision",
+      "pt": "Computação Gráfica e Visão por Computador"
+    }
+  },
+  {
+    "name": {
+      "en": "Information Retrieval",
+      "pt": "Recuperação de Informação"
+    }
+  },
+  {
+    "name": {
+      "en": "Serious Games",
+      "pt": "Jogos Sérios"
+    }
+  },
+  {
+    "name": {
+      "en": "Critical Systems",
+      "pt": "Sistemas Críticos"
+    }
+  },
+  {
+    "name": {
+      "en": "Programming Techniques and Paradigms",
+      "pt": "Técnicas e Paradigmas de Programação"
+    }
+  },
+  {
+    "name": {
+      "en": "Simulation Modeling",
+      "pt": "Modelação e Simulação"
+    }
+  },
+  {
+    "name": {
+      "en": "E-commerce",
+      "pt": "Comércio Eletrónico"
+    }
+  },
+  {
+    "name": {
+      "en": "Software Quality",
+      "pt": "Qualidade de Software"
+    }
+  },
+  {
+    "name": {
+      "en": "Collaborative Work Tools",
+      "pt": "Ferramentas de Trabalho Colaborativo"
+    }
+  }
+]

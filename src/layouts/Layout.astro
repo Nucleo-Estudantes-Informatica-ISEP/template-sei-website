@@ -1,9 +1,79 @@
 ---
 import "../styles/tokens.css";
+import "../styles/primitives.css";
+import "../styles/styles.override.css";
+
 import { site } from "../data/site";
-import { getLangFromUrl } from "../i18n/utils";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import BackToTop from "../components/BackToTop.astro";
+import Seo from "../components/Seo.astro";
+
+import seiIconMark from "../assets/sei-icon-mark.png";
+
+interface Props {
+  page:
+    | "home"
+    | "program"
+    | "speakers"
+    | "committees"
+    | "submissions"
+    | "history"
+    | "registration";
+}
+
+const { page } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname
+  .replace(new RegExp(`^/${lang}/?`), "")
+  .replace(/\/$/, "");
+const isHome = currentPath === site.pages.home || currentPath === "";
+const t = useTranslations(lang);
+
+const seoPages = {
+  home: {
+    title: site.edition.name,
+    description: t("home.hero.description"),
+  },
+  program: {
+    title: t("program.eyebrow"),
+    description: t("program.intro"),
+  },
+  speakers: {
+    title: t("speakers.eyebrow"),
+    description: t("speakers.description").replace(
+      "{edition}",
+      site.edition.name,
+    ),
+  },
+  committees: {
+    title: t("committees.eyebrow"),
+    description: t("committees.description").replace(
+      "{edition}",
+      site.edition.name,
+    ),
+  },
+  submissions: {
+    title: t("submissions.eyebrow"),
+    description: t("submissions.description"),
+  },
+  history: {
+    title: t("history.eyebrow"),
+    description: t("history.description"),
+  },
+  registration: {
+    title: t("registration.eyebrow"),
+    description: t("registration.description"),
+  },
+} as const;
+
+const seo = seoPages[page];
+
+const title =
+  page === "home" ? seo.title : `${seo.title} | ${site.edition.name}`;
 ---
 
 <!doctype html>
@@ -11,13 +81,36 @@ const lang = getLangFromUrl(Astro.url);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/png" href={seiIconMark.src} />
+
     <meta name="generator" content={Astro.generator} />
-    <title>{site.edition.name}</title>
+
+    <Seo
+      title={title}
+      description={seo.description}
+      ogImage={site.seo.ogImage}
+      url={Astro.url}
+    />
   </head>
+
   <body>
-    <slot />
+    <div id="top">
+      <Nav />
+      <div class:list={["page-content", { "is-home": isHome }]}>
+        <slot />
+        <Footer />
+      </div>
+    </div>
+
+    <BackToTop />
   </body>
 </html>
 
@@ -27,5 +120,24 @@ const lang = getLangFromUrl(Astro.url);
     margin: 0;
     width: 100%;
     height: 100%;
+  }
+
+  /* full-bleed sections (e.g. the home hero) intentionally use 100vw, which
+     overflows by the scrollbar's width unless horizontal overflow is clipped.
+     Clipping here rather than on html/body avoids a CSS Overflow quirk: on the
+     root, setting overflow-x alone forces overflow-y to compute as "auto" too,
+     which turns body into its own scroll container instead of the viewport
+     (breaking window.scrollTo and back-to-top). #top has no explicit height,
+     so it never actually overflows vertically and this stays a no-op there. */
+  #top {
+    overflow-x: hidden;
+  }
+
+  .page-content {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .page-content:not(.is-home) {
+    padding-top: 100px;
   }
 </style>

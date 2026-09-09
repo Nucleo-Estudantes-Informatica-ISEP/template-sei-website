@@ -1,0 +1,33 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = { tone: "accent" | "neutral" } & HTMLAttributes<"span">;
+
+const { tone, class: className, ...attrs } = Astro.props;
+const classes = ["tag", `tag-${tone}`, className].filter(Boolean).join(" ");
+---
+
+<span class={classes} {...attrs}>
+  <slot />
+</span>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .tag-accent {
+    background: var(--color-accent-100);
+    color: var(--color-accent-700);
+  }
+  .tag-neutral {
+    background: var(--color-neutral-200);
+    color: var(--color-neutral-800);
+  }
+</style>

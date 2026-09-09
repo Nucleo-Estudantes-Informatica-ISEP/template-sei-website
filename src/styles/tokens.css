@@ -1,14 +1,14 @@
 /* SEI base design tokens. Edition themes override these variables, not components. */
 :root {
-  --color-bg: #f3f2f2;
-  --color-surface: #eae9e9;
+  --color-bg: #ffffff;
+  --color-surface: #f5f5f5;
   --color-text: #201e1d;
   --color-accent: #256a42;
   --color-accent-2: #256a42;
-  --color-divider: color-mix(in srgb, #201e1d 40%, transparent);
+  --color-divider: color-mix(in srgb, #201e1d 15%, transparent);
 
-  --color-neutral-100: #f8f4f4;
-  --color-neutral-200: #eae7e7;
+  --color-neutral-100: #fafafa;
+  --color-neutral-200: #f0f0f0;
   --color-neutral-300: #d7d3d3;
   --color-neutral-400: #bab6b6;
   --color-neutral-500: #9b9797;
@@ -37,20 +37,49 @@
   --color-accent-2-800: #143923;
   --color-accent-2-900: #0d2618;
 
-  --font-heading: "Archivo", system-ui, sans-serif;
+  --font-heading: "Inter", system-ui, sans-serif;
   --font-heading-weight: 800;
-  --font-body: "Archivo", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
 
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
+  --space-5: 20px;
   --space-6: 24px;
+  --space-7: 28px;
   --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-18: 72px;
+  --space-20: 80px;
+  --space-22: 88px;
 
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
+  --font-size-2xs: 10px;
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-16: 16px;
+  --font-size-17: 17px;
+  --font-size-20: 20px;
+  --font-size-26: 26px;
+  --font-size-32: 32px;
+  --font-size-34: 34px;
+  --font-size-38: 38px;
+  --font-size-40: 40px;
+  --font-size-42: 42px;
+  --font-size-46: 46px;
+  --font-size-66: 66px;
+  --font-size-420: 420px;
+  --font-size-lg: 30px;
+  --font-size-2xl: 60px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
 
   --shadow-sm: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
   --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
