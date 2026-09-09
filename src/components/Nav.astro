@@ -93,6 +93,9 @@ const isHome = currentPath === site.pages.home;
 
   .site-nav--home {
     /* No solid background, allowing hero to go behind */
+    /* Reserves space for Home's above-the-fold dates ticker (#85), which
+       is the same fixed height (var(--space-10)) so the two don't overlap. */
+    top: var(--space-10);
   }
 
   .site-nav-inner {

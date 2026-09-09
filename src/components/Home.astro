@@ -69,7 +69,36 @@ const importantDates = site.importantDates.map((entry, i) => ({
 }));
 
 const featuredSpeakers = speakers.slice(0, 3);
+
+// Above-the-fold ticker reuses the same rows as the .dates list further
+// down the page — no separate formatting/TBA logic (see #85).
+const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
 ---
+
+<div class="dates-ticker" aria-hidden="true">
+  <div class="dates-ticker__track">
+    <div class="dates-ticker__group">
+      {
+        datesTicker.map((item) => (
+          <>
+            <span>{item}</span>
+            <span class="dates-ticker__sep">◆</span>
+          </>
+        ))
+      }
+    </div>
+    <div class="dates-ticker__group">
+      {
+        datesTicker.map((item) => (
+          <>
+            <span>{item}</span>
+            <span class="dates-ticker__sep">◆</span>
+          </>
+        ))
+      }
+    </div>
+  </div>
+</div>
 
 <header class="hero">
   <img
@@ -449,6 +478,53 @@ const featuredSpeakers = speakers.slice(0, 3);
     grid-template-columns: 1fr 1fr;
     gap: var(--space-16);
     align-items: center;
+  }
+
+  /* -- dates ticker -- */
+  /* Fixed height (not padding-driven) so Nav.astro's .site-nav--home can
+     reserve the same var(--space-10) below it without overlapping. */
+  .dates-ticker {
+    height: var(--space-10);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--color-accent);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+  .dates-ticker__track {
+    display: flex;
+    width: max-content;
+    animation: dates-ticker-scroll 32s linear infinite;
+  }
+  .dates-ticker__group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-10);
+    padding-right: var(--space-10);
+    font-size: var(--font-size-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-neutral-100);
+    white-space: nowrap;
+  }
+  .dates-ticker__sep {
+    opacity: 0.5;
+  }
+  @keyframes dates-ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dates-ticker__track {
+      animation: none;
+    }
   }
 
   /* -- hero -- */
