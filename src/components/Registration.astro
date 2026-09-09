@@ -228,7 +228,7 @@ const features = [
   }
 
   .reg-header {
-    padding: var(--space-16) var(--space-14) var(--space-12);
+    padding: var(--space-22) var(--space-14) var(--space-12);
   }
   .reg-header h1 {
     font-size: 76px;
@@ -382,5 +382,37 @@ const features = [
     font-weight: 700;
     text-transform: uppercase;
     color: var(--color-accent-300);
+  }
+
+  @media (max-width: 768px) {
+    .reg-header,
+    .reg-body {
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
+    }
+
+    .reg-header h1 {
+      font-size: var(--font-size-46);
+    }
+
+    .reg-body,
+    .benefits-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .reg-body {
+      gap: var(--space-8);
+    }
+
+    .card,
+    .info-panel,
+    .ticket-card {
+      padding: var(--space-6);
+    }
+
+    .ticket-header {
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
   }
 </style>

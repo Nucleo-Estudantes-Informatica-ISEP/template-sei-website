@@ -107,7 +107,7 @@ const earlierEditions = history.slice(3);
 
 <style>
   .history-header {
-    padding: var(--space-8) var(--space-8) var(--space-6);
+    padding: var(--space-18) var(--space-14) var(--space-8);
   }
 
   .history-header h1 {
@@ -131,7 +131,7 @@ const earlierEditions = history.slice(3);
   }
 
   .recent-editions {
-    padding: var(--space-4) var(--space-8) 0;
+    padding: var(--space-4) var(--space-14) 0;
   }
 
   .recent-editions h2,
@@ -162,6 +162,7 @@ const earlierEditions = history.slice(3);
     aspect-ratio: 2560 / 810;
     margin-bottom: var(--space-4);
     overflow: hidden;
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
   }
 
@@ -202,11 +203,13 @@ const earlierEditions = history.slice(3);
   }
 
   .earlier-editions {
-    padding: var(--space-8) var(--space-8) 0;
+    padding: var(--space-14) var(--space-14) 0;
   }
 
   .earlier-list {
-    border-top: 1px solid var(--color-divider);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
   }
 
   .earlier-edition {
@@ -214,8 +217,9 @@ const earlierEditions = history.slice(3);
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: var(--space-8);
     align-items: center;
-    padding: var(--space-6) 0;
-    border-bottom: 1px solid var(--color-divider);
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
     color: inherit;
     text-decoration: none;
   }
@@ -248,8 +252,8 @@ const earlierEditions = history.slice(3);
     .history-header,
     .recent-editions,
     .earlier-editions {
-      padding-left: var(--space-6);
-      padding-right: var(--space-6);
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
     }
 
     .history-header {
@@ -279,9 +283,14 @@ const earlierEditions = history.slice(3);
       text-align: right;
     }
 
+    .earlier-list {
+      grid-template-columns: 1fr;
+    }
+
     .earlier-edition {
       grid-template-columns: minmax(0, 1fr) auto;
       gap: var(--space-3) var(--space-4);
+      padding: var(--space-6);
     }
 
     .earlier-edition .description {
@@ -292,8 +301,8 @@ const earlierEditions = history.slice(3);
       flex-direction: column;
       align-items: flex-start;
       gap: var(--space-6);
-      margin-left: var(--space-6);
-      margin-right: var(--space-6);
+      margin-left: var(--space-5);
+      margin-right: var(--space-5);
       padding-top: var(--space-8);
       padding-bottom: var(--space-8);
     }
