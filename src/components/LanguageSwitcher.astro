@@ -57,12 +57,14 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
       }
     </span>
   </button>
-  <div id="language-menu" class="lang-menu" hidden>
+  <div id="language-menu" class="lang-menu" role="menu" hidden>
     {
-      languages.map((code) => (
+      languages.map((code, index) => (
         <a
           href={getRelativeLocaleUrl(code, rest)}
           class="lang-option"
+          role="menuitem"
+          tabindex={index === 0 ? 0 : -1}
           aria-current={code === lang ? "true" : undefined}
         >
           <span class="flag flag-option">
@@ -123,29 +125,85 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
     const menu = root.querySelector<HTMLElement>(".lang-menu");
     if (!toggle || !menu) return;
 
-    const close = () => {
+    const items = Array.from(
+      menu.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]'),
+    );
+
+    // Roving tabindex: only the "active" item is in the tab order. Arrow
+    // keys move which item that is; Tab/Shift+Tab leave the menu entirely.
+    const setActiveItem = (index: number, focus = true) => {
+      items.forEach((item, i) => {
+        item.tabIndex = i === index ? 0 : -1;
+      });
+      if (focus) items[index]?.focus();
+    };
+
+    const close = (returnFocus = false) => {
       menu.hidden = true;
       toggle.setAttribute("aria-expanded", "false");
+      if (returnFocus) toggle.focus();
     };
-    const open = () => {
+
+    const open = (focusIndex: "first" | "last" = "first") => {
       menu.hidden = false;
       toggle.setAttribute("aria-expanded", "true");
+      const index = focusIndex === "first" ? 0 : items.length - 1;
+      setActiveItem(index);
     };
 
     toggle.addEventListener("click", () => {
-      if (menu.hidden) open();
+      if (menu.hidden) open("first");
       else close();
+    });
+
+    toggle.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        open(event.key === "ArrowDown" ? "first" : "last");
+      }
+    });
+
+    menu.addEventListener("keydown", (event) => {
+      const currentIndex = items.findIndex((item) => item.tabIndex === 0);
+
+      switch (event.key) {
+        case "ArrowDown": {
+          event.preventDefault();
+          const next = (currentIndex + 1) % items.length;
+          setActiveItem(next);
+          break;
+        }
+        case "ArrowUp": {
+          event.preventDefault();
+          const prev = (currentIndex - 1 + items.length) % items.length;
+          setActiveItem(prev);
+          break;
+        }
+        case "Home": {
+          event.preventDefault();
+          setActiveItem(0);
+          break;
+        }
+        case "End": {
+          event.preventDefault();
+          setActiveItem(items.length - 1);
+          break;
+        }
+        case "Escape": {
+          close(true);
+          break;
+        }
+        case "Tab": {
+          // Leaving the menu via Tab should close it rather than leave a
+          // stale open menu behind once focus moves elsewhere on the page.
+          close(false);
+          break;
+        }
+      }
     });
 
     document.addEventListener("click", (event) => {
       if (!root.contains(event.target as Node)) close();
-    });
-
-    root.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !menu.hidden) {
-        close();
-        toggle.focus();
-      }
     });
   });
 </script>
