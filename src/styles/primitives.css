@@ -110,6 +110,20 @@
   filter: grayscale(1) contrast(1.08);
 }
 
+/* Visually hidden but still announced by screen readers, e.g. for
+   "opens in new tab" hints on links that use target="_blank". */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 :focus {
   outline: none;
 }

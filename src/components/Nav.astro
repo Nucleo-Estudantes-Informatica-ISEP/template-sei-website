@@ -43,7 +43,13 @@ const isHome = currentPath === site.pages.home;
     </div>
     <div class="site-nav-actions">
       <LanguageSwitcher />
-      <a href={registrationHref} class="site-nav-cta">
+      <a
+        href={registrationHref}
+        class="site-nav-cta"
+        aria-current={site.pages.registration === currentPath
+          ? "page"
+          : undefined}
+      >
         {t("nav.registration")}
       </a>
     </div>

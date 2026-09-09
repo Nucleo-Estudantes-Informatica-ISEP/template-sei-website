@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 type BaseProps = {
   variant: "primary" | "secondary" | "ghost";
@@ -12,6 +13,8 @@ type Props =
 const { variant, href, class: className, ...attrs } = Astro.props;
 
 const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
+const opensNewTab = href && attrs.target === "_blank";
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 {
@@ -22,6 +25,9 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
       {...(attrs as Omit<HTMLAttributes<"a">, "href" | "class">)}
     >
       <slot />
+      {opensNewTab && (
+        <span class="sr-only">{t("accessibility.opensInNewTab")}</span>
+      )}
     </a>
   ) : (
     <button
