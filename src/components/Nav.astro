@@ -30,14 +30,14 @@ const isHome = currentPath === site.pages.home;
     <div class="site-nav-links">
       {
         NAV_LINKS.map((link) => (
-          <a
-            href={getRelativeLocaleUrl(lang, site.pages[link.id])}
-            aria-current={
-              site.pages[link.id] === currentPath ? "page" : undefined
-            }
+
+        <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}
+        aria-current={
+            site.pages[link.id] === currentPath ? "page" : undefined
+          }
           >
-            {t(link.labelKey)}
-          </a>
+          {t(link.labelKey)}
+        </a>
         ))
       }
     </div>
@@ -60,21 +60,34 @@ const isHome = currentPath === site.pages.home;
         <div class="site-nav-menu-panel">
           {
             NAV_LINKS.map((link) => (
-              <a
-                href={getRelativeLocaleUrl(lang, site.pages[link.id])}
-                aria-current={
-                  site.pages[link.id] === currentPath ? "page" : undefined
-                }
+
+            <a href={getRelativeLocaleUrl(lang, site.pages[link.id])}
+            aria-current={
+                site.pages[link.id] === currentPath ? "page" : undefined
+              }
               >
-                {t(link.labelKey)}
-              </a>
+              {t(link.labelKey)}
+            </a>
             ))
           }
-          <a href={registrationHref}>{t("nav.registration")}</a>
+
+        <a href={registrationHref}
+          aria-current={
+          site.pages.registration === currentPath ? "page" : undefined
+        }
+          >
+          {t("nav.registration")}
+          </a>
         </div>
       </details>
-      <a href={registrationHref} class="site-nav-cta">
-        {t("nav.registration")}
+
+    <a href={registrationHref}
+      class="site-nav-cta"
+      aria-current={
+      site.pages.registration === currentPath ? "page" : undefined
+    }
+      >
+      {t("nav.registration")}
       </a>
     </div>
   </div>
