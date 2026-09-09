@@ -1,5 +1,10 @@
 ---
-import { useTranslations, type Lang, type TranslationKey } from "../i18n/utils";
+import {
+  localize,
+  useTranslations,
+  type Lang,
+  type TranslationKey,
+} from "../i18n/utils";
 import { site } from "../data/site";
 import { topics } from "../data/topics";
 
@@ -147,7 +152,11 @@ const resources = [
   <section class="topics-section">
     <h2>{t("submissions.topics.title")}</h2>
     <div class="topics-grid">
-      {topics.map((topic) => <div class="topic-pill">{topic.name}</div>)}
+      {
+        topics.map((topic) => (
+          <div class="topic-pill">{localize(topic.name, lang)}</div>
+        ))
+      }
     </div>
   </section>
 </section>
