@@ -96,6 +96,17 @@ styles/       # tokens.css, primitives.css, and styles.override.css (edition tok
 
 This section is intentionally thin right now. Update it as each of #2–#22 lands rather than letting it go stale.
 
+### Program page data (EasyChair sync, #86)
+
+`Program.astro` no longer just reads `program.json` directly — `src/data/program.ts` tries to refresh it from EasyChair on every build/dev start:
+
+- If `site.links.easyChairProgram` is set, `program.ts` fetches that URL (EasyChair's public Smart Program page — plain server-rendered HTML, no auth, no JS/API involved) and `src/data/easychair.ts` parses its `.session` blocks into the same `{morning, afternoon}` shape as `program.json`, collapsing same-time parallel tracks (e.g. "Session 4A"/"4B") into one summary row rather than reproducing the full per-track detail — that's what the EasyChair link itself is for.
+- The result is validated with the same `programSchema` as the static file (`program.schema.mjs`) before use.
+- If the link is unset, the fetch fails, times out (8s), or the parsed result doesn't validate, it logs a warning and falls back to the committed `program.json` — the build never hard-fails over this.
+- **This only works for single-day events.** EasyChair's Smart Program index page (`https://easychair.org/smart-program/<CONF>/`) _is_ the schedule when the conference is one day; for a multi-day conference it's a day picker instead, which has no `.session` entries and falls back the same way an unreachable URL would.
+- EasyChair's actual session titles tend to be longer/more detailed than the hand-curated defaults in `program.json` (e.g. a full keynote title+subtitle instead of just "Keynote") — the parser doesn't try to editorially shorten them, just lightly cleans the "Session N: " prefix and surrounding quotes.
+- To enable this for a real edition, point `site.links.easyChairProgram` at that edition's Smart Program URL — no other changes needed. `program.json` still needs to stay valid and reasonably current on its own, since it's what ships whenever the live fetch can't be used.
+
 ---
 
 ## Conventions
@@ -124,3 +135,4 @@ Before considering a task done:
 - **TypeScript is constrained to the 6.x line, not "pinned" to one exact version.** `package.json` declares `^6.0.3` (a caret range) because `typescript-eslint` and `@astrojs/check`'s peer ranges cap below TypeScript 7 as of this writing — `pnpm-lock.yaml` currently resolves that to exactly `6.0.3`, but a plain `pnpm update typescript` could move it to a newer 6.x release. Don't `pnpm add -D typescript@latest` — check the new version's peers resolve cleanly first.
 - **Node `>=22.12.0` is required** (Astro 7's minimum) — `ci.yml` pins exactly this version; don't let it drift from `engines.node` in `package.json`.
 - **`CLAUDE.md` just re-imports `AGENTS.md`** via Claude Code's `@file` import syntax — edit `AGENTS.md`, not `CLAUDE.md`.
+- **`pnpm build`/`pnpm dev` make an outbound network call when `site.links.easyChairProgram` is set** (see [Program page data](#program-page-data-easychair-sync-86)) — expect a slower Program page build and don't be surprised by a build-time fetch in a repo that's otherwise fully static/offline. `pnpm validate:data` never does this; it only checks the committed `program.json`.
