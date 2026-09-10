@@ -4,9 +4,9 @@
   --color-surface: #f5f5f5;
   --color-text: #201e1d;
   --color-accent: #256a42;
-  --color-accent-2: #256a42;
   --color-divider: color-mix(in srgb, #201e1d 15%, transparent);
 
+  /* 100 is the lightest shade; 900 is the darkest. */
   --color-neutral-100: #fafafa;
   --color-neutral-200: #f0f0f0;
   --color-neutral-300: #d7d3d3;
@@ -26,16 +26,6 @@
   --color-accent-700: #1a4c2f;
   --color-accent-800: #143923;
   --color-accent-900: #0d2618;
-
-  --color-accent-2-100: #ecf8f1;
-  --color-accent-2-200: #d2efde;
-  --color-accent-2-300: #a4dfbd;
-  --color-accent-2-400: #68ca91;
-  --color-accent-2-500: #328f59;
-  --color-accent-2-600: #256a42;
-  --color-accent-2-700: #1a4c2f;
-  --color-accent-2-800: #143923;
-  --color-accent-2-900: #0d2618;
 
   --font-heading: "Inter", system-ui, sans-serif;
   --font-heading-weight: 800;
