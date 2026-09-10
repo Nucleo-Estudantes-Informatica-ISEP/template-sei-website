@@ -77,26 +77,20 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
 
 <div class="dates-ticker" aria-hidden="true">
   <div class="dates-ticker__track">
-    <div class="dates-ticker__group">
-      {
-        datesTicker.map((item) => (
-          <>
-            <span>{item}</span>
-            <span class="dates-ticker__sep">◆</span>
-          </>
-        ))
-      }
-    </div>
-    <div class="dates-ticker__group">
-      {
-        datesTicker.map((item) => (
-          <>
-            <span>{item}</span>
-            <span class="dates-ticker__sep">◆</span>
-          </>
-        ))
-      }
-    </div>
+    {
+      // Duplicated so the 32s scroll animation (translateX(-50%)) has a
+      // seamless second copy to hand off to — not a display duplicate.
+      [0, 1].map(() => (
+        <div class="dates-ticker__group">
+          {datesTicker.map((item) => (
+            <>
+              <span>{item}</span>
+              <span class="dates-ticker__sep">◆</span>
+            </>
+          ))}
+        </div>
+      ))
+    }
   </div>
 </div>
 
@@ -482,8 +476,14 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
 
   /* -- dates ticker -- */
   /* Fixed height (not padding-driven) so Nav.astro's .site-nav--home can
-     reserve the same var(--space-10) below it without overlapping. */
+     reserve the same var(--space-10) below it without overlapping.
+     Sticky (not static) so it stays pinned at the viewport top past the
+     first scroll — Nav's offset is a static top value, so if the ticker
+     scrolled away normally the nav would be left floating over a gap. */
   .dates-ticker {
+    position: sticky;
+    top: 0;
+    z-index: 90;
     height: var(--space-10);
     display: flex;
     align-items: center;
