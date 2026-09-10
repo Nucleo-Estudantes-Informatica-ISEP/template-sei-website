@@ -130,6 +130,11 @@ const copyright = t("footer.copyrightLine")
     color: var(--color-text);
     text-decoration: none;
     font-size: 13px;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-col a:hover {
+    color: var(--color-accent-700);
   }
 
   .footer-col a + a {
@@ -164,6 +169,11 @@ const copyright = t("footer.copyrightLine")
     display: inline-flex;
     color: var(--color-text);
     opacity: 0.65;
+    transition: opacity var(--transition-fast);
+  }
+
+  .footer-socials a:hover {
+    opacity: 1;
   }
 
   .footer-col-heading {
@@ -193,6 +203,10 @@ const copyright = t("footer.copyrightLine")
     font-weight: 700;
     color: var(--color-accent-700);
     margin-top: 14px;
+  }
+
+  .footer-email:hover {
+    color: var(--color-accent-900);
   }
 
   .site-footer-bottom {

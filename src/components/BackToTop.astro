@@ -56,7 +56,8 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     pointer-events: none;
     transition:
       opacity 0.2s ease,
-      visibility 0.2s ease;
+      visibility 0.2s ease,
+      background-color var(--transition-fast);
   }
 
   .back-to-top.is-visible {

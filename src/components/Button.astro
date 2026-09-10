@@ -49,6 +49,10 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
     text-transform: uppercase;
     line-height: 1.2;
     border: 1px solid transparent;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      border-color var(--transition-fast);
   }
 
   .btn:disabled {
@@ -96,7 +100,7 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
   .btn-ghost::after {
     content: "\2192"; /* → */
     display: inline-block;
-    transition: transform 0.15s ease;
+    transition: transform var(--transition-fast);
   }
   .btn-ghost:hover {
     color: var(--color-accent-800);
