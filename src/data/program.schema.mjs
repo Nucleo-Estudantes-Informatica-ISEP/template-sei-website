@@ -6,6 +6,13 @@ export const scheduleItemSchema = z.object({
   title: z.string().min(1),
   desc: z.string().min(1).optional(),
   tag: z.string().min(1).optional(),
+  // Never localized — these are people's names and room codes.
+  chair: z.string().min(1).optional(),
+  room: z.string().min(1).optional(),
+  // "break" gets a distinct (non-highlighted) treatment in the UI —
+  // everything else, including parallel sessions sharing a time slot
+  // with siblings, is a "session".
+  kind: z.enum(["session", "break"]).default("session"),
 });
 
 function assertAscendingTimes(items, ctx, group) {

@@ -4,32 +4,16 @@ import { programSchema } from "./program.schema.mjs";
 
 type ProgramConfig = z.infer<typeof programSchema>;
 
-const FETCH_TIMEOUT_MS = 8_000;
-
-interface RawSession {
-  interval: string;
+interface RawItem {
+  time: string;
   title: string;
-  isBreak: boolean;
+  kind: "session" | "break";
+  tag?: string;
+  chair?: string;
+  room?: string;
 }
 
-function toRoman(n: number): string {
-  const table: [number, string][] = [
-    [10, "X"],
-    [9, "IX"],
-    [5, "V"],
-    [4, "IV"],
-    [1, "I"],
-  ];
-  let result = "";
-  let remaining = n;
-  for (const [value, symbol] of table) {
-    while (remaining >= value) {
-      result += symbol;
-      remaining -= value;
-    }
-  }
-  return result || String(n);
-}
+const FETCH_TIMEOUT_MS = 8_000;
 
 function cleanTitle(rawTitle: string): string {
   return rawTitle
@@ -37,6 +21,10 @@ function cleanTitle(rawTitle: string): string {
     .trim()
     .replace(/^["“](.+)["”]$/, "$1")
     .trim();
+}
+
+function collapseWhitespace(text: string): string {
+  return text.replace(/\s+/g, " ").trim();
 }
 
 function detectTag(title: string): string | undefined {
@@ -50,12 +38,23 @@ function detectTag(title: string): string | undefined {
  * https://easychair.org/smart-program/<CONF>/ for a single-day event —
  * that index page IS the full schedule, no JS/API involved). Each
  * `.session` div is either a coffeebreak/lunchbreak marker or a real
- * session with a `.heading .interval` + `.heading .title`.
+ * session with a `.heading .interval` + `.heading .title`, and
+ * (usually) a `.session_chair .chair_names` and `.room .room_name`.
+ *
+ * Parallel tracks (e.g. "Session 4A" / "Session 4B") share the same
+ * interval and are kept as separate rows rather than collapsed — the
+ * UI distinguishes `kind: "session"` rows from `kind: "break"` ones,
+ * not "how many things happened at this time".
  */
-export function parseEasyChairProgram(html: string): ProgramConfig {
+export function parseEasyChairProgram(html: string): {
+  morning: RawItem[];
+  afternoon: RawItem[];
+} {
   const $ = cheerio.load(html);
 
-  const raw: RawSession[] = [];
+  const items: RawItem[] = [];
+  let lunchIndex = -1;
+
   $(".session").each((_, el) => {
     const $el = $(el);
     const coffee = $el.children(".coffeebreak").first();
@@ -63,68 +62,48 @@ export function parseEasyChairProgram(html: string): ProgramConfig {
     const breakEl = coffee.length ? coffee : lunch.length ? lunch : null;
 
     if (breakEl) {
-      raw.push({
-        interval: breakEl.find(".interval").first().text().trim(),
-        title: coffee.length ? "Coffee break" : "Lunch break",
-        isBreak: true,
-      });
+      const time = breakEl
+        .find(".interval")
+        .first()
+        .text()
+        .trim()
+        .split("-")[0]
+        .trim();
+      const title = coffee.length ? "Coffee break" : "Lunch break";
+      if (!time) return;
+      if (title === "Lunch break") lunchIndex = items.length;
+      items.push({ time, title, kind: "break" });
       return;
     }
 
     const heading = $el.find(".heading").first();
     const interval = heading.find(".interval").first().text().trim();
-    const title = heading.find(".title").first().text().trim();
-    if (interval && title) {
-      raw.push({ interval, title, isBreak: false });
-    }
+    const rawTitle = heading.find(".title").first().text().trim();
+    if (!interval || !rawTitle) return;
+
+    const time = interval.split("-")[0].trim();
+    const title = cleanTitle(rawTitle);
+    const tag = detectTag(title);
+    const chair = collapseWhitespace(
+      $el.find(".session_chair .chair_names").first().text(),
+    );
+    const room = collapseWhitespace(
+      $el.find(".room .room_name").first().text(),
+    );
+
+    items.push({
+      time,
+      title,
+      kind: "session",
+      ...(tag && { tag }),
+      ...(chair && { chair }),
+      ...(room && { room }),
+    });
   });
 
-  if (raw.length === 0) {
+  if (items.length === 0) {
     throw new Error("No .session entries found on the EasyChair program page");
   }
-
-  // Group consecutive sessions that share the same time interval — those
-  // are parallel tracks (e.g. "Session 4A" / "Session 4B") and collapse
-  // into a single overview row, since this page shows a summary, not the
-  // full per-track detail (that's what the EasyChair link itself is for).
-  const groups: RawSession[][] = [];
-  for (const session of raw) {
-    const last = groups.at(-1);
-    if (last && last[0].interval === session.interval) {
-      last.push(session);
-    } else {
-      groups.push([session]);
-    }
-  }
-
-  const items: { time: string; title: string; desc?: string; tag?: string }[] =
-    [];
-  let parallelGroupCount = 0;
-  let lunchIndex = -1;
-
-  groups.forEach((group, i) => {
-    const time = group[0].interval.split("-")[0].trim();
-
-    if (group[0].isBreak) {
-      items.push({ time, title: group[0].title });
-      if (group[0].title === "Lunch break") lunchIndex = i;
-      return;
-    }
-
-    if (group.length > 1) {
-      parallelGroupCount += 1;
-      items.push({
-        time,
-        title: `Paper sessions ${toRoman(parallelGroupCount)}`,
-        desc: `${group.length} parallel peer-reviewed sessions.`,
-      });
-      return;
-    }
-
-    const title = cleanTitle(group[0].title);
-    const tag = detectTag(title);
-    items.push({ time, title, ...(tag && { tag }) });
-  });
 
   const splitAt = lunchIndex >= 0 ? lunchIndex + 1 : items.length;
   const morning = items.slice(0, splitAt);

@@ -15,7 +15,8 @@
     },
     {
       "time": "11:00",
-      "title": "Coffee break"
+      "title": "Coffee break",
+      "kind": "break"
     },
     {
       "time": "11:30",
@@ -24,7 +25,8 @@
     },
     {
       "time": "12:30",
-      "title": "Lunch break"
+      "title": "Lunch break",
+      "kind": "break"
     }
   ],
   "afternoon": [
@@ -44,7 +46,8 @@
     },
     {
       "time": "16:15",
-      "title": "Coffee break"
+      "title": "Coffee break",
+      "kind": "break"
     },
     {
       "time": "16:45",
