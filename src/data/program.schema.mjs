@@ -1,10 +1,12 @@
 import { z } from "zod";
-import { timeSchema } from "./primitives.schema.mjs";
+import { timeSchema, localizedTextSchema } from "./primitives.schema.mjs";
 
 export const scheduleItemSchema = z.object({
   time: timeSchema,
-  title: z.string().min(1),
-  desc: z.string().min(1).optional(),
+  // A plain string (program.json's hand-curated entries) or a per-locale
+  // {en, pt} pair (EasyChair-synced entries run through translate.ts, #97).
+  title: localizedTextSchema,
+  desc: localizedTextSchema.optional(),
   tag: z.string().min(1).optional(),
   // Never localized — these are people's names and room codes.
   chair: z.string().min(1).optional(),

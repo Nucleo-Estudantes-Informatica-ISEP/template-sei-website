@@ -66,7 +66,7 @@ const t = useTranslations(lang);
               <span class="schedule-time">{item.time}</span>
 
               <div class="schedule-content">
-                <div class="schedule-title">{item.title}</div>
+                <div class="schedule-title">{localize(item.title, lang)}</div>
 
                 {(item.chair || item.room) && (
                   <p class="schedule-meta">
@@ -76,7 +76,7 @@ const t = useTranslations(lang);
                   </p>
                 )}
 
-                {item.desc && <p>{item.desc}</p>}
+                {item.desc && <p>{localize(item.desc, lang)}</p>}
 
                 {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
               </div>
@@ -94,7 +94,7 @@ const t = useTranslations(lang);
               <span class="schedule-time">{item.time}</span>
 
               <div class="schedule-content">
-                <div class="schedule-title">{item.title}</div>
+                <div class="schedule-title">{localize(item.title, lang)}</div>
 
                 {(item.chair || item.room) && (
                   <p class="schedule-meta">
@@ -104,7 +104,7 @@ const t = useTranslations(lang);
                   </p>
                 )}
 
-                {item.desc && <p>{item.desc}</p>}
+                {item.desc && <p>{localize(item.desc, lang)}</p>}
 
                 {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
               </div>

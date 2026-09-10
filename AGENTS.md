@@ -107,6 +107,15 @@ This section is intentionally thin right now. Update it as each of #2–#22 land
 - EasyChair's actual session titles tend to be longer/more detailed than the hand-curated defaults in `program.json` (e.g. a full keynote title+subtitle instead of just "Keynote") — the parser doesn't try to editorially shorten them, just lightly cleans the "Session N: " prefix and surrounding quotes.
 - To enable this for a real edition, point `site.links.easyChairProgram` at that edition's Smart Program URL — no other changes needed. `program.json` still needs to stay valid and reasonably current on its own, since it's what ships whenever the live fetch can't be used.
 
+### Program page translations (EasyChair sync, #97)
+
+EasyChair has no localization feature, so scraped session titles come back as plain, single-language text (often already mixed EN/PT). `src/data/translate.ts` optionally translates them per-locale:
+
+- `program.schema.mjs`'s `title`/`desc` are `localizedTextSchema` (same union — plain string, or `{en, pt}` — used by `speakers.schema.mjs`/`topics.schema.mjs`/`gallery.schema.mjs`), and `Program.astro` reads them with the existing `localize(text, lang)` helper. `program.json`'s hand-curated strings need no changes — a plain string is still valid.
+- `chair`/`room` are never translated — they're people's names and room codes, not prose.
+- Translation only runs when `GOOGLE_TRANSLATE_API_KEY` is set (Google Cloud Translation, Basic/NMT tier — the first 500,000 characters/month are free, ~$10/million after; a single edition's schedule text is a few hundred to a couple thousand characters). With no key configured, `localizeTexts` returns every string unchanged and both locales show the original scraped text — the pre-#97 behavior.
+- Translations are cached in the checked-in `src/data/program-translation-cache.json`, keyed by a hash of the source text, so unchanged content across builds/editions never re-hits the API — and a maintainer can hand-correct a specific bad machine translation by editing that file's `en`/`pt` values directly. In an ephemeral build (e.g. the Docker build stage) a cache write failure is caught and logged, not fatal — that build's in-memory translations are still used, just not persisted; committing the file from a local run is what makes it durable across builds.
+
 ---
 
 ## Conventions
@@ -136,3 +145,4 @@ Before considering a task done:
 - **Node `>=22.12.0` is required** (Astro 7's minimum) — `ci.yml` pins exactly this version; don't let it drift from `engines.node` in `package.json`.
 - **`CLAUDE.md` just re-imports `AGENTS.md`** via Claude Code's `@file` import syntax — edit `AGENTS.md`, not `CLAUDE.md`.
 - **`pnpm build`/`pnpm dev` make an outbound network call when `site.links.easyChairProgram` is set** (see [Program page data](#program-page-data-easychair-sync-86)) — expect a slower Program page build and don't be surprised by a build-time fetch in a repo that's otherwise fully static/offline. `pnpm validate:data` never does this; it only checks the committed `program.json`.
+- **A second, separate outbound call happens if `GOOGLE_TRANSLATE_API_KEY` is also set** (see [Program page translations](#program-page-translations-easychair-sync-97)) — same non-fatal-on-failure behavior, but a second external service in the build path is a second thing that can be slow or rate-limited. Unset (the default), it's a no-op.

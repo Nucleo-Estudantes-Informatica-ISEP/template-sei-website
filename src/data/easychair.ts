@@ -1,9 +1,13 @@
 import * as cheerio from "cheerio";
 import type { z } from "zod";
 import { programSchema } from "./program.schema.mjs";
+import { localizeTexts } from "./translate";
 
 type ProgramConfig = z.infer<typeof programSchema>;
+type ScheduleItem = ProgramConfig["morning"][number];
 
+// The parser's own output, before translate.ts (#97) turns `title` into a
+// per-locale value — always a plain string here, never {en, pt}.
 interface RawItem {
   time: string;
   title: string;
@@ -118,6 +122,30 @@ export function parseEasyChairProgram(html: string): {
   return { morning, afternoon };
 }
 
+/**
+ * Runs every scraped title through translate.ts (#97) — chair/room are
+ * never touched, since those are people's names and room codes, not
+ * prose. With no translation API configured (or on failure), titles pass
+ * through unchanged as plain strings.
+ */
+async function localizeProgram(program: {
+  morning: RawItem[];
+  afternoon: RawItem[];
+}): Promise<ProgramConfig> {
+  const titles = [...program.morning, ...program.afternoon].map(
+    (item) => item.title,
+  );
+  const translations = await localizeTexts(titles);
+  const apply = (item: RawItem): ScheduleItem => ({
+    ...item,
+    title: translations.get(item.title) ?? item.title,
+  });
+  return {
+    morning: program.morning.map(apply),
+    afternoon: program.afternoon.map(apply),
+  };
+}
+
 export async function fetchEasyChairProgram(
   url: string,
 ): Promise<ProgramConfig> {
@@ -128,5 +156,6 @@ export async function fetchEasyChairProgram(
     throw new Error(`EasyChair program fetch failed: HTTP ${response.status}`);
   }
   const html = await response.text();
-  return parseEasyChairProgram(html);
+  const raw = parseEasyChairProgram(html);
+  return localizeProgram(raw);
 }
