@@ -24,22 +24,6 @@ const copyright = t("footer.copyrightLine")
         <div class="footer-brand-name">{site.edition.name}</div>
         <p>{t("footer.description")}</p>
         <div class="footer-socials">
-          <a
-            href={`mailto:${site.contact.email}`}
-            aria-label={t("footer.emailLabel")}
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <rect x="2" y="4" width="20" height="16"></rect>
-              <path d="M2 6l10 7 10-7"></path>
-            </svg>
-          </a>
           {
             site.social.linkedin && (
               <a
