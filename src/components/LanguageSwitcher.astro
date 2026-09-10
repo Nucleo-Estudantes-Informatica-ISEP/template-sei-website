@@ -22,14 +22,14 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
     type="button"
     class="lang-toggle"
     aria-controls="language-menu"
-    aria-haspopup="menu"
+    aria-haspopup="true"
     aria-expanded="false"
     aria-label={t("languageSwitcher.label")}
   >
     <span class="flag">
       {
         lang === "en" ? (
-          <svg width="17" height="17" viewBox="0 0 20 20">
+          <svg width="17" height="17" viewBox="0 0 20 20" aria-hidden="true">
             <rect width="20" height="20" fill="#012169" />
             <path d="M0 0L20 20M20 0L0 20" stroke="#fff" stroke-width="3" />
             <path
@@ -41,7 +41,7 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
             <path d="M10 0V20M0 10H20" stroke="#C8102E" stroke-width="2.6" />
           </svg>
         ) : (
-          <svg width="17" height="17" viewBox="0 0 20 20">
+          <svg width="17" height="17" viewBox="0 0 20 20" aria-hidden="true">
             <rect width="20" height="20" fill="#FF0000" />
             <rect width="8" height="20" fill="#006600" />
             <circle
@@ -57,19 +57,23 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
       }
     </span>
   </button>
-  <div id="language-menu" class="lang-menu" role="menu" hidden>
+  <div id="language-menu" class="lang-menu" hidden>
     {
       languages.map((code, index) => (
         <a
           href={getRelativeLocaleUrl(code, rest)}
           class="lang-option"
-          role="menuitem"
           tabindex={index === 0 ? 0 : -1}
           aria-current={code === lang ? "true" : undefined}
         >
           <span class="flag flag-option">
             {code === "en" ? (
-              <svg width="18" height="18" viewBox="0 0 20 20">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
                 <rect width="20" height="20" fill="#012169" />
                 <path d="M0 0L20 20M20 0L0 20" stroke="#fff" stroke-width="3" />
                 <path
@@ -85,7 +89,12 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
                 />
               </svg>
             ) : (
-              <svg width="18" height="18" viewBox="0 0 20 20">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 20 20"
+                aria-hidden="true"
+              >
                 <rect width="20" height="20" fill="#FF0000" />
                 <rect width="8" height="20" fill="#006600" />
                 <circle
@@ -126,11 +135,12 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
     if (!toggle || !menu) return;
 
     const items = Array.from(
-      menu.querySelectorAll<HTMLAnchorElement>('[role="menuitem"]'),
+      menu.querySelectorAll<HTMLAnchorElement>(".lang-option"),
     );
 
-    // Roving tabindex: only the "active" item is in the tab order. Arrow
-    // keys move which item that is; Tab/Shift+Tab leave the menu entirely.
+    // Roving tabindex UX enhancement on top of the plain link list: only
+    // the "active" item is in the tab order, and arrow keys move which
+    // item that is. Tab/Shift+Tab leave the panel entirely, as normal.
     const setActiveItem = (index: number, focus = true) => {
       items.forEach((item, i) => {
         item.tabIndex = i === index ? 0 : -1;
@@ -187,13 +197,6 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
         case "End": {
           event.preventDefault();
           setActiveItem(items.length - 1);
-          break;
-        }
-        case " ": {
-          // Native <a> elements only activate on Enter, not Space. The ARIA
-          // menu pattern expects both keys to activate the focused item.
-          event.preventDefault();
-          items[currentIndex]?.click();
           break;
         }
         case "Escape": {
