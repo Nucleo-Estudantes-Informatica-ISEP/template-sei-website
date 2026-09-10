@@ -176,7 +176,9 @@ const isHome = currentPath === site.pages.home;
   }
 
   .site-nav-cta:hover {
-    background: var(--color-accent-600);
+    /* --color-accent and --color-accent-600 are the same value, so hover
+       needs a distinct step (700) to actually be visible. */
+    background: var(--color-accent-700);
   }
 
   @media (max-width: 900px) {

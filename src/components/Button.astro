@@ -72,10 +72,13 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
     padding: 12px 26px;
   }
   .btn-primary:hover {
-    background: var(--color-accent-600);
+    /* --color-accent and --color-accent-600 are the same value, so hover
+       needs a distinct step (700) to actually be visible; active steps
+       one further (800) so the two states don't collide. */
+    background: var(--color-accent-700);
   }
   .btn-primary:active {
-    background: var(--color-accent-700);
+    background: var(--color-accent-800);
   }
 
   .btn-secondary {
