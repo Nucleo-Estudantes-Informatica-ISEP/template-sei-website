@@ -187,7 +187,12 @@ const features = [
 
     {
       registrationHref ? (
-        <Button variant="primary" href={registrationHref}>
+        <Button
+          variant="primary"
+          href={registrationHref}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {t("registration.ticket.cta")} →
         </Button>
       ) : (
