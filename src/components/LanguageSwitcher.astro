@@ -15,13 +15,17 @@ const t = useTranslations(lang);
 // string/hash at build time — the client script below patches those in
 // from window.location once the page has actually loaded.
 const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
+
+// Unique per render so aria-controls/id stay a valid pairing even if this
+// component is ever rendered more than once on the same page.
+const menuId = `language-menu-${crypto.randomUUID().slice(0, 8)}`;
 ---
 
 <div class="lang-switcher">
   <button
     type="button"
     class="lang-toggle"
-    aria-controls="language-menu"
+    aria-controls={menuId}
     aria-haspopup="true"
     aria-expanded="false"
     aria-label={t("languageSwitcher.label")}
@@ -57,7 +61,7 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
       }
     </span>
   </button>
-  <div id="language-menu" class="lang-menu" hidden>
+  <div id={menuId} class="lang-menu" hidden>
     {
       languages.map((code, index) => (
         <a
@@ -154,16 +158,21 @@ const rest = Astro.url.pathname.replace(new RegExp(`^/${lang}/?`), "");
       if (returnFocus) toggle.focus();
     };
 
-    const open = (focusIndex: "first" | "last" = "first") => {
+    const open = (focusIndex: "first" | "last" = "first", focus = true) => {
       menu.hidden = false;
       toggle.setAttribute("aria-expanded", "true");
       const index = focusIndex === "first" ? 0 : items.length - 1;
-      setActiveItem(index);
+      setActiveItem(index, focus);
     };
 
-    toggle.addEventListener("click", () => {
-      if (menu.hidden) open("first");
-      else close();
+    toggle.addEventListener("click", (event) => {
+      if (menu.hidden) {
+        // A real mouse click has event.detail >= 1; a "click" dispatched by
+        // pressing Enter/Space on the button has detail 0. Only steal focus
+        // for the latter — a mouse user shouldn't have focus yanked into
+        // the panel just for opening it.
+        open("first", event.detail === 0);
+      } else close();
     });
 
     toggle.addEventListener("keydown", (event) => {
