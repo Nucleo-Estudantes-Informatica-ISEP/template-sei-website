@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "validate:data": "node scripts/validate-data.mjs",
-    "typecheck": "pnpm validate:data && astro check"
+    "typecheck": "pnpm validate:data && astro check",
+    "test": "tsx --test src/data/*.test.ts"
   },
   "dependencies": {
     "astro": "^7.3.1",
@@ -32,6 +33,7 @@
     "globals": "^17.11.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.23.13",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.68.0"
   }

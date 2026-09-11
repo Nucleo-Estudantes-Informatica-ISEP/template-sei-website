@@ -52,7 +52,7 @@ async function translateBatch(
   for (const text of texts) params.append("q", text);
 
   const response = await fetch(
-    `https://translation.googleapis.com/language/translate2?${params}`,
+    `https://translation.googleapis.com/language/translate/v2?${params}`,
     { method: "POST", signal: AbortSignal.timeout(TRANSLATE_TIMEOUT_MS) },
   );
   if (!response.ok) {
