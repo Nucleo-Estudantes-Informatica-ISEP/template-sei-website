@@ -475,15 +475,12 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
   }
 
   /* -- dates ticker -- */
-  /* Fixed height (not padding-driven) so Nav.astro's .site-nav--home can
-     reserve the same var(--space-10) below it without overlapping.
-     Sticky (not static) so it stays pinned at the viewport top past the
-     first scroll — Nav's offset is a static top value, so if the ticker
-     scrolled away normally the nav would be left floating over a gap. */
+  /* Plain in-flow element (no sticky/fixed) — it's meant to sit once
+     above the hero and scroll away with the rest of the page, not
+     stay glued to the viewport as you browse the whole site. Fixed
+     height (not padding-driven) so Nav.astro's .site-nav--home can
+     reserve the same var(--space-10) below it without overlapping. */
   .dates-ticker {
-    position: sticky;
-    top: 0;
-    z-index: 90;
     height: var(--space-10);
     display: flex;
     align-items: center;
