@@ -57,7 +57,8 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     pointer-events: none;
     transition:
       opacity 0.2s ease,
-      visibility 0.2s ease;
+      visibility 0.2s ease,
+      background-color var(--transition-fast);
   }
 
   .back-to-top.is-visible {
@@ -67,7 +68,9 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   }
 
   .back-to-top:hover {
-    background: var(--color-accent-600);
+    /* --color-accent and --color-accent-600 are the same value, so hover
+       needs a distinct step (700) to actually be visible. */
+    background: var(--color-accent-700);
   }
 
   @media (max-width: 767px) {

@@ -156,6 +156,7 @@ const isHome = currentPath === site.pages.home;
   .site-nav-links a {
     color: var(--color-neutral-700);
     text-decoration: none;
+    transition: color var(--transition-fast);
   }
 
   .site-nav-links a:hover,
@@ -186,10 +187,13 @@ const isHome = currentPath === site.pages.home;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    transition: background-color var(--transition-fast);
   }
 
   .site-nav-cta:hover {
-    background: var(--color-accent-600);
+    /* --color-accent and --color-accent-600 are the same value, so hover
+       needs a distinct step (700) to actually be visible. */
+    background: var(--color-accent-700);
   }
 
   @media (max-width: 900px) {
@@ -252,6 +256,9 @@ const isHome = currentPath === site.pages.home;
       text-decoration: none;
       font-size: var(--font-size-sm);
       font-weight: 700;
+      transition:
+        color var(--transition-fast),
+        background-color var(--transition-fast);
     }
 
     .site-nav-menu-panel a:hover,
