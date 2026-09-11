@@ -60,10 +60,11 @@ pnpm format         # prettier --write .
 pnpm format:check   # prettier --check . — what CI runs on every PR into dev or main
 pnpm validate:data  # validate site.json against its zod schema
 pnpm typecheck      # validate data, then run astro check
+pnpm test           # tsx --test src/data/*.test.ts — mocked unit tests, no browser/e2e coverage
 docker compose -f docker-compose.app.yml up --build # production-like container
 ```
 
-No test suite exists yet — there's no `pnpm test` script and no testing-foundation issue currently tracked in this milestone; verification today is lint + typecheck + a manual check against `pnpm preview`.
+There's no broader testing foundation or e2e coverage yet, and no tracked issue for one — `pnpm test` today only covers `src/data/*.test.ts` (introduced in #95 to mock the EasyChair translation API call). Verification for everything else is lint + typecheck + a manual check against `pnpm preview`.
 
 ## Development
 
@@ -134,8 +135,9 @@ Before considering a task done:
 1. Run `pnpm lint` and fix anything flagged in touched files.
 2. Run `pnpm typecheck` (`astro check`) — keep it clean.
 3. Run `pnpm format:check` (or `pnpm format` to fix) — keep formatting consistent.
-4. Run `pnpm build`, then `pnpm preview` and actually exercise the changed page/component in a browser — don't just read the diff.
-5. Don't report a task complete on "it compiles" or "lint passed" alone; state plainly if something couldn't be manually verified.
+4. Run `pnpm test` if the change touches anything under `src/data/*.test.ts` covers.
+5. Run `pnpm build`, then `pnpm preview` and actually exercise the changed page/component in a browser — don't just read the diff.
+6. Don't report a task complete on "it compiles" or "lint passed" alone; state plainly if something couldn't be manually verified.
 
 ---
 
