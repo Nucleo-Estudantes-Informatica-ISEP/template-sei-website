@@ -16,11 +16,9 @@
  * Available tokens:
  *
  * Colors:
- * --color-bg, --color-surface, --color-text, --color-accent,
- * --color-accent-2, --color-divider,
+ * --color-bg, --color-surface, --color-text, --color-accent, --color-divider,
  * --color-neutral-100 through --color-neutral-900,
- * --color-accent-100 through --color-accent-900,
- * --color-accent-2-100 through --color-accent-2-900.
+ * --color-accent-100 through --color-accent-900.
  *
  * Typography:
  * --font-heading, --font-heading-weight, --font-body,

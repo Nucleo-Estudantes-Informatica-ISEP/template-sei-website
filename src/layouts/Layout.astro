@@ -11,8 +11,6 @@ import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
 import Seo from "../components/Seo.astro";
 
-import seiIconMark from "../assets/sei-icon-mark.png";
-
 interface Props {
   page:
     | "home"
@@ -82,7 +80,14 @@ const title =
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
 
-    <link rel="icon" type="image/png" href={seiIconMark.src} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" href={site.images.logo} />
 
     <meta name="generator" content={Astro.generator} />
 

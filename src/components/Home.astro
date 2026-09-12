@@ -576,9 +576,6 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     color: var(--color-accent-300);
     margin-bottom: var(--space-7);
   }
-  .hero__eyebrow-sep {
-    opacity: 0.5;
-  }
   .hero__title {
     font-size: var(--font-size-66);
     line-height: 1.02;
@@ -615,6 +612,15 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    transition:
+      filter var(--transition-fast),
+      transform var(--transition-fast);
+  }
+  .btn:hover {
+    filter: brightness(0.93);
+  }
+  .btn:active {
+    transform: translateY(1px);
   }
   .btn--light {
     background: var(--color-neutral-100);
@@ -632,6 +638,13 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
   .btn--outline {
     border: 1px solid var(--color-accent-700);
     color: var(--color-neutral-100);
+    transition:
+      background-color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+  .btn--outline:hover {
+    background: color-mix(in srgb, var(--color-neutral-100) 12%, transparent);
+    filter: none;
   }
   .link {
     font-size: var(--font-size-xs);
@@ -641,6 +654,10 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     color: var(--color-accent-700);
     text-decoration: none;
     white-space: nowrap;
+    transition: color var(--transition-fast);
+  }
+  .link:hover {
+    color: var(--color-accent-900);
   }
 
   /* -- eyebrow / heading / muted text -- */
@@ -887,6 +904,13 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+  .committees-grid__card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
   }
   .committees-grid__card svg {
     color: var(--color-accent);
@@ -942,7 +966,6 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-    margin-bottom: var(--space-14);
     background: var(--color-neutral-900);
   }
   .partners__inner {
@@ -1015,6 +1038,43 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     }
     .hero__title {
       font-size: var(--font-size-42);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .panel--row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .section__header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .dates__row {
+      grid-template-columns: 32px 1fr;
+      gap: var(--space-3);
+    }
+
+    .dates__value {
+      grid-column: 2;
+      white-space: normal;
+    }
+
+    .closing__actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-3);
+    }
+
+    .closing__actions .btn {
+      justify-content: center;
+    }
+
+    .hero__26 {
+      display: none;
     }
   }
 </style>
