@@ -24,22 +24,6 @@ const copyright = t("footer.copyrightLine")
         <div class="footer-brand-name">{site.edition.name}</div>
         <p>{t("footer.description")}</p>
         <div class="footer-socials">
-          <a
-            href={`mailto:${site.contact.email}`}
-            aria-label={t("footer.emailLabel")}
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <rect x="2" y="4" width="20" height="16"></rect>
-              <path d="M2 6l10 7 10-7"></path>
-            </svg>
-          </a>
           {
             site.social.linkedin && (
               <a
@@ -130,6 +114,11 @@ const copyright = t("footer.copyrightLine")
     color: var(--color-text);
     text-decoration: none;
     font-size: 13px;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-col a:hover {
+    color: var(--color-accent-700);
   }
 
   .footer-col a + a {
@@ -164,6 +153,11 @@ const copyright = t("footer.copyrightLine")
     display: inline-flex;
     color: var(--color-text);
     opacity: 0.65;
+    transition: opacity var(--transition-fast);
+  }
+
+  .footer-socials a:hover {
+    opacity: 1;
   }
 
   .footer-col-heading {
@@ -189,10 +183,14 @@ const copyright = t("footer.copyrightLine")
     margin: 0 0 8px;
   }
 
-  .footer-email {
+  .footer-col a.footer-email {
     font-weight: 700;
     color: var(--color-accent-700);
     margin-top: 14px;
+  }
+
+  .footer-col a.footer-email:hover {
+    color: var(--color-accent-900);
   }
 
   .site-footer-bottom {
