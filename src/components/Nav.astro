@@ -10,9 +10,12 @@ const t = useTranslations(lang);
 const currentPath = Astro.url.pathname
   .replace(new RegExp(`^/${lang}/?`), "")
   .replace(/\/$/, "");
+const isRegistrationExternal = Boolean(site.links.registration);
 const registrationHref =
   site.links.registration ??
   getRelativeLocaleUrl(lang, site.pages.registration);
+const isRegistrationCurrent =
+  !isRegistrationExternal && site.pages.registration === currentPath;
 const isHome = currentPath === site.pages.home;
 ---
 
@@ -73,12 +76,17 @@ const isHome = currentPath === site.pages.home;
 
           <a
             href={registrationHref}
-            aria-current={!site.links.registration &&
-            site.pages.registration === currentPath
-              ? "page"
-              : undefined}
+            aria-current={isRegistrationCurrent ? "page" : undefined}
+            {...isRegistrationExternal
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {}}
           >
             {t("nav.registration")}
+            {
+              isRegistrationExternal && (
+                <span class="sr-only">{t("accessibility.opensInNewTab")}</span>
+              )
+            }
           </a>
         </div>
       </details>
@@ -86,12 +94,17 @@ const isHome = currentPath === site.pages.home;
       <a
         href={registrationHref}
         class="site-nav-cta"
-        aria-current={!site.links.registration &&
-        site.pages.registration === currentPath
-          ? "page"
-          : undefined}
+        aria-current={isRegistrationCurrent ? "page" : undefined}
+        {...isRegistrationExternal
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {}}
       >
         {t("nav.registration")}
+        {
+          isRegistrationExternal && (
+            <span class="sr-only">{t("accessibility.opensInNewTab")}</span>
+          )
+        }
       </a>
     </div>
   </div>
