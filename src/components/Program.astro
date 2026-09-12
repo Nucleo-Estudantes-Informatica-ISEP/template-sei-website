@@ -62,15 +62,23 @@ const t = useTranslations(lang);
 
         {
           program.morning.map((item) => (
-            <div class="schedule-item">
+            <div class:list={["schedule-item", `schedule-item--${item.kind}`]}>
               <span class="schedule-time">{item.time}</span>
 
               <div class="schedule-content">
+                <div class="schedule-title">{localize(item.title, lang)}</div>
+
+                {(item.chair || item.room) && (
+                  <p class="schedule-meta">
+                    {item.chair && `${t("program.chair")}: ${item.chair}`}
+                    {item.chair && item.room && " · "}
+                    {item.room}
+                  </p>
+                )}
+
+                {item.desc && <p>{localize(item.desc, lang)}</p>}
+
                 {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
-
-                <div class="schedule-title">{item.title}</div>
-
-                {item.desc && <p>{item.desc}</p>}
               </div>
             </div>
           ))
@@ -82,15 +90,23 @@ const t = useTranslations(lang);
 
         {
           program.afternoon.map((item) => (
-            <div class="schedule-item">
+            <div class:list={["schedule-item", `schedule-item--${item.kind}`]}>
               <span class="schedule-time">{item.time}</span>
 
               <div class="schedule-content">
+                <div class="schedule-title">{localize(item.title, lang)}</div>
+
+                {(item.chair || item.room) && (
+                  <p class="schedule-meta">
+                    {item.chair && `${t("program.chair")}: ${item.chair}`}
+                    {item.chair && item.room && " · "}
+                    {item.room}
+                  </p>
+                )}
+
+                {item.desc && <p>{localize(item.desc, lang)}</p>}
+
                 {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
-
-                <div class="schedule-title">{item.title}</div>
-
-                {item.desc && <p>{item.desc}</p>}
               </div>
             </div>
           ))
@@ -275,13 +291,24 @@ const t = useTranslations(lang);
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     gap: var(--space-6);
-    padding: var(--space-6) 0;
-    border-bottom: 1px solid var(--color-neutral-400);
+    padding: var(--space-5) var(--space-6);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-2);
   }
 
-  .schedule-item:last-child,
-  .schedule-item:has(+ .schedule-period) {
-    border-bottom-color: transparent;
+  .schedule-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .schedule-item--break {
+    background: var(--color-neutral-200);
+  }
+
+  .schedule-meta {
+    margin: 0 0 var(--space-1);
+    color: var(--color-accent-700);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
   }
 
   .schedule-time {
@@ -304,6 +331,10 @@ const t = useTranslations(lang);
     max-width: 640px;
     margin: 0;
     opacity: 0.65;
+  }
+
+  .schedule-content :global(.tag) {
+    margin-top: var(--space-2);
   }
 
   .gallery-section {
