@@ -29,6 +29,8 @@ const copyright = t("footer.copyrightLine")
               <a
                 href={site.social.linkedin}
                 aria-label={t("footer.linkedinLabel")}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <svg
                   width="16"
@@ -39,6 +41,7 @@ const copyright = t("footer.copyrightLine")
                 >
                   <path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.82-1.95 3.75-1.95 4 0 4.4 2.5 4.4 5.75V21H18v-5.9c0-1.4-.5-2.36-1.76-2.36-1.02 0-1.63.69-1.9 1.36-.1.24-.12.57-.12.9V21H10z" />
                 </svg>
+                <span class="sr-only">{t("accessibility.opensInNewTab")}</span>
               </a>
             )
           }
