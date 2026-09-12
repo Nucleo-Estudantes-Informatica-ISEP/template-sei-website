@@ -108,6 +108,18 @@ const isHome = currentPath === site.pages.home;
 
   .site-nav--home {
     /* No solid background, allowing hero to go behind */
+    /* Reserves space for Home's above-the-fold dates ticker (#85), which
+       is the same fixed height (var(--space-10)) so the two don't overlap.
+       The ticker is a plain in-flow element (it scrolls away with the
+       page, not pinned), so this offset only makes sense while it's
+       still in view — .site-nav--past-ticker (toggled below) drops it
+       back to 0 once the ticker has scrolled past, so the nav never
+       floats over a blank gap. */
+    top: var(--space-10);
+  }
+
+  .site-nav--home.site-nav--past-ticker {
+    top: 0;
   }
 
   .site-nav-inner {
@@ -272,12 +284,28 @@ const isHome = currentPath === site.pages.home;
 <script>
   let lastScroll = 0;
   const nav = document.getElementById("site-nav");
+  // Only present on Home — drives .site-nav--past-ticker so the nav's
+  // above-the-fold offset (reserved for the ticker) drops away once the
+  // ticker itself has actually scrolled out of view, instead of staying
+  // fixed and leaving a blank gap when the nav reappears on scroll-up.
+  const ticker = document.querySelector<HTMLElement>(".dates-ticker");
 
   if (nav) {
+    const syncPastTicker = () => {
+      if (!ticker) return;
+      nav.classList.toggle(
+        "site-nav--past-ticker",
+        window.pageYOffset >= ticker.offsetHeight,
+      );
+    };
+
+    syncPastTicker();
+
     window.addEventListener(
       "scroll",
       () => {
         const currentScroll = window.pageYOffset;
+        syncPastTicker();
 
         if (currentScroll <= 0) {
           nav.style.transform = "translateY(0)";
