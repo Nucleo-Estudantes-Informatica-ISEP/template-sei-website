@@ -63,11 +63,10 @@ const menuId = `language-menu-${crypto.randomUUID().slice(0, 8)}`;
   </button>
   <div id={menuId} class="lang-menu" hidden>
     {
-      languages.map((code, index) => (
+      languages.map((code) => (
         <a
           href={getRelativeLocaleUrl(code, rest)}
           class="lang-option"
-          tabindex={index === 0 ? 0 : -1}
           aria-current={code === lang ? "true" : undefined}
         >
           <span class="flag flag-option">
@@ -142,27 +141,21 @@ const menuId = `language-menu-${crypto.randomUUID().slice(0, 8)}`;
       menu.querySelectorAll<HTMLAnchorElement>(".lang-option"),
     );
 
-    // Roving tabindex UX enhancement on top of the plain link list: only
-    // the "active" item is in the tab order, and arrow keys move which
-    // item that is. Tab/Shift+Tab leave the panel entirely, as normal.
-    const setActiveItem = (index: number, focus = true) => {
-      items.forEach((item, i) => {
-        item.tabIndex = i === index ? 0 : -1;
-      });
-      if (focus) items[index]?.focus();
-    };
-
+    // Plain disclosure list: every link keeps its natural tabindex, so
+    // Tab/Shift+Tab walk through all of them like any other link list.
+    // Arrow keys/Home/End are an added UX shortcut that just move focus
+    // between items — they don't remove anything from the tab order.
     const close = (returnFocus = false) => {
       menu.hidden = true;
       toggle.setAttribute("aria-expanded", "false");
       if (returnFocus) toggle.focus();
     };
 
-    const open = (focusIndex: "first" | "last" = "first", focus = true) => {
+    const open = (focusItem: "first" | "last" | "none") => {
       menu.hidden = false;
       toggle.setAttribute("aria-expanded", "true");
-      const index = focusIndex === "first" ? 0 : items.length - 1;
-      setActiveItem(index, focus);
+      if (focusItem === "none") return;
+      items[focusItem === "first" ? 0 : items.length - 1]?.focus();
     };
 
     toggle.addEventListener("click", (event) => {
@@ -171,7 +164,7 @@ const menuId = `language-menu-${crypto.randomUUID().slice(0, 8)}`;
         // pressing Enter/Space on the button has detail 0. Only steal focus
         // for the latter — a mouse user shouldn't have focus yanked into
         // the panel just for opening it.
-        open("first", event.detail === 0);
+        open(event.detail === 0 ? "first" : "none");
       } else close();
     });
 
@@ -183,42 +176,43 @@ const menuId = `language-menu-${crypto.randomUUID().slice(0, 8)}`;
     });
 
     menu.addEventListener("keydown", (event) => {
-      const currentIndex = items.findIndex((item) => item.tabIndex === 0);
+      const currentIndex = items.indexOf(
+        document.activeElement as HTMLAnchorElement,
+      );
 
       switch (event.key) {
         case "ArrowDown": {
           event.preventDefault();
-          const next = (currentIndex + 1) % items.length;
-          setActiveItem(next);
+          items[(currentIndex + 1) % items.length]?.focus();
           break;
         }
         case "ArrowUp": {
           event.preventDefault();
-          const prev = (currentIndex - 1 + items.length) % items.length;
-          setActiveItem(prev);
+          items[(currentIndex - 1 + items.length) % items.length]?.focus();
           break;
         }
         case "Home": {
           event.preventDefault();
-          setActiveItem(0);
+          items[0]?.focus();
           break;
         }
         case "End": {
           event.preventDefault();
-          setActiveItem(items.length - 1);
+          items[items.length - 1]?.focus();
           break;
         }
         case "Escape": {
           close(true);
           break;
         }
-        case "Tab": {
-          // Leaving the menu via Tab should close it rather than leave a
-          // stale open menu behind once focus moves elsewhere on the page.
-          close(false);
-          break;
-        }
       }
+    });
+
+    // Every item is a normal tab stop now, so closing on Tab-out is driven
+    // by focus actually leaving the switcher rather than guessing which
+    // item/direction a Tab keypress came from.
+    root.addEventListener("focusout", (event) => {
+      if (!root.contains(event.relatedTarget as Node | null)) close();
     });
 
     document.addEventListener("click", (event) => {
