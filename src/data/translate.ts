@@ -20,10 +20,45 @@ function hashText(text: string): string {
   return createHash("sha256").update(text).digest("hex").slice(0, 16);
 }
 
+function isCacheEntry(value: unknown): value is CacheEntry {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as CacheEntry).source === "string" &&
+    typeof (value as CacheEntry).en === "string" &&
+    typeof (value as CacheEntry).pt === "string"
+  );
+}
+
+/**
+ * Parses and shape-validates the cache file's contents. A hand-edit that
+ * produces invalid JSON *or* syntactically valid JSON with the wrong
+ * structure (e.g. a non-string `en`/`pt`, or a missing field) is treated the
+ * same way: the whole cache is dropped and rebuilt from scratch rather than
+ * risking a malformed entry reaching `localizeTexts`'s callers.
+ */
+export function parseCache(raw: string): Cache {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return {};
+  }
+  if (
+    typeof parsed !== "object" ||
+    parsed === null ||
+    Array.isArray(parsed) ||
+    !Object.values(parsed).every(isCacheEntry)
+  ) {
+    return {};
+  }
+  return parsed as Cache;
+}
+
 function loadCache(): Cache {
   if (!existsSync(CACHE_PATH)) return {};
   try {
-    return JSON.parse(readFileSync(CACHE_PATH, "utf8")) as Cache;
+    return parseCache(readFileSync(CACHE_PATH, "utf8"));
   } catch {
     return {};
   }

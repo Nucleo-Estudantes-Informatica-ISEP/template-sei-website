@@ -17,9 +17,12 @@ The one exception is `src/data/program-translation-cache.json` — it has no
 zod schema and isn't covered by `pnpm validate:data`. It's the machine-
 translation cache for the Program page's EasyChair-synced titles (see
 `AGENTS.md` → "Program page translations"); a maintainer may hand-edit its
-`en`/`pt` values to correct a bad translation, and a malformed edit there is
-caught by `translate.ts` and silently falls back to an empty cache rather
-than failing a build.
+`en`/`pt` values to correct a bad translation. `translate.ts` parses and
+shape-validates the whole file on load — invalid JSON, or syntactically
+valid JSON where any entry is missing a `source`/`en`/`pt` string, is
+silently treated as an empty cache (every affected string is re-translated
+on the next build with a translation API key configured) rather than
+failing the build.
 
 ## Site-wide config — `src/data/site.json`
 
