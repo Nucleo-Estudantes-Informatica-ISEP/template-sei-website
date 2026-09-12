@@ -19,6 +19,7 @@
   "footer.location": "Porto, Portugal",
   "footer.copyrightLine": "© {year} {edition} — Symposium of Informatics Engineering · DEI · NEI · ISEP",
   "backToTop.label": "Back to top",
+  "accessibility.opensInNewTab": "(opens in new tab)",
   "languageSwitcher.label": "Change language",
   "home.hero.eyebrow": "{edition} / Next edition",
   "home.hero.tagline": "Where students, researchers and the industry meet",

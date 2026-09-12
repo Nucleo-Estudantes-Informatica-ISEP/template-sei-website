@@ -47,6 +47,7 @@ const description = t("speakers.description").replace(
             {speaker.links.map((link) => (
               <a href={link.url} target="_blank" rel="noopener noreferrer">
                 {link.label} ↗
+                <span class="sr-only">{t("accessibility.opensInNewTab")}</span>
               </a>
             ))}
           </div>

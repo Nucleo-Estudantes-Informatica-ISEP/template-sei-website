@@ -70,6 +70,7 @@ const features = [
               fill="none"
               stroke="var(--color-accent)"
               stroke-width="2"
+              aria-hidden="true"
               ><rect x="2" y="5" width="20" height="14" rx="2"></rect><circle
                 cx="8"
                 cy="12"
@@ -93,6 +94,7 @@ const features = [
               fill="none"
               stroke="var(--color-accent)"
               stroke-width="2"
+              aria-hidden="true"
               ><path d="M3 8h13v6a4 4 0 01-4 4H7a4 4 0 01-4-4z"></path><path
                 d="M16 9h2a3 3 0 010 6h-2"></path><path d="M3 21h14"
               ></path></svg
@@ -115,6 +117,7 @@ const features = [
               fill="none"
               stroke="var(--color-accent)"
               stroke-width="2"
+              aria-hidden="true"
               ><path d="M2 4h7a3 3 0 013 3v13a2.5 2.5 0 00-2.5-2.5H2z"
               ></path><path d="M22 4h-7a3 3 0 00-3 3v13a2.5 2.5 0 012.5-2.5H22z"
               ></path></svg
@@ -147,6 +150,7 @@ const features = [
               fill="none"
               stroke="var(--color-accent)"
               stroke-width="2"
+              aria-hidden="true"
               ><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0z"></path><path
                 d="M17 5h3v2a3 3 0 01-3 3M7 5H4v2a3 3 0 003 3"></path></svg
             >
@@ -183,7 +187,12 @@ const features = [
 
     {
       registrationHref ? (
-        <Button variant="primary" href={registrationHref}>
+        <Button
+          variant="primary"
+          href={registrationHref}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {t("registration.ticket.cta")} →
         </Button>
       ) : (
