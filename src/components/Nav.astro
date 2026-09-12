@@ -73,7 +73,8 @@ const isHome = currentPath === site.pages.home;
 
           <a
             href={registrationHref}
-            aria-current={site.pages.registration === currentPath
+            aria-current={!site.links.registration &&
+            site.pages.registration === currentPath
               ? "page"
               : undefined}
           >
@@ -85,7 +86,8 @@ const isHome = currentPath === site.pages.home;
       <a
         href={registrationHref}
         class="site-nav-cta"
-        aria-current={site.pages.registration === currentPath
+        aria-current={!site.links.registration &&
+        site.pages.registration === currentPath
           ? "page"
           : undefined}
       >
