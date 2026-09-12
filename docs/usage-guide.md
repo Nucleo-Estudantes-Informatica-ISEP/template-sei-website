@@ -7,11 +7,19 @@ copy, or styling, and how to check the result.
 If you're looking for contribution workflow, stack details, or the
 EasyChair sync mechanics instead, see [`AGENTS.md`](../AGENTS.md).
 
-Every file under `src/data/*.json` is validated against a zod schema
-(`src/data/*.schema.mjs`) on every build, dev start, and `pnpm validate:data`
-run — an invalid edit fails loudly with a path to the offending field rather
-than silently rendering wrong. Run `pnpm validate:data` after editing any
-JSON file in this guide.
+Every content file under `src/data/*.json` listed in this guide is validated
+against a zod schema (`src/data/*.schema.mjs`) on every build, dev start, and
+`pnpm validate:data` run — an invalid edit fails loudly with a path to the
+offending field rather than silently rendering wrong. Run
+`pnpm validate:data` after editing any JSON file in this guide.
+
+The one exception is `src/data/program-translation-cache.json` — it has no
+zod schema and isn't covered by `pnpm validate:data`. It's the machine-
+translation cache for the Program page's EasyChair-synced titles (see
+`AGENTS.md` → "Program page translations"); a maintainer may hand-edit its
+`en`/`pt` values to correct a bad translation, and a malformed edit there is
+caught by `translate.ts` and silently falls back to an empty cache rather
+than failing a build.
 
 ## Site-wide config — `src/data/site.json`
 
@@ -32,7 +40,7 @@ they appear in the file:
 | `contact`        | `email`                                                                                                                            | Must be a valid email.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `social`         | `linkedin`                                                                                                                         | Absolute URL or `null`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | `venue`          | `name`, `addressLine1`, `postalCode`, `city`, `country`                                                                            | Plain strings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `footerLogos`    | array, min 1                                                                                                                       | `{ src, alt, href }` — partner/department logos in the footer band. `href` may be `null`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `footerLogos`    | array, min 1                                                                                                                       | `{ src, alt, href }` — partner/department logos; despite the field name, currently rendered in the Home page's `partners` section (`Home.astro`), not in `Footer.astro`. `href` may be `null`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `supportLogos`   | array, exactly 3                                                                                                                   | `{ src, alt, href }` — sponsor slots; `src`/`href` may be `null` before sponsors are confirmed.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
 Place any new image assets under `public/images/` and reference them with a
