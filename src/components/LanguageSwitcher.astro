@@ -172,6 +172,11 @@ const menuId = `language-menu-${crypto.randomUUID().slice(0, 8)}`;
       if (event.key === "ArrowDown" || event.key === "ArrowUp") {
         event.preventDefault();
         open(event.key === "ArrowDown" ? "first" : "last");
+      } else if (event.key === "Escape" && !menu.hidden) {
+        // Covers the mouse-click-to-open case, where focus stays on the
+        // toggle rather than moving into the menu — the menu's own Escape
+        // handler below only fires once focus is inside it.
+        close();
       }
     });
 
