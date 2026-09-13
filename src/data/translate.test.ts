@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { localizeTexts } from "./translate";
+import { localizeTexts, parseCache } from "./translate";
 
 const CACHE_PATH = fileURLToPath(
   new URL("./program-translation-cache.json", import.meta.url),
@@ -57,4 +57,28 @@ test("localizeTexts hits the v2 endpoint and caches a successful response", asyn
     }
     writeFileSync(CACHE_PATH, JSON.stringify(cache, null, 2) + "\n", "utf8");
   }
+});
+
+test("parseCache accepts a well-formed cache", () => {
+  const raw = JSON.stringify({
+    abc123: { source: "Hello", en: "Hello", pt: "Olá" },
+  });
+
+  assert.deepEqual(parseCache(raw), {
+    abc123: { source: "Hello", en: "Hello", pt: "Olá" },
+  });
+});
+
+test("parseCache falls back to an empty cache on invalid JSON", () => {
+  assert.deepEqual(parseCache("{not valid json"), {});
+});
+
+test("parseCache falls back to an empty cache on syntactically valid JSON with the wrong shape", () => {
+  // Valid JSON, but an entry missing `pt` and one with a non-string `en`.
+  const raw = JSON.stringify({
+    abc123: { source: "Hello", en: "Hello" },
+    def456: { source: "Bye", en: 123, pt: "Adeus" },
+  });
+
+  assert.deepEqual(parseCache(raw), {});
 });
