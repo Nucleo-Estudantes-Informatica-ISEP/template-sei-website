@@ -1,12 +1,28 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import type { Lang } from "../i18n/utils";
 
-const CACHE_PATH = fileURLToPath(
-  new URL("./program-translation-cache.json", import.meta.url),
+// Anchored to cwd rather than import.meta.url: `pnpm build` bundles this
+// module into a dist/ chunk, so import.meta.url would resolve to that
+// throwaway build location instead of the checked-in file under src/data/.
+const CACHE_PATH = join(
+  process.cwd(),
+  "src/data/program-translation-cache.json",
 );
 const TRANSLATE_TIMEOUT_MS = 10_000;
+
+// Astro/Vite only load .env into process.env for prefixed (PUBLIC_) vars
+// in some invocation paths — e.g. `astro dev`'s spawned background-mode
+// child process never sees an unprefixed var like GOOGLE_TRANSLATE_API_KEY,
+// even though a direct `astro build` does. Loading it here directly makes
+// this module's env access consistent across every way Astro can be run.
+try {
+  process.loadEnvFile();
+} catch {
+  // No .env file (e.g. CI, the Docker build stage) — fine, apiKey below
+  // just comes up unset and localizeTexts() no-ops as documented.
+}
 
 interface CacheEntry {
   source: string;
