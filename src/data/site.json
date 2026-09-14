@@ -41,7 +41,7 @@
   ],
   "links": {
     "easyChairSubmission": null,
-    "easyChairProgram": null,
+    "easyChairProgram": "https://easychair.org/smart-program/SEI25/",
     "registration": null,
     "proceedings": null,
     "lncsTemplateLatex": null,
