@@ -51,6 +51,7 @@ const earlierEditions = history.slice(3);
 
             <span class="visit">{t("history.visitEdition")} →</span>
           </div>
+          <span class="sr-only">{t("accessibility.opensInNewTab")}</span>
         </a>
       ))
     }
@@ -78,6 +79,7 @@ const earlierEditions = history.slice(3);
           <span class="description">{edition.description}</span>
 
           <span class="visit">{t("history.visitEdition")} →</span>
+          <span class="sr-only">{t("accessibility.opensInNewTab")}</span>
         </a>
       ))
     }
@@ -220,6 +222,14 @@ const earlierEditions = history.slice(3);
     background: var(--color-surface);
     color: inherit;
     text-decoration: none;
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .earlier-edition:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
   }
 
   .earlier-edition .description {

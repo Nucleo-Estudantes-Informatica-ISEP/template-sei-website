@@ -2,6 +2,12 @@
 
 Template for SEI Websites
 
+## Setting up a new edition
+
+Forking this template for a new SEI edition? See the
+[template usage guide](docs/usage-guide.md) for which file to edit for each
+mechanism — site config, per-page content, translations, and re-skinning.
+
 ## Design review sample content
 
 `chore/design-review` includes mock speaker profiles, committee lists and

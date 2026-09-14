@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 type BaseProps = {
   variant: "primary" | "secondary" | "ghost";
@@ -12,6 +13,8 @@ type Props =
 const { variant, href, class: className, ...attrs } = Astro.props;
 
 const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
+const opensNewTab = href && "target" in attrs && attrs.target === "_blank";
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 {
@@ -22,6 +25,9 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
       {...(attrs as Omit<HTMLAttributes<"a">, "href" | "class">)}
     >
       <slot />
+      {opensNewTab && (
+        <span class="sr-only">{t("accessibility.opensInNewTab")}</span>
+      )}
     </a>
   ) : (
     <button
@@ -49,6 +55,10 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
     text-transform: uppercase;
     line-height: 1.2;
     border: 1px solid transparent;
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      border-color var(--transition-fast);
   }
 
   .btn:disabled {
@@ -68,10 +78,13 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
     padding: 12px 26px;
   }
   .btn-primary:hover {
-    background: var(--color-accent-600);
+    /* --color-accent and --color-accent-600 are the same value, so hover
+       needs a distinct step (700) to actually be visible; active steps
+       one further (800) so the two states don't collide. */
+    background: var(--color-accent-700);
   }
   .btn-primary:active {
-    background: var(--color-accent-700);
+    background: var(--color-accent-800);
   }
 
   .btn-secondary {
@@ -96,7 +109,7 @@ const classes = ["btn", `btn-${variant}`, className].filter(Boolean).join(" ");
   .btn-ghost::after {
     content: "\2192"; /* → */
     display: inline-block;
-    transition: transform 0.15s ease;
+    transition: transform var(--transition-fast);
   }
   .btn-ghost:hover {
     color: var(--color-accent-800);

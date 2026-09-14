@@ -38,7 +38,11 @@ export const siteConfigSchema = z.object({
         date: z.iso.date().nullable(),
       }),
     )
-    .length(5),
+    .length(5)
+    .refine((dates) => new Set(dates.map((entry) => entry.id)).size === 5, {
+      message:
+        "importantDates must include each of the 5 fixed ids exactly once",
+    }),
   links: z.object({
     easyChairSubmission: optionalUrl,
     easyChairProgram: optionalUrl,
