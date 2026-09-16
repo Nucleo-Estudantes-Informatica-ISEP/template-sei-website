@@ -122,6 +122,7 @@
   "program.galleryDescription": "Illustrative images from the Figma design — talks, sessions and the community. These are mock images, not photographs of past SEI editions.",
   "program.galleryPhoto": "Photo",
   "program.galleryEmpty": "No gallery photos available.",
+  "program.scheduleEmpty": "Schedule to be announced.",
 
   "speakers.eyebrow": "Invited speakers",
   "speakers.title": "Voices worth hearing",
