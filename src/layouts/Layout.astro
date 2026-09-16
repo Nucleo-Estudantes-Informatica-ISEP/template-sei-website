@@ -87,7 +87,7 @@ const title =
       rel="stylesheet"
     />
 
-    <link rel="icon" href={site.images.logo} />
+    {site.images.logo && <link rel="icon" href={site.images.logo} />}
 
     <meta name="generator" content={Astro.generator} />
 

@@ -53,10 +53,10 @@ export const siteConfigSchema = z.object({
     callForPapers: optionalUrl,
   }),
   images: z.object({
-    banner: publicAssetPath,
+    banner: publicAssetPath.nullable(),
     eventPhoto: publicAssetPath.nullable(),
     proceedingsCover: publicAssetPath.nullable(),
-    logo: publicAssetPath,
+    logo: publicAssetPath.nullable(),
     qrCode: publicAssetPath.nullable(),
   }),
   contact: z.object({
@@ -75,7 +75,7 @@ export const siteConfigSchema = z.object({
   footerLogos: z
     .array(
       z.object({
-        src: publicAssetPath,
+        src: publicAssetPath.nullable(),
         alt: z.string().min(1),
         href: optionalUrl,
       }),

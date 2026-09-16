@@ -58,58 +58,70 @@ const t = useTranslations(lang);
       </div>
 
       <div class="schedule">
-        <div class="schedule-period">{t("program.morning")}</div>
-
         {
-          program.morning.map((item) => (
-            <div class:list={["schedule-item", `schedule-item--${item.kind}`]}>
-              <span class="schedule-time">{item.time}</span>
+          program.morning.length === 0 && program.afternoon.length === 0 ? (
+            <div class="schedule-empty">{t("program.scheduleEmpty")}</div>
+          ) : (
+            <>
+              <div class="schedule-period">{t("program.morning")}</div>
 
-              <div class="schedule-content">
-                <div class="schedule-title">{localize(item.title, lang)}</div>
+              {program.morning.map((item) => (
+                <div
+                  class:list={["schedule-item", `schedule-item--${item.kind}`]}
+                >
+                  <span class="schedule-time">{item.time}</span>
 
-                {(item.chair || item.room) && (
-                  <p class="schedule-meta">
-                    {item.chair && `${t("program.chair")}: ${item.chair}`}
-                    {item.chair && item.room && " · "}
-                    {item.room}
-                  </p>
-                )}
+                  <div class="schedule-content">
+                    <div class="schedule-title">
+                      {localize(item.title, lang)}
+                    </div>
 
-                {item.desc && <p>{localize(item.desc, lang)}</p>}
+                    {(item.chair || item.room) && (
+                      <p class="schedule-meta">
+                        {item.chair && `${t("program.chair")}: ${item.chair}`}
+                        {item.chair && item.room && " · "}
+                        {item.room}
+                      </p>
+                    )}
 
-                {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
+                    {item.desc && <p>{localize(item.desc, lang)}</p>}
+
+                    {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
+                  </div>
+                </div>
+              ))}
+
+              <div class="schedule-period afternoon">
+                {t("program.afternoon")}
               </div>
-            </div>
-          ))
-        }
 
-        <div class="schedule-period afternoon">
-          {t("program.afternoon")}
-        </div>
+              {program.afternoon.map((item) => (
+                <div
+                  class:list={["schedule-item", `schedule-item--${item.kind}`]}
+                >
+                  <span class="schedule-time">{item.time}</span>
 
-        {
-          program.afternoon.map((item) => (
-            <div class:list={["schedule-item", `schedule-item--${item.kind}`]}>
-              <span class="schedule-time">{item.time}</span>
+                  <div class="schedule-content">
+                    <div class="schedule-title">
+                      {localize(item.title, lang)}
+                    </div>
 
-              <div class="schedule-content">
-                <div class="schedule-title">{localize(item.title, lang)}</div>
+                    {(item.chair || item.room) && (
+                      <p class="schedule-meta">
+                        {item.chair && `${t("program.chair")}: ${item.chair}`}
+                        {item.chair && item.room && " · "}
+                        {item.room}
+                      </p>
+                    )}
 
-                {(item.chair || item.room) && (
-                  <p class="schedule-meta">
-                    {item.chair && `${t("program.chair")}: ${item.chair}`}
-                    {item.chair && item.room && " · "}
-                    {item.room}
-                  </p>
-                )}
+                    {item.desc && <p>{localize(item.desc, lang)}</p>}
 
-                {item.desc && <p>{localize(item.desc, lang)}</p>}
-
-                {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
-              </div>
-            </div>
-          ))
+                    {item.tag && <Tag tone="neutral">{item.tag}</Tag>}
+                  </div>
+                </div>
+              ))}
+            </>
+          )
         }
       </div>
     </div>
@@ -302,6 +314,14 @@ const t = useTranslations(lang);
 
   .schedule-item--break {
     background: var(--color-neutral-200);
+  }
+
+  .schedule-empty {
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    border: 1px dashed var(--color-neutral-400);
+    border-radius: var(--radius-md);
+    opacity: 0.65;
   }
 
   .schedule-meta {
