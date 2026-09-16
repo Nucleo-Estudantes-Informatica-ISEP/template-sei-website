@@ -22,12 +22,16 @@ const isHome = currentPath === site.pages.home;
 <nav id="site-nav" class:list={["site-nav", { "site-nav--home": isHome }]}>
   <div class="site-nav-inner">
     <a href={getRelativeLocaleUrl(lang, "")} class="site-nav-brand">
-      <img
-        src={site.images.logo}
-        alt={site.edition.name}
-        width="26"
-        height="26"
-      />
+      {
+        site.images.logo && (
+          <img
+            src={site.images.logo}
+            alt={site.edition.name}
+            width="26"
+            height="26"
+          />
+        )
+      }
       {site.edition.name}
     </a>
     <div class="site-nav-links">
