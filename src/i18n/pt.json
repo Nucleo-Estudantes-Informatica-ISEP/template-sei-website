@@ -90,6 +90,7 @@
   "committees.technicalDescription": "Investigadores e docentes responsáveis pela revisão e avaliação de todos os artigos submetidos.",
   "committees.organizationHeading": "Comissão Organizadora",
   "committees.organizationDescription": "A equipa responsável pela coordenação do simpósio, do programa à logística.",
+  "committees.membersEmpty": "Membros a anunciar.",
   "committees.ctaHeading": "Revisores, moderadores, anfitriões — o {edition} precisa de ti.",
   "committees.ctaDescription": "Junta-te à comissão técnico-científica ou ajuda a organizar o dia. Contacta a comissão organizadora a qualquer momento.",
   "committees.ctaButton": "Submeter um artigo",

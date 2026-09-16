@@ -90,6 +90,7 @@
   "committees.technicalDescription": "Researchers and teachers responsible for the review and the evaluation of all submitted papers.",
   "committees.organizationHeading": "Organization committee",
   "committees.organizationDescription": "The team responsible for the coordination of the symposium, from the program to the logistics.",
+  "committees.membersEmpty": "Members to be announced.",
   "committees.ctaHeading": "Reviewers, moderators, hosts — {edition} needs you.",
   "committees.ctaDescription": "Join the technical-scientific committee or help organise the day. Contact the organization committee at any time.",
   "committees.ctaButton": "Submit a paper",
