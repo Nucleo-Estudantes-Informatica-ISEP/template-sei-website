@@ -55,6 +55,7 @@
   "home.speakers.description": "Oradores de exemplo do design no Figma para o {edition}; a participação não está confirmada.",
   "home.speakers.cta": "Todos os oradores",
   "home.speakers.portraitAlt": "Retrato",
+  "home.speakers.empty": "Oradores a anunciar.",
   "home.committees.eyebrow": "Comissões",
   "home.committees.heading": "Construído pela comunidade",
   "home.committees.description": "Estudantes, docentes e investigadores do ISEP e não só fazem o {edition} acontecer — e revêm todos os artigos submetidos.",
@@ -90,6 +91,7 @@
   "committees.technicalDescription": "Investigadores e docentes responsáveis pela revisão e avaliação de todos os artigos submetidos.",
   "committees.organizationHeading": "Comissão Organizadora",
   "committees.organizationDescription": "A equipa responsável pela coordenação do simpósio, do programa à logística.",
+  "committees.membersEmpty": "Membros a anunciar.",
   "committees.ctaHeading": "Revisores, moderadores, anfitriões — o {edition} precisa de ti.",
   "committees.ctaDescription": "Junta-te à comissão técnico-científica ou ajuda a organizar o dia. Contacta a comissão organizadora a qualquer momento.",
   "committees.ctaButton": "Submeter um artigo",
@@ -122,6 +124,7 @@
   "program.galleryDescription": "Imagens ilustrativas do design no Figma — palestras, sessões e a comunidade. São imagens de demonstração, não fotografias de edições anteriores do SEI.",
   "program.galleryPhoto": "Fotografia",
   "program.galleryEmpty": "Não existem fotografias disponíveis.",
+  "program.scheduleEmpty": "Programa a anunciar.",
 
   "speakers.eyebrow": "Oradores convidados",
   "speakers.title": "Vozes que vale a pena ouvir",

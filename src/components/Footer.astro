@@ -15,12 +15,16 @@ const copyright = t("footer.copyrightLine")
   <div class="site-footer-inner">
     <div class="site-footer-grid">
       <div class="footer-col footer-col-brand">
-        <img
-          src={site.images.logo}
-          alt={site.edition.name}
-          width="26"
-          height="26"
-        />
+        {
+          site.images.logo && (
+            <img
+              src={site.images.logo}
+              alt={site.edition.name}
+              width="26"
+              height="26"
+            />
+          )
+        }
         <div class="footer-brand-name">{site.edition.name}</div>
         <p>{t("footer.description")}</p>
         <div class="footer-socials">

@@ -41,12 +41,16 @@ const ctaHeading = t("committees.ctaHeading").replace(
     </p>
     <div class="committee-grid">
       {
-        technicalScientificCommittee.map((member: CommitteeMember) => (
-          <div class="committee-row">
-            <span class="member-name">{member.name}</span>
-            <span class="member-org">{member.org}</span>
-          </div>
-        ))
+        technicalScientificCommittee.length > 0 ? (
+          technicalScientificCommittee.map((member: CommitteeMember) => (
+            <div class="committee-row">
+              <span class="member-name">{member.name}</span>
+              <span class="member-org">{member.org}</span>
+            </div>
+          ))
+        ) : (
+          <div class="committee-empty">{t("committees.membersEmpty")}</div>
+        )
       }
     </div>
   </section>
@@ -58,12 +62,16 @@ const ctaHeading = t("committees.ctaHeading").replace(
     </p>
     <div class="committee-grid">
       {
-        organizationCommittee.map((member: CommitteeMember) => (
-          <div class="committee-row">
-            <span class="member-name">{member.name}</span>
-            <span class="member-org">{member.org}</span>
-          </div>
-        ))
+        organizationCommittee.length > 0 ? (
+          organizationCommittee.map((member: CommitteeMember) => (
+            <div class="committee-row">
+              <span class="member-name">{member.name}</span>
+              <span class="member-org">{member.org}</span>
+            </div>
+          ))
+        ) : (
+          <div class="committee-empty">{t("committees.membersEmpty")}</div>
+        )
       }
     </div>
   </section>
@@ -143,6 +151,15 @@ const ctaHeading = t("committees.ctaHeading").replace(
     gap: var(--space-4);
     padding: var(--space-4) 0;
     border-bottom: 1px solid var(--color-divider);
+  }
+
+  .committee-empty {
+    grid-column: 1 / -1;
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    border: 1px dashed var(--color-neutral-400);
+    border-radius: var(--radius-md);
+    opacity: 0.65;
   }
 
   .member-name {
