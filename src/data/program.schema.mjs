@@ -31,8 +31,8 @@ function assertAscendingTimes(items, ctx, group) {
 
 export const programSchema = z
   .object({
-    morning: z.array(scheduleItemSchema).min(1),
-    afternoon: z.array(scheduleItemSchema).min(1),
+    morning: z.array(scheduleItemSchema),
+    afternoon: z.array(scheduleItemSchema),
   })
   .superRefine((program, ctx) => {
     assertAscendingTimes(program.morning, ctx, "morning");
@@ -40,7 +40,11 @@ export const programSchema = z
 
     const lastMorning = program.morning.at(-1);
     const firstAfternoon = program.afternoon[0];
-    if (firstAfternoon.time < lastMorning.time) {
+    if (
+      lastMorning &&
+      firstAfternoon &&
+      firstAfternoon.time < lastMorning.time
+    ) {
       ctx.addIssue({
         code: "custom",
         message: `Afternoon block time ${firstAfternoon.time} is out of order, should be after ${lastMorning.time}`,

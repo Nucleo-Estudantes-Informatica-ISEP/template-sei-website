@@ -6,6 +6,6 @@ const member = z.object({
 });
 
 export const committeesSchema = z.object({
-  organizing: z.array(member).min(1),
-  scientific: z.array(member).min(1),
+  organizing: z.array(member),
+  scientific: z.array(member),
 });

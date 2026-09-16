@@ -19,4 +19,4 @@ export const speakerSchema = z.object({
   links: z.array(speakerLinkSchema).default([]),
 });
 
-export const speakersSchema = z.array(speakerSchema).min(1);
+export const speakersSchema = z.array(speakerSchema);
