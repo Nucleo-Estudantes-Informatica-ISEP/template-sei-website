@@ -55,6 +55,7 @@
   "home.speakers.description": "Oradores de exemplo do design no Figma para o {edition}; a participação não está confirmada.",
   "home.speakers.cta": "Todos os oradores",
   "home.speakers.portraitAlt": "Retrato",
+  "home.speakers.empty": "Oradores a anunciar.",
   "home.committees.eyebrow": "Comissões",
   "home.committees.heading": "Construído pela comunidade",
   "home.committees.description": "Estudantes, docentes e investigadores do ISEP e não só fazem o {edition} acontecer — e revêm todos os artigos submetidos.",

@@ -55,6 +55,7 @@
   "home.speakers.description": "Sample speakers from the Figma design for {edition}; participation is not confirmed.",
   "home.speakers.cta": "All speakers",
   "home.speakers.portraitAlt": "Portrait",
+  "home.speakers.empty": "Speakers to be announced.",
   "home.committees.eyebrow": "Committees",
   "home.committees.heading": "Built by the community",
   "home.committees.description": "Students, teachers and researchers from ISEP and beyond make {edition} happen — and review every paper that is submitted.",
