@@ -44,8 +44,8 @@
     "easyChairProgram": null,
     "registration": null,
     "proceedings": null,
-    "lncsTemplateLatex": null,
-    "lncsTemplateWord": null,
+    "lncsTemplateLatex": "https://link.springer.com/series/558/information-for-authors-and-editors",
+    "lncsTemplateWord": "https://link.springer.com/series/558/information-for-authors-and-editors",
     "callForPapers": null
   },
   "images": {

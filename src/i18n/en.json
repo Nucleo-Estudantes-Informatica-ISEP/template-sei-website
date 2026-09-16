@@ -55,6 +55,7 @@
   "home.speakers.description": "Sample speakers from the Figma design for {edition}; participation is not confirmed.",
   "home.speakers.cta": "All speakers",
   "home.speakers.portraitAlt": "Portrait",
+  "home.speakers.empty": "Speakers to be announced.",
   "home.committees.eyebrow": "Committees",
   "home.committees.heading": "Built by the community",
   "home.committees.description": "Students, teachers and researchers from ISEP and beyond make {edition} happen — and review every paper that is submitted.",
@@ -90,6 +91,7 @@
   "committees.technicalDescription": "Researchers and teachers responsible for the review and the evaluation of all submitted papers.",
   "committees.organizationHeading": "Organization committee",
   "committees.organizationDescription": "The team responsible for the coordination of the symposium, from the program to the logistics.",
+  "committees.membersEmpty": "Members to be announced.",
   "committees.ctaHeading": "Reviewers, moderators, hosts — {edition} needs you.",
   "committees.ctaDescription": "Join the technical-scientific committee or help organise the day. Contact the organization committee at any time.",
   "committees.ctaButton": "Submit a paper",
@@ -122,6 +124,7 @@
   "program.galleryDescription": "Illustrative images from the Figma design — talks, sessions and the community. These are mock images, not photographs of past SEI editions.",
   "program.galleryPhoto": "Photo",
   "program.galleryEmpty": "No gallery photos available.",
+  "program.scheduleEmpty": "Schedule to be announced.",
 
   "speakers.eyebrow": "Invited speakers",
   "speakers.title": "Voices worth hearing",

@@ -95,12 +95,21 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
 </div>
 
 <header class="hero">
-  <img
-    class="hero__background"
-    src={site.images.banner}
-    alt=""
-    fetchpriority="high"
-  />
+  {
+    site.images.banner ? (
+      <img
+        class="hero__background"
+        src={site.images.banner}
+        alt=""
+        fetchpriority="high"
+      />
+    ) : (
+      <div
+        class="hero__background hero__background--placeholder"
+        aria-hidden="true"
+      />
+    )
+  }
   <div class="hero__26" aria-hidden="true">
     {site.edition.year.toString().slice(-2)}
   </div>
@@ -282,27 +291,31 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
   </div>
   <div class="speakers">
     {
-      featuredSpeakers.map((speaker) => (
-        <div class="speakers__card">
-          {speaker.photo ? (
-            <img
-              class="speakers__portrait"
-              src={speaker.photo}
-              alt={speaker.name}
-            />
-          ) : (
-            <div
-              class="speakers__portrait speakers__portrait--placeholder"
-              aria-hidden="true"
-            >
-              {t("home.speakers.portraitAlt")}
-            </div>
-          )}
-          <div class="speakers__name">{speaker.name}</div>
-          <div class="speakers__role">{localize(speaker.role, lang)}</div>
-          <div class="speakers__affiliation">{speaker.affiliation}</div>
-        </div>
-      ))
+      featuredSpeakers.length > 0 ? (
+        featuredSpeakers.map((speaker) => (
+          <div class="speakers__card">
+            {speaker.photo ? (
+              <img
+                class="speakers__portrait"
+                src={speaker.photo}
+                alt={speaker.name}
+              />
+            ) : (
+              <div
+                class="speakers__portrait speakers__portrait--placeholder"
+                aria-hidden="true"
+              >
+                {t("home.speakers.portraitAlt")}
+              </div>
+            )}
+            <div class="speakers__name">{speaker.name}</div>
+            <div class="speakers__role">{localize(speaker.role, lang)}</div>
+            <div class="speakers__affiliation">{speaker.affiliation}</div>
+          </div>
+        ))
+      ) : (
+        <div class="speakers-empty">{t("home.speakers.empty")}</div>
+      )
     }
   </div>
 </section>
@@ -404,12 +417,18 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     <div class="partners__logos partners__logos--bordered">
       {
         site.footerLogos.map((logo) =>
-          logo.href ? (
-            <a href={logo.href}>
+          logo.src ? (
+            logo.href ? (
+              <a href={logo.href}>
+                <img src={logo.src} alt={logo.alt} />
+              </a>
+            ) : (
               <img src={logo.src} alt={logo.alt} />
-            </a>
+            )
           ) : (
-            <img src={logo.src} alt={logo.alt} />
+            <div class="partners__placeholder" aria-label={logo.alt}>
+              {t("home.partners.logoPlaceholder")}
+            </div>
           ),
         )
       }
@@ -548,6 +567,15 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     height: 100%;
     object-fit: cover;
     opacity: 0.4;
+  }
+  .hero__background--placeholder {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--color-surface),
+      var(--color-surface) 10px,
+      var(--color-neutral-300) 10px,
+      var(--color-neutral-300) 20px
+    );
   }
   .hero__26 {
     position: absolute;
@@ -880,6 +908,14 @@ const datesTicker = importantDates.map((row) => `${row.label} · ${row.value}`);
     font-size: var(--font-size-2xs);
     opacity: 0.6;
     margin-top: var(--space-1);
+  }
+  .speakers-empty {
+    grid-column: 1 / -1;
+    padding: var(--space-8) var(--space-6);
+    text-align: center;
+    border: 1px dashed var(--color-neutral-400);
+    border-radius: var(--radius-md);
+    opacity: 0.65;
   }
 
   /* -- committees -- */
