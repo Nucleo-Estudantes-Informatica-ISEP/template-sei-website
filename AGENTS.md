@@ -3,6 +3,13 @@
 Astro 7 (static), TypeScript strict, en/pt i18n. Reusable template — each
 edition (SEI'26, SEI'27, ...) forks it into its own repo.
 
+## What this repo is
+
+Template mechanics only, not a specific edition's website. This repo's
+issue tracker only covers template mechanics (`sei-website-template`
+milestone) — never a specific edition's content work; that lives in that
+edition's own repo, under its own milestone.
+
 ## Commands
 
 - `pnpm dev`: Dev server (agents: `astro dev --background`)
