@@ -17,7 +17,7 @@ Any user-facing text that isn't per-edition content — nav labels, button
 labels, section headings, static copy — lives in two flat, dot-notation
 dictionaries. Never hardcoded in a component.
 
-- `src/i18n/utils.ts` exports `useTranslations(lang)`, which returns a
+- `src/i18n/translations.ts` exports `useTranslations(lang)`, which returns a
   `t(key)` function; `type TranslationKey = keyof typeof pt` — the key type
   is derived from `pt.json`, and `en.json` is typed against that same key
   set (`Record<Lang, Record<TranslationKey, string>>`).
@@ -38,9 +38,9 @@ dictionaries. Never hardcoded in a component.
 
 ## Layer 2 — localized content fields (`localizedTextSchema`)
 
-Per-edition content (`src/data/*.json`) is data, not chrome: written once
-per edition rather than needing a translator's pass through a dictionary.
-`primitives.schema.mjs` defines:
+Per-edition content (`src/data/<domain>/*.json`) is data, not chrome:
+written once per edition rather than needing a translator's pass through a
+dictionary. `src/data/primitives.schema.mjs` defines:
 
 ```js
 export const localizedTextSchema = z.union([
@@ -53,7 +53,7 @@ Any field typed `localizedTextSchema` accepts **either** a plain string
 (shown as-is in both locales) **or** an explicit `{ "en": "...", "pt": "..." }`
 object (shown per the page's current locale). Fields using it: speaker
 `role`/`bio`, gallery `label`/`alt`, topic `name`, program `title`/`desc`.
-Components read these with `localize(text, lang)` (`src/i18n/utils.ts`),
+Components read these with `localize(text, lang)` (`src/i18n/translations.ts`),
 which just does `typeof text === "string" ? text : text[lang]`.
 
 `chair`/`room` in `program.json` are deliberately **not**
@@ -67,7 +67,7 @@ Program page returns scraped session titles as plain, single-language text
 (often already mixed EN/PT), unlike every other content source in the repo,
 which is hand-authored per locale from the start.
 
-**Sync (`src/data/easychair.ts`, `program.ts`).** If `site.links.easyChairProgram`
+**Sync (`src/data/program/easychair.ts`, `program.ts`).** If `site.links.easyChairProgram`
 is set, `program.ts` fetches that URL — EasyChair's public Smart Program page,
 plain server-rendered HTML, no auth — with an 8s timeout, and
 `parseEasyChairProgram()` parses its `.session` blocks into
@@ -80,7 +80,7 @@ unreachable URL would. Any fetch/parse/validation failure is caught and
 logged as a warning; `program.ts` falls back to the committed `program.json`
 rather than failing the build.
 
-**Translate (`src/data/translate.ts`).** Before the synced result is
+**Translate (`src/data/program/translate.ts`).** Before the synced result is
 returned, `easychair.ts` runs every scraped `title` through
 `localizeTexts(texts)`:
 
@@ -88,7 +88,7 @@ returned, `easychair.ts` runs every scraped `title` through
   locales show the original scraped text, and `title` stays a plain string
   (still valid against `localizedTextSchema`).
 - With a key configured, each **distinct** source string is looked up in a
-  checked-in cache (`src/data/program-translation-cache.json`), keyed by a
+  checked-in cache (`src/data/program/program-translation-cache.json`), keyed by a
   16-hex-char SHA-256 prefix of the source text. Cache misses are batch-
   translated to `en` and `pt` in parallel via the Google Cloud Translation
   v2 REST API (`POST translation.googleapis.com/language/translate/v2`,
