@@ -1,30 +1,52 @@
-# template-sei-website
+# SEI-ISEP Website Template
 
-Template for SEI Websites
+Reusable [Astro](https://astro.build/) template for SEI-ISEP symposium websites.
 
-## Setting up a new edition
+## Installation
 
-Forking this template for a new SEI edition? See the
-[template usage guide](docs/usage-guide.md) for which file to edit for each
-mechanism — site config, per-page content, translations, and re-skinning.
+Requires Node `>=22.12.0` and [pnpm](https://pnpm.io/) via Corepack.
 
-## Design review sample content
+1. **Create a new project** — click **"Use this template"** above, or clone this repo.
+2. **Install dependencies:**
 
-`chore/design-review` includes mock speaker profiles, committee lists and
-illustrative images from the supplied Figma exports. These are design fixtures,
-not confirmed SEI participants or photographs documenting previous editions.
-Replace them in `src/data/` and `public/images/design-review/` for each edition.
+```bash
+corepack enable
+pnpm install
+```
 
-Speaker roles and biographies, gallery labels and image descriptions accept
-either a plain string or an `{ "en": "...", "pt": "..." }` object.
-Gallery entries use `src` for the public image path and `alt` for its description;
-label-only entries still display a placeholder.
+3. **Configure environment variables** — copy `.env.example` to `.env`.
+   `GOOGLE_TRANSLATE_API_KEY` is optional: it enables machine translation of
+   the EasyChair-synced Program page text; left unset, that text just shows
+   unchanged in both locales instead of failing the build.
+4. **Set up a new edition** — follow [`docs/edition-setup.md`](docs/edition-setup.md).
+5. **Understand the implementation** — [`docs/implementation/architecture.md`](docs/implementation/architecture.md)
+   (file layout, data flow, routing) and [`docs/implementation/translation-system.md`](docs/implementation/translation-system.md)
+   (i18n and the EasyChair/Google Translate pipeline). Design decisions with
+   a real alternative behind them are in [`docs/decisions/`](docs/decisions/).
 
-Image sources: `Section-1.png` (about), `Section-5.png` (speaker portraits),
-`Section-12.png` (illustrative proceedings image), `Section-14.png` (gallery),
-and `image 17.png` (banner). Images were extracted from the supplied exports
-and stored as WebP. The proceedings image is illustrative, not a published cover.
-Speaker biographies and the 34 scientific / 10 organizing committee entries
-follow `Section-7.png` and `Section-9.png`; English biographies are translations.
-Registration QR codes and support logos remain unset until usable assets and
-destinations are supplied.
+## Usage
+
+```bash
+pnpm dev      # start dev server
+pnpm build    # static build to dist/
+pnpm preview  # serve the built dist/ locally
+```
+
+Full command list in [`package.json`](package.json#L8) `scripts`, or
+[AGENTS.md](AGENTS.md#common-commands).
+
+## Contributing
+
+Branch naming, commit, and PR conventions are in `docs/agents/contribution.md`
+(added by #115). Issues here are template-mechanics only, tracked under the
+`sei-website-template` milestone — edition-specific content issues belong in
+that edition's own repo.
+
+## Support
+
+Open an [issue](https://github.com/Nucleo-Estudantes-Informatica-ISEP/template-sei-website/issues)
+for template bugs or mechanism requests.
+
+## License
+
+No open-source license. All rights reserved.
