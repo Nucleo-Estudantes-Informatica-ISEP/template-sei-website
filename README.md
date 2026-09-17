@@ -33,7 +33,7 @@ pnpm preview  # serve the built dist/ locally
 ```
 
 Full command list in [`package.json`](package.json#L8) `scripts`, or
-[AGENTS.md](AGENTS.md#commands).
+[AGENTS.md](AGENTS.md#common-commands).
 
 ## Contributing
 
