@@ -55,10 +55,13 @@ manual switcher (`LanguageSwitcher.astro`) rather than inferring it.
 
 ### Consequences
 
-- All content and UI copy needs both `en` and `pt` values (see
-  [`docs/implementation/translation-system.md`](../implementation/translation-system.md))
-  — an edition can't ship with only one locale filled in without the other
-  silently falling back to raw source text/untranslated copy.
+- Static UI copy (`en.json`/`pt.json` dictionaries) needs both `en` and
+  `pt` values filled in — there's no fallback for a missing dictionary key.
+  Per-edition content (speakers, topics, gallery, program) is looser:
+  `localizedTextSchema` accepts either a plain string or `{en, pt}`, so an
+  edition can ship a field with only one locale's text — it just renders
+  unchanged in both locales rather than being translated. See
+  [`docs/implementation/translation-system.md`](../implementation/translation-system.md).
 - No auto-redirect based on browser or geolocation — a Portuguese-reading
   visitor lands on `pt` (the default) or `en` depending on which URL they
   arrive at, and switches manually if that's wrong. A deliberate tradeoff:

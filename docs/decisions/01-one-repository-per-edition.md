@@ -1,4 +1,4 @@
-# 001 — One repository per SEI edition
+# 01 — One repository per SEI edition
 
 **Status:** Accepted
 
