@@ -65,7 +65,8 @@ room codes, never translated.
 This layer exists because EasyChair has no localization feature: its Smart
 Program page returns scraped session titles as plain, single-language text
 (often already mixed EN/PT), unlike every other content source in the repo,
-which is hand-authored per locale from the start.
+which is hand-authored per locale from the start (or, per Layer 2, a plain
+string deliberately shown unchanged in both locales).
 
 **Sync (`src/data/program/easychair.ts`, `program.ts`).** If `site.links.easyChairProgram`
 is set, `program.ts` fetches that URL — EasyChair's public Smart Program page,
@@ -117,7 +118,8 @@ the live fetch or translation can't be used.
 
 **Build-time cost:** enabling `site.links.easyChairProgram` adds one
 outbound fetch to every `pnpm build`/`pnpm dev`; also setting
-`GOOGLE_TRANSLATE_API_KEY` adds a second, independent outbound call. Both
-are non-fatal on failure, but expect a slower Program page build — this
-repo is otherwise fully static/offline. `pnpm validate:data` never triggers
-either call — it only checks the committed `program.json`.
+`GOOGLE_TRANSLATE_API_KEY` adds, on a cache miss, two parallel outbound
+calls to Google Translate (one per locale). All are non-fatal on failure,
+but expect a slower Program page build — this repo is otherwise fully
+static/offline. `pnpm validate:data` never triggers any of these calls —
+it only checks the committed `program.json`.
