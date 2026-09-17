@@ -13,8 +13,8 @@ edition (SEI'26, SEI'27, ...) forks it into its own repo.
 - `pnpm validate:data`: Validate JSON content against zod schemas (except
   `program-translation-cache.json` — no schema, own parse/fallback logic)
 - `pnpm typecheck`: `validate:data` + `astro check`
-- `pnpm test`: `tsx --test src/data/*.test.ts`
-- `pnpm exec tsx --test src/data/translate.test.ts`: Single test file
+- `pnpm test`: `tsx --test src/data/*.test.ts src/data/*/*.test.ts`
+- `pnpm exec tsx --test src/data/program/translate.test.ts`: Single test file
 
 ## Architecture
 
@@ -23,7 +23,9 @@ edition (SEI'26, SEI'27, ...) forks it into its own repo.
 ## Code Style
 
 - Colors/spacing/type via CSS custom properties only, never hardcoded hex/px
-- Per-edition content in `src/data/*.json`, never hardcoded in `.astro` files
+- Per-edition data in `src/data/<domain>/*.json`, never hardcoded in
+  `.astro` files — genuinely static prose (e.g. Author Guidelines body
+  copy) is the deliberate exception and stays in components
 - UI copy via `en.json`/`pt.json`, flat dot-notation keys, never hardcoded
 
 ## Rules
@@ -39,7 +41,7 @@ edition (SEI'26, SEI'27, ...) forks it into its own repo.
 
 ## Testing
 
-- `tsx --test`, colocated in `src/data/`
+- `tsx --test`, colocated per domain under `src/data/<domain>/`
 - Mock the Google Translate API call, never call it for real
 - No database or backend to mock
 
