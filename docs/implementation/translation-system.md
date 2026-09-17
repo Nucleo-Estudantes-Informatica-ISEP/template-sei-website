@@ -65,7 +65,8 @@ room codes, never translated.
 This layer exists because EasyChair has no localization feature: its Smart
 Program page returns scraped session titles as plain, single-language text
 (often already mixed EN/PT), unlike every other content source in the repo,
-which is hand-authored per locale from the start.
+which is hand-authored per locale from the start (or, per Layer 2, a plain
+string deliberately shown unchanged in both locales).
 
 **Sync (`src/data/program/easychair.ts`, `program.ts`).** If `site.links.easyChairProgram`
 is set, `program.ts` fetches that URL — EasyChair's public Smart Program page,
@@ -98,10 +99,12 @@ returned, `easychair.ts` runs every scraped `title` through
   - A maintainer can hand-correct a bad machine translation by editing that
     cache entry's `en`/`pt` value directly — nothing recomputes an entry
     that's already cached.
-  - A cache write failure (e.g. the Docker build stage's read-only
-    filesystem) is caught and logged, not fatal — that build's in-memory
-    translations are still used, just not persisted; committing the file
-    from a local run is what makes it durable across builds.
+  - A cache write failure (e.g. an ephemeral CI/build environment where the
+    checkout is discarded after the run — the Docker build stage's `COPY . .`
+    layer is writable, but changes there never propagate back to the
+    checkout or final image) is caught and logged, not fatal — that build's
+    in-memory translations are still used, just not persisted; committing
+    the file from a local run is what makes it durable across builds.
   - Any translation request failure falls back to the original text for
     every affected string, the same as having no key configured — the build
     never hard-fails over this.
@@ -117,7 +120,8 @@ the live fetch or translation can't be used.
 
 **Build-time cost:** enabling `site.links.easyChairProgram` adds one
 outbound fetch to every `pnpm build`/`pnpm dev`; also setting
-`GOOGLE_TRANSLATE_API_KEY` adds a second, independent outbound call. Both
-are non-fatal on failure, but expect a slower Program page build — this
-repo is otherwise fully static/offline. `pnpm validate:data` never triggers
-either call — it only checks the committed `program.json`.
+`GOOGLE_TRANSLATE_API_KEY` adds, on a cache miss, two parallel outbound
+calls to Google Translate (one per locale). All are non-fatal on failure,
+but expect a slower Program page build — this repo is otherwise fully
+static/offline. `pnpm validate:data` never triggers any of these calls —
+it only checks the committed `program.json`.

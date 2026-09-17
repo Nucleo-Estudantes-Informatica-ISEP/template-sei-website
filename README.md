@@ -33,14 +33,14 @@ pnpm preview  # serve the built dist/ locally
 ```
 
 Full command list in [`package.json`](package.json#L8) `scripts`, or
-[AGENTS.md](AGENTS.md#commands).
+[AGENTS.md](AGENTS.md#common-commands).
 
 ## Contributing
 
-Branch naming, commit, and PR conventions in
-[`docs/agents/contribution.md`](docs/agents/contribution.md). Issues here are
-template-mechanics only, tracked under the `sei-website-template` milestone —
-edition-specific content issues belong in that edition's own repo.
+Branch naming, commit, and PR conventions are in `docs/agents/contribution.md`
+(added by #115). Issues here are template-mechanics only, tracked under the
+`sei-website-template` milestone — edition-specific content issues belong in
+that edition's own repo.
 
 ## Support
 

@@ -20,9 +20,11 @@ For the i18n/translation mechanism specifically, see [`docs/implementation/trans
 | `styles/`     | `tokens.css` (design tokens), `primitives.css` (shared component styles), `styles.override.css` (edition re-skin entry point, loaded last).                                                                                                                                                                                                                                                                                                                                                                                                              |
 
 `public/` holds static assets served as-is (favicon, plus `images/` split
-into one subdirectory per `src/data/` domain — `edition/`, `gallery/`,
-`history/`, `logos/`, `speakers/` — referenced from `edition.json` and
-other content files with a leading `/`).
+into asset-purpose subdirectories — `edition/`, `gallery/`, `history/`,
+`logos/`, `speakers/` — referenced from `edition.json` and other content
+files with a leading `/`). These aren't 1:1 with `src/data/` domains:
+`logos/` has no matching data domain, and `committees/`, `program/`, and
+`topics/` have no matching image directory.
 
 ## Data flow: JSON → schema → loader → component
 
