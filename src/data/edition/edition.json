@@ -6,7 +6,7 @@
   },
   "seo": {
     "description": "SEI'26 — Symposium on Engineering and Innovation at ISEP.",
-    "ogImage": "/images/design-review/banner.webp"
+    "ogImage": "/images/edition/banner.webp"
   },
   "pages": {
     "home": "",
@@ -49,10 +49,10 @@
     "callForPapers": null
   },
   "images": {
-    "banner": "/images/design-review/banner.webp",
-    "eventPhoto": "/images/design-review/about.webp",
-    "proceedingsCover": "/images/design-review/proceedings.webp",
-    "logo": "/images/sei-logo.png",
+    "banner": "/images/edition/banner.webp",
+    "eventPhoto": "/images/edition/about.webp",
+    "proceedingsCover": "/images/edition/proceedings.webp",
+    "logo": "/images/logos/sei-logo.png",
     "qrCode": null
   },
   "contact": {
@@ -70,17 +70,17 @@
   },
   "footerLogos": [
     {
-      "src": "/images/dei-informatica.png",
+      "src": "/images/logos/dei-informatica.png",
       "alt": "Departamento de Engenharia Informática",
       "href": null
     },
     {
-      "src": "/images/nei-isep.png",
+      "src": "/images/logos/nei-isep.png",
       "alt": "NEI-ISEP",
       "href": null
     },
     {
-      "src": "/images/isep.png",
+      "src": "/images/logos/isep.png",
       "alt": "ISEP",
       "href": null
     }

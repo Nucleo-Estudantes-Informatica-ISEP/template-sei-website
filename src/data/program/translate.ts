@@ -1,14 +1,14 @@
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import type { Lang } from "../i18n/utils";
+import type { Lang } from "@/i18n/translations";
+import { hashText } from "@/lib/hash";
 
 // Anchored to cwd rather than import.meta.url: `pnpm build` bundles this
 // module into a dist/ chunk, so import.meta.url would resolve to that
 // throwaway build location instead of the checked-in file under src/data/.
 const CACHE_PATH = join(
   process.cwd(),
-  "src/data/program-translation-cache.json",
+  "src/data/program/program-translation-cache.json",
 );
 const TRANSLATE_TIMEOUT_MS = 10_000;
 
@@ -31,10 +31,6 @@ interface CacheEntry {
 }
 
 type Cache = Record<string, CacheEntry>;
-
-function hashText(text: string): string {
-  return createHash("sha256").update(text).digest("hex").slice(0, 16);
-}
 
 function isCacheEntry(value: unknown): value is CacheEntry {
   return (

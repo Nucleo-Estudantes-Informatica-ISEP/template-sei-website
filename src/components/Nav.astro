@@ -1,8 +1,8 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { site } from "../data/site";
-import { getLangFromUrl, useTranslations } from "../i18n/utils";
-import { NAV_LINKS } from "../i18n/routes";
+import { site } from "@/data/edition/edition";
+import { getLangFromUrl, useTranslations } from "@/i18n/translations";
+import { NAV_LINKS } from "@/i18n/routes";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 
 const lang = getLangFromUrl(Astro.url);

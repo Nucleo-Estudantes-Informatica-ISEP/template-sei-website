@@ -3,7 +3,7 @@ import {
   publicAssetPath,
   absoluteUrl,
   yearSchema,
-} from "./primitives.schema.mjs";
+} from "../primitives.schema.mjs";
 
 export const historySchema = z
   .array(
