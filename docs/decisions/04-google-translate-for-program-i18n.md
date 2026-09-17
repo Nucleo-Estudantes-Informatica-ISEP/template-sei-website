@@ -64,8 +64,9 @@ drifting from what the code does.
 - Requires a maintainer to create a GCP project with billing enabled and
   supply an API key per deployment that wants live translation — optional
   infrastructure, not required for the template to work.
-- A second, independent outbound network call at build/dev time (on top of
-  the EasyChair fetch from #86) when the key is set — see
+- Second, independent outbound network calls at build/dev time (on top of
+  the EasyChair fetch from #86) when the key is set — cache misses trigger
+  two parallel Google Translate requests, one per locale (`en`, `pt`) — see
   [`docs/implementation/translation-system.md`](../implementation/translation-system.md#layer-3--easychair-sync--google-translate-program-page-only)
   for the non-fatal-on-failure behavior this implies.
 - Translation quality is machine-translation quality, not editorial — the

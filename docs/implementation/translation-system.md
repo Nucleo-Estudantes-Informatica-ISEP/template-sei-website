@@ -99,10 +99,12 @@ returned, `easychair.ts` runs every scraped `title` through
   - A maintainer can hand-correct a bad machine translation by editing that
     cache entry's `en`/`pt` value directly — nothing recomputes an entry
     that's already cached.
-  - A cache write failure (e.g. the Docker build stage's read-only
-    filesystem) is caught and logged, not fatal — that build's in-memory
-    translations are still used, just not persisted; committing the file
-    from a local run is what makes it durable across builds.
+  - A cache write failure (e.g. an ephemeral CI/build environment where the
+    checkout is discarded after the run — the Docker build stage's `COPY . .`
+    layer is writable, but changes there never propagate back to the
+    checkout or final image) is caught and logged, not fatal — that build's
+    in-memory translations are still used, just not persisted; committing
+    the file from a local run is what makes it durable across builds.
   - Any translation request failure falls back to the original text for
     every affected string, the same as having no key configured — the build
     never hard-fails over this.
