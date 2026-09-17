@@ -93,7 +93,7 @@ pages/        # file-based routing — currently just the scaffold's default ind
 styles/       # tokens.css, primitives.css, and styles.override.css (edition token overrides)
 ```
 
-`public/` holds static assets served as-is — currently just the scaffold's default favicon.
+`public/` holds static assets served as-is — the scaffold's default favicon, and `images/` split into `edition/`, `gallery/`, `history/`, `logos/`, `speakers/` (one dir per `src/data/` domain), plus any not-yet-sorted generic images loose at `images/` root.
 
 This section is intentionally thin right now. Update it as each of #2–#22 lands rather than letting it go stale.
 
