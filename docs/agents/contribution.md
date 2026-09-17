@@ -41,9 +41,12 @@ For every requested task:
 ### Promotion, releases, and deploys
 
 - `dev` requires the same green CI (lint/typecheck/test/format/build +
-  Docker build check, dependency review + secret scan, CodeQL — all via
-  org-shared `Nucleo-Estudantes-Informatica-ISEP/.github` workflows) and
-  review as `main`, but no release label.
+  Docker build check, dependency review + secret scan — the shared
+  `security.yml` runs dependency review + Gitleaks, both via org-shared
+  `Nucleo-Estudantes-Informatica-ISEP/.github` workflows) and review as
+  `main`, but no release label. CodeQL is enforced separately: it's a
+  branch ruleset's native `code_scanning` rule, not an Actions status
+  check/workflow.
 - Once a batch of work on `dev` is ready to ship, open a `dev` → `main`
   promotion PR and apply exactly one `release:major`, `release:minor`, or
   `release:patch` label before merging — a required check blocks the merge
