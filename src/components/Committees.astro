@@ -2,8 +2,11 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations, type Lang } from "../i18n/utils";
 import Button from "./Button.astro";
-import { site } from "../data/site";
-import { committees, type CommitteesConfig } from "../data/committees";
+import { site } from "@/data/edition/edition";
+import {
+  committees,
+  type CommitteesConfig,
+} from "@/data/committees/committees";
 
 interface Props {
   lang: Lang;

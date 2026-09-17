@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { localizedTextSchema } from "./primitives.schema.mjs";
+import { localizedTextSchema } from "../primitives.schema.mjs";
 
 export const topicsSchema = z
   .array(

@@ -1,5 +1,5 @@
-import type { TranslationKey } from "./utils";
-import type { site } from "../data/site";
+import type { TranslationKey } from "./translations";
+import type { site } from "@/data/edition/edition";
 
 export type PageId = keyof typeof site.pages;
 export type NavLink = { id: PageId; labelKey: TranslationKey };

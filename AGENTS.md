@@ -44,7 +44,7 @@ For every requested task:
 | Language        | TypeScript, strict (`astro/tsconfigs/strict`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | Styling         | CSS custom properties in `src/styles/tokens.css` — no Tailwind/CSS framework. `src/styles/styles.override.css` is the edition re-skin entry point and is loaded after tokens and shared primitives.                                                                                                                                                                                                                                                                                                            |
 | i18n            | Flat dot-notation `en.json`/`pt.json` dictionaries, typed translation helper, and Astro locale-prefixed routing                                                                                                                                                                                                                                                                                                                                                                                                |
-| Content         | Zod-validated JSON under `src/data/`; `site.json` holds shared edition config, while page-specific datasets are being added incrementally (#9–#10 remain pending)                                                                                                                                                                                                                                                                                                                                              |
+| Content         | Zod-validated JSON under `src/data/`; `edition/edition.json` holds shared edition config, while page-specific datasets are being added incrementally (#9–#10 remain pending)                                                                                                                                                                                                                                                                                                                                   |
 | Package manager | pnpm, pinned via Corepack (`packageManager` in `package.json`)                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | Deploy          | Multi-stage Docker build served by unprivileged nginx on port 8080; `docker-compose.app.yml` is the Coolify entry point                                                                                                                                                                                                                                                                                                                                                                                        |
 | CI              | GitHub Actions on PRs into `dev` or `main`: lint/typecheck/test/format/build + Docker build check, dependency review + secret scan, CodeQL — all via org-shared `Nucleo-Estudantes-Informatica-ISEP/.github` workflows/actions. Release-label enforcement only runs on PRs into `main` (the `dev` → `main` promotion PR). Dependabot targets `dev`, covering npm, github-actions, and docker, grouping weekly minor/patch updates. Branch protection is enforced via GitHub Rulesets on both `dev` and `main`. |
@@ -58,13 +58,13 @@ pnpm preview         # astro preview — serve the built dist/ locally
 pnpm lint           # eslint .
 pnpm format         # prettier --write .
 pnpm format:check   # prettier --check . — what CI runs on every PR into dev or main
-pnpm validate:data  # validate site.json against its zod schema
+pnpm validate:data  # validate edition.json against its zod schema
 pnpm typecheck      # validate data, then run astro check
-pnpm test           # tsx --test src/data/*.test.ts — mocked unit tests, no browser/e2e coverage
+pnpm test           # tsx --test src/data/*.test.ts src/data/*/*.test.ts — mocked unit tests, no browser/e2e coverage
 docker compose -f docker-compose.app.yml up --build # production-like container
 ```
 
-There's no broader testing foundation or e2e coverage yet, and no tracked issue for one — `pnpm test` today only covers `src/data/*.test.ts` (introduced in #95 to mock the EasyChair translation API call). Verification for everything else is lint + typecheck + a manual check against `pnpm preview`.
+There's no broader testing foundation or e2e coverage yet, and no tracked issue for one — `pnpm test` today only covers `src/data/*.test.ts src/data/*/*.test.ts` (introduced in #95 to mock the EasyChair translation API call). Verification for everything else is lint + typecheck + a manual check against `pnpm preview`.
 
 ## Development
 
@@ -86,7 +86,7 @@ There's no broader testing foundation or e2e coverage yet, and no tracked issue 
 ```
 assets/       # starter Astro/background SVGs from the scaffold — replace once real design assets exist
 components/   # Astro components — currently just the scaffold's Welcome.astro placeholder; core partials (button/tag/nav/table/...) land in #3
-data/         # shared site config JSON, history dataset, zod schemas, and typed loaders; further page datasets land in #9–#10
+data/         # primitives.schema.mjs (shared) at the root; edition/, committees/, gallery/, history/, program/, speakers/, topics/ each hold that domain's JSON, zod schema, and typed loader
 i18n/         # en/pt dictionaries and typed URL/translation helpers
 layouts/      # currently just the scaffold's default Layout.astro — the real shared layout (nav, banner, footer, back-to-top) lands in #11
 pages/        # file-based routing — currently just the scaffold's default index.astro
@@ -99,9 +99,9 @@ This section is intentionally thin right now. Update it as each of #2–#22 land
 
 ### Program page data (EasyChair sync, #86)
 
-`Program.astro` no longer just reads `program.json` directly — `src/data/program.ts` tries to refresh it from EasyChair on every build/dev start:
+`Program.astro` no longer just reads `program.json` directly — `src/data/program/program.ts` tries to refresh it from EasyChair on every build/dev start:
 
-- If `site.links.easyChairProgram` is set, `program.ts` fetches that URL (EasyChair's public Smart Program page — plain server-rendered HTML, no auth, no JS/API involved) and `src/data/easychair.ts` parses its `.session` blocks into the same `{morning, afternoon}` shape as `program.json`. Parallel tracks sharing a time slot (e.g. "Session 4A"/"4B") are kept as separate rows, each with its own title, `chair`, and `room` pulled straight from EasyChair — not collapsed into one summary row.
+- If `site.links.easyChairProgram` is set, `program.ts` fetches that URL (EasyChair's public Smart Program page — plain server-rendered HTML, no auth, no JS/API involved) and `src/data/program/easychair.ts` parses its `.session` blocks into the same `{morning, afternoon}` shape as `program.json`. Parallel tracks sharing a time slot (e.g. "Session 4A"/"4B") are kept as separate rows, each with its own title, `chair`, and `room` pulled straight from EasyChair — not collapsed into one summary row.
 - The result is validated with the same `programSchema` as the static file (`program.schema.mjs`) before use.
 - If the link is unset, the fetch fails, times out (8s), or the parsed result doesn't validate, it logs a warning and falls back to the committed `program.json` — the build never hard-fails over this.
 - **This only works for single-day events.** EasyChair's Smart Program index page (`https://easychair.org/smart-program/<CONF>/`) _is_ the schedule when the conference is one day; for a multi-day conference it's a day picker instead, which has no `.session` entries and falls back the same way an unreachable URL would.
@@ -110,12 +110,12 @@ This section is intentionally thin right now. Update it as each of #2–#22 land
 
 ### Program page translations (EasyChair sync, #97)
 
-EasyChair has no localization feature, so scraped session titles come back as plain, single-language text (often already mixed EN/PT). `src/data/translate.ts` optionally translates them per-locale:
+EasyChair has no localization feature, so scraped session titles come back as plain, single-language text (often already mixed EN/PT). `src/data/program/translate.ts` optionally translates them per-locale:
 
 - `program.schema.mjs`'s `title`/`desc` are `localizedTextSchema` (same union — plain string, or `{en, pt}` — used by `speakers.schema.mjs`/`topics.schema.mjs`/`gallery.schema.mjs`), and `Program.astro` reads them with the existing `localize(text, lang)` helper. `program.json`'s hand-curated strings need no changes — a plain string is still valid.
 - `chair`/`room` are never translated — they're people's names and room codes, not prose.
 - Translation only runs when `GOOGLE_TRANSLATE_API_KEY` is set (Google Cloud Translation, Basic/NMT tier — the first 500,000 characters/month are free, ~$10/million after; a single edition's schedule text is a few hundred to a couple thousand characters), see `.env.example`. With no key configured, `localizeTexts` returns every string unchanged and both locales show the original scraped text — the pre-#97 behavior.
-- Translations are cached in the checked-in `src/data/program-translation-cache.json`, keyed by a hash of the source text, so unchanged content across builds/editions never re-hits the API — and a maintainer can hand-correct a specific bad machine translation by editing that file's `en`/`pt` values directly. In an ephemeral build (e.g. the Docker build stage) a cache write failure is caught and logged, not fatal — that build's in-memory translations are still used, just not persisted; committing the file from a local run is what makes it durable across builds.
+- Translations are cached in the checked-in `src/data/program/program-translation-cache.json`, keyed by a hash of the source text, so unchanged content across builds/editions never re-hits the API — and a maintainer can hand-correct a specific bad machine translation by editing that file's `en`/`pt` values directly. In an ephemeral build (e.g. the Docker build stage) a cache write failure is caught and logged, not fatal — that build's in-memory translations are still used, just not persisted; committing the file from a local run is what makes it durable across builds.
 
 ---
 
@@ -135,7 +135,7 @@ Before considering a task done:
 1. Run `pnpm lint` and fix anything flagged in touched files.
 2. Run `pnpm typecheck` (`astro check`) — keep it clean.
 3. Run `pnpm format:check` (or `pnpm format` to fix) — keep formatting consistent.
-4. Run `pnpm test` if the change touches anything under `src/data/*.test.ts` covers.
+4. Run `pnpm test` if the change touches anything under `src/data/*.test.ts src/data/*/*.test.ts` covers.
 5. Run `pnpm build`, then `pnpm preview` and actually exercise the changed page/component in a browser — don't just read the diff.
 6. Don't report a task complete on "it compiles" or "lint passed" alone; state plainly if something couldn't be manually verified.
 

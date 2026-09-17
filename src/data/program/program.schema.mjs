@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { timeSchema, localizedTextSchema } from "./primitives.schema.mjs";
+import { timeSchema, localizedTextSchema } from "../primitives.schema.mjs";
 
 export const scheduleItemSchema = z.object({
   time: timeSchema,

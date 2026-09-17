@@ -3,7 +3,7 @@ import {
   absoluteUrl,
   publicAssetPath,
   localizedTextSchema,
-} from "./primitives.schema.mjs";
+} from "../primitives.schema.mjs";
 
 const speakerLinkSchema = z.object({
   label: z.string().min(1),
