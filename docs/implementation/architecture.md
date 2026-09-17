@@ -45,7 +45,11 @@ runs scraped text through Google Translate.
 
 `pnpm validate:data` (`scripts/validate-data.mjs`) runs the same
 `schema.parse()` step for every `*.json` file outside of a full Astro build,
-so a bad edit is caught without needing `pnpm build`.
+so a bad edit is caught without needing `pnpm build` — with one exception:
+`program-translation-cache.json` has no zod schema and isn't covered by
+`pnpm validate:data`. It's parsed and shape-checked separately by
+`translate.ts`, with a non-fatal fallback to an empty cache on invalid
+content — see [`docs/edition-setup.md`](../edition-setup.md).
 
 ## Routing and pages
 

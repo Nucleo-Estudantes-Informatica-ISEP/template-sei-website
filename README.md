@@ -14,8 +14,10 @@ corepack enable
 pnpm install
 ```
 
-3. **Configure environment variables** — copy `.env.example` to `.env` and set:
-   - `GOOGLE_TRANSLATE_API_KEY` — key for Google Cloud Translate
+3. **Configure environment variables** — copy `.env.example` to `.env`.
+   `GOOGLE_TRANSLATE_API_KEY` is optional: it enables machine translation of
+   the EasyChair-synced Program page text; left unset, that text just shows
+   unchanged in both locales instead of failing the build.
 4. **Set up a new edition** — follow [`docs/edition-setup.md`](docs/edition-setup.md).
 5. **Understand the implementation** — [`docs/implementation/architecture.md`](docs/implementation/architecture.md)
    (file layout, data flow, routing) and [`docs/implementation/translation-system.md`](docs/implementation/translation-system.md)
@@ -47,5 +49,4 @@ for template bugs or mechanism requests.
 
 ## License
 
-No open-source license. All rights reserved. Repo access is restricted to
-DEI-ISEP and NEI-ISEP members via GitHub org permissions.
+No open-source license. All rights reserved.
