@@ -1,6 +1,6 @@
 [
   {
-    "src": "/images/design-review/keynote.webp",
+    "src": "/images/gallery/keynote.webp",
     "label": {
       "en": "Plenary session / keynote",
       "pt": "Sessão plenária / keynote"
@@ -11,7 +11,7 @@
     }
   },
   {
-    "src": "/images/design-review/papers.webp",
+    "src": "/images/gallery/papers.webp",
     "label": {
       "en": "Paper sessions",
       "pt": "Sessões de artigos"
@@ -22,7 +22,7 @@
     }
   },
   {
-    "src": "/images/design-review/roundtable.webp",
+    "src": "/images/gallery/roundtable.webp",
     "label": {
       "en": "Roundtable",
       "pt": "Mesa-redonda"
@@ -33,7 +33,7 @@
     }
   },
   {
-    "src": "/images/design-review/networking.webp",
+    "src": "/images/gallery/networking.webp",
     "label": {
       "en": "Coffee break and networking",
       "pt": "Pausa para café e networking"
@@ -44,7 +44,7 @@
     }
   },
   {
-    "src": "/images/design-review/group.webp",
+    "src": "/images/gallery/group.webp",
     "label": {
       "en": "Group photograph",
       "pt": "Fotografia de grupo"
@@ -55,7 +55,7 @@
     }
   },
   {
-    "src": "/images/design-review/awards.webp",
+    "src": "/images/gallery/awards.webp",
     "label": {
       "en": "Closing and awards",
       "pt": "Encerramento e prémios"

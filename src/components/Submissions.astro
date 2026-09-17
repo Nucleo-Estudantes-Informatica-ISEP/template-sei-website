@@ -4,9 +4,10 @@ import {
   useTranslations,
   type Lang,
   type TranslationKey,
-} from "../i18n/utils";
-import { site } from "../data/site";
-import { topics } from "../data/topics";
+} from "@/i18n/translations";
+import { site } from "@/data/edition/edition";
+import { topics } from "@/data/topics/topics";
+import { formatDate } from "@/lib/date";
 
 interface Props {
   lang: Lang;
@@ -15,20 +16,10 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const formatDate = (date: string | null): string => {
-  if (!date) return t("submissions.dates.tba");
-  return new Intl.DateTimeFormat(lang, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${date}T00:00:00Z`));
-};
-
 const dateCards = site.importantDates.map((entry) => ({
   label: t(`submissions.dates.${entry.id}.label` as TranslationKey),
   description: t(`submissions.dates.${entry.id}.description` as TranslationKey),
-  date: formatDate(entry.date),
+  date: formatDate(entry.date, lang, t("submissions.dates.tba")),
 }));
 
 const formattingItems = [1, 2, 3, 4].map((n) => ({

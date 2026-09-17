@@ -2,9 +2,7 @@ import type { z } from "zod";
 
 import programData from "./program.json";
 import { programSchema } from "./program.schema.mjs";
-import galleryData from "./gallery.json";
-import { gallerySchema } from "./gallery.schema.mjs";
-import { site } from "./site";
+import { site } from "../edition/edition";
 import { fetchEasyChairProgram } from "./easychair";
 
 export type ProgramConfig = z.infer<typeof programSchema>;
@@ -33,6 +31,3 @@ async function loadProgram(): Promise<ProgramConfig> {
 }
 
 export const program = await loadProgram();
-
-export const gallery = gallerySchema.parse(galleryData);
-export type GalleryConfig = z.infer<typeof gallerySchema>;

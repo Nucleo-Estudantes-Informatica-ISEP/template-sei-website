@@ -4,7 +4,7 @@ import {
   optionalUrl,
   yearSchema,
   routeSlug,
-} from "./primitives.schema.mjs";
+} from "../primitives.schema.mjs";
 
 export const siteConfigSchema = z.object({
   edition: z.object({
