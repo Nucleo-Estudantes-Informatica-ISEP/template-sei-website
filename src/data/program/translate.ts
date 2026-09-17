@@ -95,20 +95,25 @@ async function translateBatch(
   target: Lang,
   apiKey: string,
 ): Promise<string[]> {
-  const params = new URLSearchParams({ key: apiKey, target, format: "text" });
-  for (const text of texts) params.append("q", text);
+  const formBody = new URLSearchParams({ target, format: "text" });
+  for (const text of texts) formBody.append("q", text);
 
   const response = await fetch(
-    `https://translation.googleapis.com/language/translate/v2?${params}`,
-    { method: "POST", signal: AbortSignal.timeout(TRANSLATE_TIMEOUT_MS) },
+    `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formBody,
+      signal: AbortSignal.timeout(TRANSLATE_TIMEOUT_MS),
+    },
   );
   if (!response.ok) {
     throw new Error(`Google Translate request failed: HTTP ${response.status}`);
   }
-  const body = (await response.json()) as {
+  const payload = (await response.json()) as {
     data: { translations: { translatedText: string }[] };
   };
-  return body.data.translations.map((t) => t.translatedText);
+  return payload.data.translations.map((t) => t.translatedText);
 }
 
 /**
