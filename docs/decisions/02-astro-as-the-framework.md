@@ -43,13 +43,14 @@ the stack in JS/TS rather than reverting to WordPress's PHP.
 ### Consequences
 
 - No backend, database, or runtime admin UI — per-edition content mostly
-  lives in `src/data/*.json`, hand-edited and zod-validated (see
+  lives in `src/data/<domain>/*.json` (one directory per domain, e.g.
+  `edition/`, `committees/`, `program/`), hand-edited and zod-validated (see
   [`docs/implementation/architecture.md`](../implementation/architecture.md)).
   Deliberate exceptions exist: genuinely static prose lives in components
   instead of JSON, and the Program page's translation cache
-  (`src/data/program-translation-cache.json`) has its own parsing/fallback
-  behavior rather than the standard schema-validated path. An organizer who
-  wants a CRUD-style editing experience doesn't get one; editing means
+  (`src/data/program/program-translation-cache.json`) has its own
+  parsing/fallback behavior rather than the standard schema-validated path.
+  An organizer who wants a CRUD-style editing experience doesn't get one; editing means
   editing JSON (or, for static prose, code) in a fork.
 - Static output (`astro build`) is what makes the Docker/nginx deploy setup
   (`Dockerfile`, `docker-compose.app.yml`) simple — serving prebuilt files,

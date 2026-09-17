@@ -32,7 +32,7 @@ Constraints going in:
 
 - **A. Google Cloud Translation (Basic/NMT tier)** — batch REST API, gated
   behind an optional `GOOGLE_TRANSLATE_API_KEY`. Free for the first 500,000
-  characters/month, ~$10/million after — comfortably covers a single
+  characters/month, $20/million after — comfortably covers a single
   edition's schedule text with no expected ongoing cost.
 
 No alternative provider (e.g. DeepL, Azure/AWS Translate) was formally
@@ -51,7 +51,7 @@ drifting from what the code does.
   valid) and `Program.astro` needed no new rendering path, just the
   existing `localize(text, lang)` call.
 - Translations are cached in a checked-in JSON file
-  (`src/data/program-translation-cache.json`), keyed by a hash of the
+  (`src/data/program/program-translation-cache.json`), keyed by a hash of the
   source text, so unchanged content across builds/editions never re-hits
   the API, and a maintainer can hand-correct one bad translation by editing
   the cached value directly.
@@ -73,5 +73,5 @@ drifting from what the code does.
   translation without touching code.
 - Ties the Program page's automatic-translation feature to a single vendor;
   switching providers later means replacing `translateBatch()` in
-  `src/data/translate.ts` and re-keying or discarding the existing cache
+  `src/data/program/translate.ts` and re-keying or discarding the existing cache
   (its entries aren't provider-tagged).
