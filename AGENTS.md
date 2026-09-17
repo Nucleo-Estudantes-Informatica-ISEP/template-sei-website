@@ -45,6 +45,14 @@ edition (SEI'26, SEI'27, ...) forks it into its own repo.
 - Mock the Google Translate API call, never call it for real
 - No database or backend to mock
 
+## Verification (definition of done)
+
+Before calling a task complete: `pnpm lint`, `pnpm typecheck`,
+`pnpm format:check`, `pnpm test` (if touched paths it covers), then
+`pnpm build` + `pnpm preview` and actually exercise the changed
+page/component in a browser. "It compiles"/"lint passed" alone isn't done —
+say plainly if something couldn't be manually verified.
+
 ## Security
 
 - Only secret: `GOOGLE_TRANSLATE_API_KEY`, via `.env`, never committed
