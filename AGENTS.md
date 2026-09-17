@@ -10,7 +10,8 @@ edition (SEI'26, SEI'27, ...) forks it into its own repo.
 - `pnpm preview`: Serve built `dist/` locally
 - `pnpm lint`: `eslint .`
 - `pnpm format`: `prettier --write .`
-- `pnpm validate:data`: Validate JSON content against zod schemas
+- `pnpm validate:data`: Validate JSON content against zod schemas (except
+  `program-translation-cache.json` — no schema, own parse/fallback logic)
 - `pnpm typecheck`: `validate:data` + `astro check`
 - `pnpm test`: `tsx --test src/data/*.test.ts`
 - `pnpm exec tsx --test src/data/translate.test.ts`: Single test file
@@ -28,7 +29,9 @@ edition (SEI'26, SEI'27, ...) forks it into its own repo.
 ## Rules
 
 - Template repo, not a website — no edition-specific content here
-- TypeScript pinned to `^6.0.3` — don't bump to latest without checking peers
+- TypeScript constrained to the 6.x line (`^6.0.3`, a range not an exact
+  pin) — peer ranges cap below 7.x; don't `add -D typescript@latest` without
+  checking peers resolve first
 - Node `>=22.12.0` required, must match `ci.yml`
 - Edit `AGENTS.md`, not `CLAUDE.md` (it just re-imports this file)
 - Build/dev hits the network if `easyChairProgram`/`GOOGLE_TRANSLATE_API_KEY`

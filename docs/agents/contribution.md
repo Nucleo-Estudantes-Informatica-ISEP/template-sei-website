@@ -40,8 +40,10 @@ For every requested task:
 
 ### Promotion, releases, and deploys
 
-- `dev` requires the same green CI and review as `main` (see
-  [`AGENTS.md`](../../AGENTS.md)'s Stack table) but no release label.
+- `dev` requires the same green CI (lint/typecheck/test/format/build +
+  Docker build check, dependency review + secret scan, CodeQL — all via
+  org-shared `Nucleo-Estudantes-Informatica-ISEP/.github` workflows) and
+  review as `main`, but no release label.
 - Once a batch of work on `dev` is ready to ship, open a `dev` → `main`
   promotion PR and apply exactly one `release:major`, `release:minor`, or
   `release:patch` label before merging — a required check blocks the merge
