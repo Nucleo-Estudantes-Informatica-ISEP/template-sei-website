@@ -18,4 +18,4 @@
 
 <!-- Optional. One checkbox per dependency (blocks/blocked by/depends on), checked once done. Omit this section entirely if there are none. -->
 
-- [ ] 
+- [ ]
