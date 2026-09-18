@@ -8,10 +8,10 @@ For every requested task:
 0. If asked to create an issue, follow the template at
    [`.github/ISSUE_TEMPLATE/task.md`](../../.github/ISSUE_TEMPLATE/task.md):
    Description, optional Why, Scope, Acceptance Criteria, optional
-   Dependencies (one bullet per dependency; omit the section entirely if
-   there are none). Add a task-specific section (e.g. "Security
-   requirements") only when the issue genuinely calls for one — don't add
-   it by default.
+   Dependencies (one checkbox per dependency, checked once done; omit
+   the section entirely if there are none). Add a task-specific section
+   (e.g. "Security requirements") only when the issue genuinely calls
+   for one — don't add it by default.
 1. Create a branch from `dev` named `<type>/<short-kebab-case-description>`,
    per [Conventional Branch](https://conventionalbranch.org/):
    - `feature/` or `feat/` — new functionality
