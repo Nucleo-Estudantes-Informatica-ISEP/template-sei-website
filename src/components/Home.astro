@@ -1,11 +1,13 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
-import { site } from "../data/site";
-import { speakers } from "../data/speakers";
-import { committees } from "../data/committees";
-import { history } from "../data/history";
-import { topics } from "../data/topics";
-import { localize, useTranslations, type Lang } from "../i18n/utils";
+import { site } from "@/data/edition/edition";
+import { speakers } from "@/data/speakers/speakers";
+import { committees } from "@/data/committees/committees";
+import { history } from "@/data/history/history";
+import { topics } from "@/data/topics/topics";
+import { localize, useTranslations, type Lang } from "@/i18n/translations";
+import { formatDate } from "@/lib/date";
+import { interpolate } from "@/lib/interpolate";
 
 interface Props {
   lang: Lang;
@@ -22,7 +24,7 @@ function tt(key: Parameters<typeof t>[0], vars: Record<string, string> = {}) {
     console.warn(`[Home.astro] Missing i18n key: "${key}"`);
     return "";
   }
-  return raw.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? "");
+  return interpolate(raw, vars);
 }
 
 const links = {
@@ -49,23 +51,12 @@ const organizingCommitteeCount = committees.organizing.length;
 const committeeMembersCount =
   technicalCommitteeCount + organizingCommitteeCount;
 
-const dateFormatter = new Intl.DateTimeFormat(lang, {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-});
-
-function formatDate(iso: string | null) {
-  if (!iso) return t("home.dates.tba");
-  return dateFormatter.format(new Date(iso));
-}
-
 // site.importantDates carries all 5 rows of the calendar.
 const importantDates = site.importantDates.map((entry, i) => ({
   index: i + 1,
   label: t(`dates.${entry.id}.label` as Parameters<typeof t>[0]),
   description: t(`dates.${entry.id}.description` as Parameters<typeof t>[0]),
-  value: formatDate(entry.date),
+  value: formatDate(entry.date, lang, t("home.dates.tba")),
 }));
 
 const featuredSpeakers = speakers.slice(0, 3);
