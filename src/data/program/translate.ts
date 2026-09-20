@@ -1,14 +1,14 @@
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import type { Lang } from "../i18n/utils";
+import type { Lang } from "@/i18n/translations";
+import { hashText } from "@/lib/hash";
 
 // Anchored to cwd rather than import.meta.url: `pnpm build` bundles this
 // module into a dist/ chunk, so import.meta.url would resolve to that
 // throwaway build location instead of the checked-in file under src/data/.
 const CACHE_PATH = join(
   process.cwd(),
-  "src/data/program-translation-cache.json",
+  "src/data/program/program-translation-cache.json",
 );
 const TRANSLATE_TIMEOUT_MS = 10_000;
 
@@ -31,10 +31,6 @@ interface CacheEntry {
 }
 
 type Cache = Record<string, CacheEntry>;
-
-function hashText(text: string): string {
-  return createHash("sha256").update(text).digest("hex").slice(0, 16);
-}
 
 function isCacheEntry(value: unknown): value is CacheEntry {
   return (
@@ -99,20 +95,25 @@ async function translateBatch(
   target: Lang,
   apiKey: string,
 ): Promise<string[]> {
-  const params = new URLSearchParams({ key: apiKey, target, format: "text" });
-  for (const text of texts) params.append("q", text);
+  const formBody = new URLSearchParams({ target, format: "text" });
+  for (const text of texts) formBody.append("q", text);
 
   const response = await fetch(
-    `https://translation.googleapis.com/language/translate/v2?${params}`,
-    { method: "POST", signal: AbortSignal.timeout(TRANSLATE_TIMEOUT_MS) },
+    `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formBody,
+      signal: AbortSignal.timeout(TRANSLATE_TIMEOUT_MS),
+    },
   );
   if (!response.ok) {
     throw new Error(`Google Translate request failed: HTTP ${response.status}`);
   }
-  const body = (await response.json()) as {
+  const payload = (await response.json()) as {
     data: { translations: { translatedText: string }[] };
   };
-  return body.data.translations.map((t) => t.translatedText);
+  return payload.data.translations.map((t) => t.translatedText);
 }
 
 /**
